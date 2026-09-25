@@ -1,0 +1,329 @@
+{
+  "nodes": [
+    {
+      "id": "intro",
+      "type": "text",
+      "text": "# SEBU · 팀 지식 지도\n\n기능 → 구조 → 결정 → 다음 행동\n\n2026-09-26 · 코드 기준 커밋과 근거 파일을 연결한다.\nSEBU-brain 레포 루트를 보관함으로 연다.",
+      "x": -520,
+      "y": -260,
+      "width": 1040,
+      "height": 180,
+      "color": "4"
+    },
+    {
+      "id": "home",
+      "type": "file",
+      "file": "SEBU/00 시작/SEBU 홈.md",
+      "x": -220,
+      "y": 0,
+      "width": 440,
+      "height": 270,
+      "color": "4"
+    },
+    {
+      "id": "overview",
+      "type": "file",
+      "file": "SEBU/01 프로젝트/SEBU 프로젝트 개요.md",
+      "x": -780,
+      "y": 380,
+      "width": 440,
+      "height": 270,
+      "color": "4"
+    },
+    {
+      "id": "architecture",
+      "type": "file",
+      "file": "SEBU/02 구조/SEBU 시스템 구조.md",
+      "x": -220,
+      "y": 380,
+      "width": 440,
+      "height": 270,
+      "color": "5"
+    },
+    {
+      "id": "status",
+      "type": "file",
+      "file": "SEBU/01 프로젝트/SEBU 구현 현황.md",
+      "x": 340,
+      "y": 380,
+      "width": 440,
+      "height": 270,
+      "color": "2"
+    },
+    {
+      "id": "search",
+      "type": "file",
+      "file": "SEBU/03 기능/SEBU 연구실 탐색.md",
+      "x": -1340,
+      "y": 780,
+      "width": 440,
+      "height": 270,
+      "color": "6"
+    },
+    {
+      "id": "auth",
+      "type": "file",
+      "file": "SEBU/03 기능/SEBU 인증과 CSRF.md",
+      "x": -780,
+      "y": 780,
+      "width": 440,
+      "height": 270,
+      "color": "6"
+    },
+    {
+      "id": "data",
+      "type": "file",
+      "file": "SEBU/02 구조/SEBU 데이터 모델.md",
+      "x": -220,
+      "y": 780,
+      "width": 440,
+      "height": 270,
+      "color": "5"
+    },
+    {
+      "id": "pipeline",
+      "type": "file",
+      "file": "SEBU/03 기능/SEBU 크롤링과 승격.md",
+      "x": 340,
+      "y": 780,
+      "width": 440,
+      "height": 270,
+      "color": "6"
+    },
+    {
+      "id": "decisions",
+      "type": "file",
+      "file": "SEBU/04 결정/SEBU 결정 기록.md",
+      "x": 900,
+      "y": 780,
+      "width": 440,
+      "height": 270,
+      "color": "3"
+    },
+    {
+      "id": "backlog",
+      "type": "file",
+      "file": "SEBU/05 운영/SEBU 변경 검토 목록.md",
+      "x": -780,
+      "y": 1180,
+      "width": 440,
+      "height": 270,
+      "color": "2"
+    },
+    {
+      "id": "ops",
+      "type": "file",
+      "file": "SEBU/05 운영/SEBU 배포와 모니터링.md",
+      "x": -220,
+      "y": 1180,
+      "width": 440,
+      "height": 270,
+      "color": "1"
+    },
+    {
+      "id": "learning",
+      "type": "file",
+      "file": "SEBU/06 학습/SEBU 학습 연결.md",
+      "x": 340,
+      "y": 1180,
+      "width": 440,
+      "height": 270,
+      "color": "3"
+    },
+    {
+      "id": "maintenance",
+      "type": "file",
+      "file": "SEBU/90 자료/SEBU 지식 갱신 방법.md",
+      "x": -220,
+      "y": 1580,
+      "width": 440,
+      "height": 270,
+      "color": "4"
+    },
+    {
+      "id": "cors",
+      "type": "file",
+      "file": "SEBU/03 기능/SEBU 공개 API와 CORS.md",
+      "x": -1340,
+      "y": 1180,
+      "width": 440,
+      "height": 270,
+      "color": "6"
+    },
+    {
+      "id": "shared-api",
+      "type": "file",
+      "file": "SEBU/03 기능/SEBU 화면과 API 공유.md",
+      "x": 900,
+      "y": 1180,
+      "width": 440,
+      "height": 270,
+      "color": "6"
+    },
+    {
+      "id": "team-workflow",
+      "type": "file",
+      "file": "SEBU/90 자료/SEBU 팀 공유와 업데이트.md",
+      "x": -780,
+      "y": 1580,
+      "width": 440,
+      "height": 270,
+      "color": "4"
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-0",
+      "fromNode": "home",
+      "fromSide": "bottom",
+      "toNode": "overview",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "label": "이해"
+    },
+    {
+      "id": "edge-1",
+      "fromNode": "home",
+      "fromSide": "bottom",
+      "toNode": "architecture",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "label": "구조"
+    },
+    {
+      "id": "edge-2",
+      "fromNode": "home",
+      "fromSide": "bottom",
+      "toNode": "status",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "label": "현황"
+    },
+    {
+      "id": "edge-3",
+      "fromNode": "overview",
+      "fromSide": "bottom",
+      "toNode": "search",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "label": "사용자 흐름"
+    },
+    {
+      "id": "edge-4",
+      "fromNode": "architecture",
+      "fromSide": "bottom",
+      "toNode": "auth",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "label": "인증 경계"
+    },
+    {
+      "id": "edge-5",
+      "fromNode": "architecture",
+      "fromSide": "bottom",
+      "toNode": "data",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "label": "저장 구조"
+    },
+    {
+      "id": "edge-6",
+      "fromNode": "architecture",
+      "fromSide": "bottom",
+      "toNode": "pipeline",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "label": "데이터 생성"
+    },
+    {
+      "id": "edge-7",
+      "fromNode": "status",
+      "fromSide": "bottom",
+      "toNode": "backlog",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "label": "다음 행동"
+    },
+    {
+      "id": "edge-8",
+      "fromNode": "pipeline",
+      "fromSide": "right",
+      "toNode": "decisions",
+      "toSide": "left",
+      "toEnd": "arrow",
+      "label": "선택의 이유"
+    },
+    {
+      "id": "edge-9",
+      "fromNode": "data",
+      "fromSide": "bottom",
+      "toNode": "ops",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "label": "스키마와 배포"
+    },
+    {
+      "id": "edge-10",
+      "fromNode": "decisions",
+      "fromSide": "bottom",
+      "toNode": "learning",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "label": "재사용할 지식"
+    },
+    {
+      "id": "edge-11",
+      "fromNode": "backlog",
+      "fromSide": "bottom",
+      "toNode": "maintenance",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "label": "변경 기록"
+    },
+    {
+      "id": "edge-12",
+      "fromNode": "ops",
+      "fromSide": "bottom",
+      "toNode": "maintenance",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "label": "운영 근거"
+    },
+    {
+      "id": "edge-13",
+      "fromNode": "learning",
+      "fromSide": "bottom",
+      "toNode": "maintenance",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "label": "지식 갱신"
+    },
+    {
+      "id": "edge-14",
+      "fromNode": "auth",
+      "fromSide": "bottom",
+      "toNode": "cors",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "label": "출처와 인증"
+    },
+    {
+      "id": "edge-15",
+      "fromNode": "search",
+      "fromSide": "bottom",
+      "toNode": "shared-api",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "label": "세 화면 공통 조회"
+    },
+    {
+      "id": "edge-16",
+      "fromNode": "maintenance",
+      "fromSide": "left",
+      "toNode": "team-workflow",
+      "toSide": "right",
+      "toEnd": "arrow",
+      "label": "팀 갱신"
+    }
+  ]
+}

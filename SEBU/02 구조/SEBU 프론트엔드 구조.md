@@ -1,0 +1,88 @@
+---
+project: SEBU
+type: "architecture"
+status: "기준 코드 확인"
+created: 2026-09-26
+verified: 2026-09-26
+tags:
+  - sebu
+  - sebu/architecture
+source_ids:
+  - "F:package.json"
+  - "F:src/App.jsx"
+  - "F:src/main.jsx"
+  - "F:src/api/client.js"
+  - "F:src/api/queryClient.js"
+  - "F:src/api/queries/laboratories.js"
+  - "F:src/store/authStore.js"
+  - "F:src/features/auth/hooks/useAuthRestore.js"
+  - "F:src/features/auth/hooks/useLogin.js"
+  - "F:vite.config.js"
+  - "F:vercel.json"
+---
+# SEBU 프론트엔드 구조
+
+프론트는 페이지·기능별 훅·API 모듈로 역할을 나누고, 연구실 공통 조회는 TanStack Query, 사용자 인증 상태는 Zustand로 관리한다. 현재 기준 코드에서는 쿠키·CSRF 인증 흐름과 랩실평가 화면이 연결되어 있다.
+
+## 어디에서 무엇을 바꾸는가
+
+| 위치 | 역할 | 대표 파일 |
+|---|---|---|
+| `src/pages` | URL별 화면 구성 | Search, CollegeView, LabReviewHome, LabReview, LabReviewWrite, MyPage |
+| `src/features/search` | 검색어·필터·정렬 | useLabFilter, labFilterUtils |
+| `src/features/collegeView` | 단과대·학과별 묶음 | useCollegeStats |
+| `src/features/community` | 후기 및 일반 게시판의 훅·API·폼 | useLabList, useLabReviews, communityApi |
+| `src/features/auth` | 로그인·인증 복원·복구 | useLogin, useAuthRestore, authApi |
+| `src/api/client.js` | 쿠키 요청, CSRF·인증 재시도, 429 처리 | 공통 Axios client |
+| `src/api/queries/laboratories.js` | 연구실 목록 공통 캐시와 북마크 반영 | useLaboratoriesQuery |
+| `src/store/authStore.js` | user 및 loading/authenticated/anonymous 상태 | accessToken을 직접 저장하지 않음 |
+
+## 실제 활성 라우트
+
+- `/`: 메인 화면, `/search`: 검색, `/colleges`: 단과대별 보기.
+- `/login`, `/mypage`, `/design-system`.
+- `/community/labs`: 후기 대상 연구실 목록.
+- `/community/labs/:laboratoryId`: 해당 연구실 후기 목록.
+- `/community/labs/:laboratoryId/write`: 후기 작성.
+- 일반 게시글의 `/community`, 작성·상세·수정 라우트는 코드에 있지만 App.jsx에서 주석 처리되어 있다.
+
+## 서버 데이터와 인증 상태의 관계
+
+`main.jsx`의 QueryClientProvider가 공통 캐시를 제공한다. 검색·단과대·랩실평가 홈은 동일한 `["laboratories"]`를 사용하며 staleTime은 1시간이다. 마이페이지는 `["mypage"]`로 별도 관리한다.
+
+사용자 ID가 바뀌면 queryClient의 store 구독이 마이페이지 캐시를 제거하고 연구실 목록을 무효화하여 다시 조회한다. 연구실 기본정보가 같아도 `bookmarked`는 사용자별 값이기 때문이다. 화면별 관계는 [[SEBU 화면과 API 공유]]에 정리한다.
+
+## 쿠키·CSRF 처리
+
+공통 client의 baseURL은 `/api/v1`이며 `withCredentials: true`, `XSRF-TOKEN` 쿠키와 `X-XSRF-TOKEN` 헤더 이름을 설정한다. 앱 시작 시 CSRF 초기화 → `/me` → 필요 시 refresh → `/me` 흐름이 있다.
+
+CSRF_TOKEN_INVALID 403은 CSRF 초기화 후 한 번 재시도한다. 일부 401에서는 refresh를 공유하고 대기 중인 요청을 다시 보낸다. ACCESS_TOKEN_INVALID는 즉시 인증 상태를 지운다. 현재 401 제외 조건은 정확한 경로 비교가 아니라 `url.includes("/me")` 등을 사용하므로 `/users/me/...` 요청도 갱신 대상에서 빠지는 점은 검토 대상이다. [[SEBU 인증과 CSRF]] · [[SEBU 변경 검토 목록]]
+
+## 실행 환경
+
+package.json은 React 19, Vite 8, React Router 7, Tailwind CSS 4, Zustand 5, TanStack Query 5, MSW 2를 선언한다. 설치 결과를 검증한 기록은 아니다.
+
+개발 모드에서 `VITE_USE_MSW`가 문자열 `false`가 아니면 MSW가 시작한다. 실제 백엔드 연결 확인에는 `VITE_USE_MSW=false`가 필요하다. Vite는 `/api`를 설정된 백엔드로 프록시하고, vercel.json에도 API rewrite가 있다. 상대 경로 요청과 직접 백엔드 호출은 브라우저 출처 관점에서 구분한다.
+
+[[SEBU 로컬 실행]] · [[SEBU 마이페이지와 북마크]] · [[SEBU 커뮤니티와 후기]]
+
+<!-- sources:start -->
+## 근거 파일
+
+- [프론트 · package.json](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/package.json)
+- [프론트 · src/App.jsx](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/App.jsx)
+- [프론트 · src/main.jsx](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/main.jsx)
+- [프론트 · src/api/client.js](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/api/client.js)
+- [프론트 · src/api/queryClient.js](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/api/queryClient.js)
+- [프론트 · src/api/queries/laboratories.js](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/api/queries/laboratories.js)
+- [프론트 · src/store/authStore.js](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/store/authStore.js)
+- [프론트 · src/features/auth/hooks/useAuthRestore.js](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/features/auth/hooks/useAuthRestore.js)
+- [프론트 · src/features/auth/hooks/useLogin.js](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/features/auth/hooks/useLogin.js)
+- [프론트 · vite.config.js](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/vite.config.js)
+- [프론트 · vercel.json](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/vercel.json)
+
+기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
+<!-- sources:end -->
+
+---
+[[SEBU 홈]] · [[SEBU 지식 지도]]

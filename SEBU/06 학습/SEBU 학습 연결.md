@@ -1,0 +1,55 @@
+---
+project: SEBU
+type: "learning"
+status: "프로젝트에서 추출"
+created: 2026-09-26
+verified: 2026-09-26
+tags:
+  - sebu
+  - sebu/learning
+source_ids:
+  - "B:docs/cookie-authentication.md"
+  - "B:docs/professor-promotion.md"
+  - "B:docs/account-withdrawal-recovery.md"
+  - "F:src/api/queries/laboratories.js"
+---
+# SEBU 학습 연결
+
+개발 경험을 재사용하려면 기술 이름보다 문제·판단·근거를 연결한다. 이 노트는 팀 보관함 안에서 완결되며 개인 보관함의 노트를 요구하지 않는다.
+
+| 개념 | SEBU 사례 | 스스로 답할 질문 |
+|---|---|---|
+| 인증과 출처 정책 | 공개 조회·쿠키 인증·CORS | 비로그인 조회와 다른 사이트의 호출 허용은 왜 별개인가? |
+| JWT와 쿠키 | 토큰 형식과 전달 수단의 분리 | JWT를 쿠키에 넣으면 CSRF를 왜 고려하는가? |
+| 캐시와 원본 데이터 | 세 화면의 연구실 목록 공유 | API 재사용과 응답 데이터 재사용은 어떻게 다른가? |
+| 멱등성 | 같은 검수 승인본 재승격 | 중복 처리를 어느 식별값으로 막는가? |
+| 트랜잭션·동시성 | 토큰 갱신·탈퇴·후보 승격 | 어떤 변경이 함께 성공해야 하는가? |
+| 관계 모델링 | 교수·연구실 복수 학과 | 대표 소속만 저장하면 잃는 정보는? |
+| 데이터 출처 | CRAWLED/MANUAL 홈페이지 | 언제 수집 최신값보다 수기 검증값을 우선하는가? |
+| 생명주기 | 탈퇴·복구·익명화 | 접근 차단과 물리 삭제를 왜 분리하는가? |
+| 관측 가능성 | traceId·readiness·메트릭 | 요청 실패의 증거와 서비스 준비 상태는 어떻게 다른가? |
+
+JWT는 클레임과 서명을 담는 토큰 형식이고, 쿠키는 브라우저가 값을 보관·전달하는 수단이다. 트랜잭션은 묶인 데이터 변경의 경계를 정한다. 캐시는 원본을 대신해 일정 조건에서 재사용할 사본이다. 각각의 프로젝트 적용 조건은 연결된 기능 노트를 읽는다.
+
+## 배운 내용을 남기는 방법
+
+1. 해결한 문제를 한 문장으로 쓴다.
+2. 원인·선택·검증을 코드와 테스트 링크로 뒷받침한다.
+3. 적용되지 않는 조건과 비용을 적는다.
+4. 기능 노트와 일반화한 개념을 연결한다.
+
+[[SEBU 공개 API와 CORS]] · [[SEBU 화면과 API 공유]] · [[SEBU 개념 노트 템플릿]] · [[SEBU 개발 기록 템플릿]] · [[SEBU 결정 기록]]
+
+<!-- sources:start -->
+## 근거 파일
+
+- [백엔드 · docs/cookie-authentication.md](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/docs/cookie-authentication.md)
+- [백엔드 · docs/professor-promotion.md](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/docs/professor-promotion.md)
+- [백엔드 · docs/account-withdrawal-recovery.md](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/docs/account-withdrawal-recovery.md)
+- [프론트 · src/api/queries/laboratories.js](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/api/queries/laboratories.js)
+
+기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
+<!-- sources:end -->
+
+---
+[[SEBU 홈]] · [[SEBU 지식 지도]]

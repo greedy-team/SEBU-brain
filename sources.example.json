@@ -1,0 +1,6 @@
+{
+  "repositories": {
+    "B": { "path": "../SEBU-backend", "ref": "origin/develop" },
+    "F": { "path": "../SEBU-frontend", "ref": "origin/dev" }
+  }
+}
