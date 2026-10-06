@@ -54,6 +54,7 @@ GitHub에서 읽을 때 사용하는 탐색 목록입니다. Obsidian에서는 S
 ## 07 기록
 
 - [SEBU 갱신 기록 - 2026-09-26](<SEBU/07 기록/SEBU 갱신 기록 - 2026-09-26.md>)
+- [SEBU 예체능대학 크롤링 검수 - 2026-10-06](<SEBU/07 기록/SEBU 예체능대학 크롤링 검수 - 2026-10-06.md>)
 - [SEBU 수집함](<SEBU/07 기록/SEBU 수집함.md>)
 
 ## 08 템플릿
@@ -67,6 +68,7 @@ GitHub에서 읽을 때 사용하는 탐색 목록입니다. Obsidian에서는 S
 
 - [SEBU 원본 자료](<SEBU/90 자료/SEBU 원본 자료.md>)
 - [SEBU 지식 갱신 방법](<SEBU/90 자료/SEBU 지식 갱신 방법.md>)
+- [SEBU 크롤링 스킬](<SEBU/90 자료/SEBU 크롤링 스킬.md>)
 - [SEBU 팀 공유와 업데이트](<SEBU/90 자료/SEBU 팀 공유와 업데이트.md>)
 
 [연결 지도](<SEBU/00 시작/SEBU 연결 지도.canvas>) · [팀 시작 안내](README.md)

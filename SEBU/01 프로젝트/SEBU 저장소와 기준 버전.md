@@ -20,6 +20,12 @@ tags:
 
 확인일은 2026-09-26이다. 구체적인 파일·해시·연결 노트는 저장소 루트의 `metadata/source-baseline.json`에 기록한다. 향후 갱신 시 이 표도 함께 수정한다.
 
+## 2026-10-06 확인한 차이와 별도 PR 기록
+
+원격 ref를 갱신해 확인한 백엔드 develop은 [80372b2](https://github.com/greedy-team/SEBU-backend/commit/80372b2c25b9cfb82763464a1bf00daa969782c8), 프론트 dev는 [2061cda](https://github.com/greedy-team/SEBU-frontend/commit/2061cdaa3692bf266830bc3908160422c8d55bf2)다. 위 문서 기준과 차이가 있지만, 전체 변경을 검토한 것은 아니므로 기존 기준 커밋·확인일·파일 해시는 유지한다.
+
+[[SEBU 예체능대학 크롤링 검수 - 2026-10-06]]은 미머지 [백엔드 PR #92](https://github.com/greedy-team/SEBU-backend/pull/92)의 검수 기록이다. 해당 노트의 `source_ids`와 자동 근거 블록은 기존 기준의 공통 수집·승격 절차만 가리킨다. PR의 신규 SQL·검증·자료는 별도 고정 커밋 링크로 구분하며, 전역 기준이나 운영 적용 상태를 바꾸지 않는다. 이번 메타데이터 변경은 기존 출처에서 새 기록으로 연결되는 노트 목록만 추가한다.
+
 ## 기준의 의미
 
 - 코드 구조와 계약은 위 커밋에서 확인한 사실이다.
