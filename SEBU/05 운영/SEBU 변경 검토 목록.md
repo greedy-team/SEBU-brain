@@ -3,7 +3,7 @@ project: SEBU
 type: "backlog"
 status: "제안·실행 미검증"
 created: 2026-09-26
-verified: 2026-09-26
+verified: 2026-10-07
 tags:
   - sebu
   - sebu/backlog
@@ -23,84 +23,100 @@ source_ids:
   - "F:src/App.jsx"
   - "B:src/main/java/com/sebu/backend/mypage/dto/ProfileUpdateRequest.java"
   - "B:src/main/java/com/sebu/backend/laboratoryreview/controller/LaboratoryReviewController.java"
+  - "F:src/hooks/useLabBookmark.js"
+  - "F:src/features/search/hooks/useLabFilter.js"
+  - "F:src/features/search/components/SearchBar.jsx"
+  - "F:src/features/search/components/ResearchFieldChips.jsx"
+  - "F:src/features/main/components/LabReviewHighlights.jsx"
+  - "F:src/features/main/hooks/useColleges.js"
+  - "F:src/pages/Privacy/index.jsx"
+  - "B:src/main/resources/application.yml"
+  - "B:src/main/java/com/sebu/backend/auth/config/TokenProperties.java"
 ---
 # SEBU 변경 검토 목록
 
-현재 검토 우선순위는 이미 구현된 인증 전환을 다시 만드는 것보다, 프로필 저장 연결과 일부 북마크 진입점의 차이를 정리하고 후기 정책을 맞추는 것이다. 아래는 코드로 발견한 검토 항목이며 오류 재현·수정 완료 기록은 아니다.
+우선 남은 일은 **인증 오류·만료 정책, 카테고리 계층의 FE 연결, 후기 정책과 운영 반영 확인**이다. 프로필 저장과 추천 상세 북마크의 기존 연결 오류는 최신 코드에서 수정됐다. 아래 미완료 항목은 정적 코드 검토 결과이며 실행 재현이나 수정 완료 기록이 아니다.
 
-## 1. 프로필 저장 후 처리
+## 최신 커밋에서 해결된 항목
 
-- [ ] MyPage의 useProfileForm 호출 인자 3개와 훅 선언 인자 2개의 불일치를 수정한다. 첫 인자로 profile 객체가 넘어가므로 성공 콜백에서 함수로 호출될 수 있다.
-- [ ] 저장 후 응답을 사용자 상태·마이페이지 캐시에 반영하고 모달이 닫히도록 연결한다. 현재 훅에 setQueryData 구현은 없다.
-- [ ] 백엔드 grade=5 졸업생과 프론트 1~4 선택·표시를 맞춘다. nickname·introduction의 편집 범위도 제품 범위와 대조한다.
+- [x] MyPage의 useProfileForm 호출을 훅 선언과 같은 2개 인자로 수정했다.
+- [x] 프로필 응답을 마이페이지 캐시에 반영하고 profileCompleted 갱신·모달 닫기·저장 토스트를 연결했다.
+- [x] RecommendedLabs 상세에도 공통 useLabBookmark를 연결하고 선택 ID로 최신 목록 항목을 다시 찾는다.
+- [x] 검색어 제출·빈 검색 제출·뒤로가기에서 URL keyword와 입력 상태를 동기화했다. 입력만 지우는 행동은 아직 검색 제출과 다르다.
+- [x] 기본 허용 출처에 sebu.kr·www.sebu.kr을 추가했다.
+- [x] 백엔드 PR #92 머지를 확인하고 전체 코드 기준·예체능 검수 기록을 갱신했다.
 
-**완료 조건 제안:** 실제 저장 성공 뒤 모달이 정상적으로 닫히고, 화면과 재조회 결과가 동일하다.
+위 체크는 코드 변경 확인이며 앱 실행 통과나 운영 DB 반영 완료를 뜻하지 않는다.
 
-## 2. 북마크 진입점과 로그인 유도
+## 1. 인증 복원·만료 정책
 
-- [ ] RecommendedLabs가 여는 LabDetailModal에도 북마크 상태·핸들러를 연결한다.
-- [ ] 인증 loading과 anonymous를 구분하고, 인증 복원 중 클릭의 처리 기준을 정한다.
-- [ ] 요청 중 중복 클릭을 막고 오류·서버 제한을 사용자에게 안내한다.
-- [ ] 로그인 안내 모달과 로그인 후 선택 연구실 자동 저장의 도입 여부를 정한다. 현재는 /login 즉시 이동이다.
-- [ ] 복귀 pathname뿐 아니라 필요한 검색어·필터·선택 연구실을 보존하고 대기 동작의 중복 실행을 막는다.
+- [ ] useAuthRestore의 /me 실패와 refresh 실패에서 인증 오류와 네트워크·서버 장애를 구분한다.
+- [ ] client의 `url.includes("/me")`가 /users/me/mypage·프로필·탈퇴까지 제외하는 범위를 정확한 경로 조건으로 검토한다.
+- [ ] ACCESS_TOKEN_INVALID에는 쿠키 누락도 포함된다. 즉시 clearAuth와 갱신 대상 구분을 점검한다.
+- [ ] initCsrf 오류 무시, 동시 401 대기열, 403·429, 로그아웃 실패 후 처리의 실제 동작을 확인한다.
+- [ ] 로그인 1시간 고정 만료를 도입할지 확정하고, 도입 시 절대·Refresh 수명과 기존 세션 처리 정책을 함께 변경한다.
+- [ ] 5분 전 경고·계속 로그인·만료 모달이 필요하면 BE 만료 시각·명시적 연장 계약과 FE 타이머·탭 복귀 검사를 설계한다. 현행 refresh는 절대 만료를 연장하지 않는다.
 
-**완료 조건 제안:** 일반 카드·추천 상세·마이페이지에서 동일한 권한과 저장 상태가 적용되며, 실패·연속 클릭·로그인 복귀가 의도대로 처리된다.
+현재 기본값은 Access 30분·Refresh 14일·절대 수명 30일이다. [[SEBU 인증과 CSRF]]
 
-## 3. 인증 복원과 오류 구분
+## 2. 북마크·프로필
 
-- [ ] useAuthRestore는 /me 실패 종류를 나누지 않고 refresh를 시도하며, 최종 실패·예외를 clearAuth로 처리한다. 네트워크 장애와 인증 실패를 구분한다.
-- [ ] client의 `url.includes("/me")` 제외 조건이 `/users/me/mypage`·프로필·탈퇴 요청까지 포함한다. 의도한 정확한 경로만 갱신에서 제외하는지 검토한다.
-- [ ] ACCESS_TOKEN_INVALID 즉시 로그아웃, 일반 401 갱신, CSRF 403 초기화·재시도, 동시 401 요청 큐의 구분을 실제 백엔드에서 확인한다.
-- [ ] initCsrf의 오류 무시와 로그아웃 실패 시 로컬 상태 정리 정책을 점검한다.
-- [ ] 실제 서버 확인 때 MSW를 끄고 쿠키·CSRF·프록시 설정을 함께 확인한다.
+- [ ] 인증 loading과 anonymous를 구분하고 요청 중 중복 클릭·실패 안내를 정리한다.
+- [ ] 북마크 로그인 복귀에 pathname 외 검색어·선택 연구실을 보존할지 정한다. 로그인 안내 모달과 로그인 후 자동 저장은 아직 제안이다.
+- [ ] BE grade=5 졸업생과 FE 1~4 선택·학년 표시를 맞추고 nickname·introduction 편집 범위를 결정한다.
+- [ ] 프로필 저장 성공·실패, 일반 카드·추천 상세·마이페이지 간 북마크 캐시 일치를 실행 확인한다.
 
-**완료 조건 제안:** 로그인 → /me → 새로고침 → 토큰 만료 후 보호된 요청 → 로그아웃이 확인되며, 네트워크 단절을 확정 비로그인으로 오인하지 않는다.
+## 3. 카테고리·검색·단과대
 
-## 4. 후기 API와 안내 정책
+- [ ] API의 parentId로 자식 있는 부모와 독립 카테고리를 구분하는 FE 그룹·칩 UI를 연결한다.
+- [ ] 부모 선택 시 모든 자식을 포함할지, 분야·카테고리 복수 선택의 AND/OR 조건을 계약으로 확정한다. 현재 부모 ID를 선택한다고 자식 전체가 자동 포함되지 않는다.
+- [ ] 검색창을 비우기만 한 상태와 빈 검색 제출의 차이가 사용자에게 명확한지 확인한다. 필터·정렬을 URL에 저장할 범위도 정한다.
+- [ ] 메인 /colleges와 연구실 목록에서 추출하는 검색 칩의 표시 범위 차이, 로딩·오류·실제 0건을 구분한다.
+- [ ] 복수 소속 affiliations를 그룹·검색·통계에 반영할 범위를 정한다.
 
-- [ ] 백엔드 수정·삭제 API와 프론트 '수정 및 삭제가 불가능' 안내의 정책을 통일한다.
-- [ ] review-summary를 활용할지 정하고, 현재 일부 후기의 태그 집계를 전체 통계처럼 표시하지 않는다.
-- [ ] 후기 작성 후 공통 목록의 reviewCount·정렬이 갱신되도록 캐시 무효화 또는 반영 정책을 정한다.
-- [ ] reviews/me·수정·삭제 기능의 프론트 노출 범위를 정한다.
-- [ ] 일반 게시판은 코드 존재와 라우트 비활성 상태를 구분하고 출시 범위를 기록한다.
+## 4. 후기·화면·문구
 
-## 5. 목록 표시와 운영 확인
+- [ ] BE 후기 수정·삭제 API와 FE ‘수정 및 삭제가 불가능’ 안내를 통일한다. reviews/me·수정·삭제의 노출 범위도 정한다.
+- [ ] 후기 작성 후 공통 목록 reviewCount를 갱신하고, 일부 후기 태그 집계와 전체 통계를 구분한다.
+- [ ] 메인 후기 소개는 실제 연구실 목록의 후기 수 요약이다. 후기 본문을 표시하려면 별도 조회 계약이 필요하다.
+- [ ] 개인정보처리방침 페이지의 ‘추후 내용 확정 예정’ 본문을 실제 운영 정책으로 완성한다.
+- [ ] 모바일 홈·메뉴·카드·필터 스크롤을 화면 크기별로 확인한다. 추천 영역의 브라우저 생성 시각을 서버 데이터 갱신 시각으로 오인하지 않도록 정리한다.
+- [ ] 일반 게시판은 코드 존재와 라우트 비활성을 구분해 출시 범위를 기록한다.
 
-- [ ] 단과대 화면에서 로딩·오류·실제 0건을 구분한다.
-- [ ] 복수 소속 affiliations를 화면 그룹·검색·통계에 반영할 범위를 정한다.
-- [ ] 추천 영역의 '실시간'·브라우저 생성 기준 시각을 실제 데이터 갱신 주기와 맞춘다.
-- [ ] 배포 커밋, 실제 CORS 설정, 모니터링 수집·알림은 운영 환경에서 별도로 확인한다.
+## 5. 운영 반영
 
-## 새로 만들 필요 없이 코드에 있는 항목
+- [ ] 실제 배포 이미지 커밋·Flyway V47~V49 적용 이력·API 응답을 확인한다. PR #92 머지나 과거 격리 DB 검증을 운영 성공으로 대체하지 않는다.
+- [ ] 운영 CORS·CSRF 출처, 쿠키·프록시, 실제 학교 로그인 및 모니터링 수집·알림을 별도로 확인한다.
 
-쿠키 client, CSRF 초기화·재시도, /me 복원, refresh 요청 큐, 복구 분기, 일반 카드 북마크 PUT·DELETE, 사용자 변경 시 캐시 정리, NAME_DESC 정렬, 후기 조회·작성 라우트는 이미 존재한다. 코드가 있다는 사실만으로 실행 확인까지 완료 처리하지 않는다.
-
-## 2026-10-06 크롤링 기록의 후속 확인
-
-- [ ] 백엔드 PR #92의 머지 여부와 실제 배포 버전을 확인하고 [[SEBU 예체능대학 크롤링 검수 - 2026-10-06]]의 상태를 갱신한다.
-- [ ] 머지 후 교수·연구실과 연구분야·카테고리 연결의 실제 적용을 확인한다. 격리 DB의 검증 성공을 운영 반영 성공으로 대체하지 않는다.
-- [ ] [[SEBU 저장소와 기준 버전]]에 기록한 전체 코드 차이를 별도로 검토한 뒤 전역 기준과 관련 구현 노트를 갱신한다.
-
-[[SEBU 구현 현황]] · [[SEBU 인증과 CSRF]] · [[SEBU 마이페이지와 북마크]] · [[SEBU 커뮤니티와 후기]] · [[SEBU 주간 회고 템플릿]]
+[[SEBU 구현 현황]] · [[SEBU 마이페이지와 북마크]] · [[SEBU 연구 분야 분류]] · [[SEBU 메인과 모바일 화면]] · [[SEBU 예체능대학 크롤링 검수 - 2026-10-06]]
 
 <!-- sources:start -->
 ## 근거 파일
 
-- [프론트 · src/api/client.js](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/api/client.js)
-- [프론트 · src/features/auth/api/authApi.js](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/features/auth/api/authApi.js)
-- [프론트 · src/features/auth/hooks/useAuthRestore.js](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/features/auth/hooks/useAuthRestore.js)
-- [프론트 · src/features/mypage/hooks/useProfileForm.js](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/features/mypage/hooks/useProfileForm.js)
-- [프론트 · src/pages/MyPage/index.jsx](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/pages/MyPage/index.jsx)
-- [프론트 · src/features/mypage/components/ProfileForm.jsx](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/features/mypage/components/ProfileForm.jsx)
-- [프론트 · src/components/common/LabCard.jsx](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/components/common/LabCard.jsx)
-- [프론트 · src/features/search/components/RecommendedLabs.jsx](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/features/search/components/RecommendedLabs.jsx)
-- [프론트 · src/features/collegeView/hooks/useCollegeStats.js](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/features/collegeView/hooks/useCollegeStats.js)
-- [프론트 · src/features/community/components/LabReviewForm.jsx](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/features/community/components/LabReviewForm.jsx)
-- [프론트 · src/features/community/components/ReviewTagSummary.jsx](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/features/community/components/ReviewTagSummary.jsx)
-- [프론트 · src/pages/LabReviewWrite/index.jsx](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/pages/LabReviewWrite/index.jsx)
-- [프론트 · src/App.jsx](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/App.jsx)
-- [백엔드 · src/main/java/com/sebu/backend/mypage/dto/ProfileUpdateRequest.java](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/src/main/java/com/sebu/backend/mypage/dto/ProfileUpdateRequest.java)
-- [백엔드 · src/main/java/com/sebu/backend/laboratoryreview/controller/LaboratoryReviewController.java](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/src/main/java/com/sebu/backend/laboratoryreview/controller/LaboratoryReviewController.java)
+- [프론트 · src/api/client.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/api/client.js)
+- [프론트 · src/features/auth/api/authApi.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/auth/api/authApi.js)
+- [프론트 · src/features/auth/hooks/useAuthRestore.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/auth/hooks/useAuthRestore.js)
+- [프론트 · src/features/mypage/hooks/useProfileForm.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/mypage/hooks/useProfileForm.js)
+- [프론트 · src/pages/MyPage/index.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/pages/MyPage/index.jsx)
+- [프론트 · src/features/mypage/components/ProfileForm.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/mypage/components/ProfileForm.jsx)
+- [프론트 · src/components/common/LabCard.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/components/common/LabCard.jsx)
+- [프론트 · src/features/search/components/RecommendedLabs.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/search/components/RecommendedLabs.jsx)
+- [프론트 · src/features/collegeView/hooks/useCollegeStats.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/collegeView/hooks/useCollegeStats.js)
+- [프론트 · src/features/community/components/LabReviewForm.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/community/components/LabReviewForm.jsx)
+- [프론트 · src/features/community/components/ReviewTagSummary.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/community/components/ReviewTagSummary.jsx)
+- [프론트 · src/pages/LabReviewWrite/index.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/pages/LabReviewWrite/index.jsx)
+- [프론트 · src/App.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/App.jsx)
+- [백엔드 · src/main/java/com/sebu/backend/mypage/dto/ProfileUpdateRequest.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/java/com/sebu/backend/mypage/dto/ProfileUpdateRequest.java)
+- [백엔드 · src/main/java/com/sebu/backend/laboratoryreview/controller/LaboratoryReviewController.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/java/com/sebu/backend/laboratoryreview/controller/LaboratoryReviewController.java)
+- [프론트 · src/hooks/useLabBookmark.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/hooks/useLabBookmark.js)
+- [프론트 · src/features/search/hooks/useLabFilter.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/search/hooks/useLabFilter.js)
+- [프론트 · src/features/search/components/SearchBar.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/search/components/SearchBar.jsx)
+- [프론트 · src/features/search/components/ResearchFieldChips.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/search/components/ResearchFieldChips.jsx)
+- [프론트 · src/features/main/components/LabReviewHighlights.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/main/components/LabReviewHighlights.jsx)
+- [프론트 · src/features/main/hooks/useColleges.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/main/hooks/useColleges.js)
+- [프론트 · src/pages/Privacy/index.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/pages/Privacy/index.jsx)
+- [백엔드 · src/main/resources/application.yml](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/resources/application.yml)
+- [백엔드 · src/main/java/com/sebu/backend/auth/config/TokenProperties.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/java/com/sebu/backend/auth/config/TokenProperties.java)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->

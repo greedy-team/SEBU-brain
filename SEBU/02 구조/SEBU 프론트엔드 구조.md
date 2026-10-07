@@ -3,7 +3,7 @@ project: SEBU
 type: "architecture"
 status: "기준 코드 확인"
 created: 2026-09-26
-verified: 2026-09-26
+verified: 2026-10-07
 tags:
   - sebu
   - sebu/architecture
@@ -11,6 +11,12 @@ source_ids:
   - "F:package.json"
   - "F:src/App.jsx"
   - "F:src/main.jsx"
+  - "F:src/pages/Home/index.jsx"
+  - "F:src/pages/Main/index.jsx"
+  - "F:src/hooks/useIsMobile.js"
+  - "F:src/hooks/useLabBookmark.js"
+  - "F:src/constants/navigation.js"
+  - "F:src/features/main/hooks/useColleges.js"
   - "F:src/api/client.js"
   - "F:src/api/queryClient.js"
   - "F:src/api/queries/laboratories.js"
@@ -22,35 +28,41 @@ source_ids:
 ---
 # SEBU 프론트엔드 구조
 
-프론트는 페이지·기능별 훅·API 모듈로 역할을 나누고, 연구실 공통 조회는 TanStack Query, 사용자 인증 상태는 Zustand로 관리한다. 현재 기준 코드에서는 쿠키·CSRF 인증 흐름과 랩실평가 화면이 연결되어 있다.
+프론트는 페이지·기능별 훅·API 모듈로 역할을 나누고, 서버 데이터는 TanStack Query, 인증 상태는 Zustand로 관리한다. 홈은 화면 너비에 따라 데스크톱 메인과 모바일 검색 화면으로 나뉘며, 연구실 북마크는 공용 훅을 사용한다. 아래 내용은 기준 코드 검토 결과이며 브라우저·실서버 실행을 확인한 기록은 아니다.
 
 ## 어디에서 무엇을 바꾸는가
 
 | 위치 | 역할 | 대표 파일 |
 |---|---|---|
-| `src/pages` | URL별 화면 구성 | Search, CollegeView, LabReviewHome, LabReview, LabReviewWrite, MyPage |
-| `src/features/search` | 검색어·필터·정렬 | useLabFilter, labFilterUtils |
+| `src/pages` | URL별 화면 구성과 홈 분기 | Home, Main, Search, CollegeView, LabReviewHome, LabReview, LabReviewWrite, MyPage, Privacy |
+| `src/features/main` | 메인 검색·후기 수 요약·단과대 소개 | HeroSection, LabReviewHighlights, CollegeSection, useColleges |
+| `src/features/search` | 검색어·필터·정렬과 공용 칩 UI | useLabFilter, labFilterUtils, FilterChip, ScrollableRow |
 | `src/features/collegeView` | 단과대·학과별 묶음 | useCollegeStats |
 | `src/features/community` | 후기 및 일반 게시판의 훅·API·폼 | useLabList, useLabReviews, communityApi |
 | `src/features/auth` | 로그인·인증 복원·복구 | useLogin, useAuthRestore, authApi |
+| `src/hooks` | 화면 공통 북마크·모바일 판별 | useLabBookmark, useIsMobile |
+| `src/constants/navigation.js` | 헤더·모바일 메뉴의 공통 탐색 항목 | NAV_ITEMS |
 | `src/api/client.js` | 쿠키 요청, CSRF·인증 재시도, 429 처리 | 공통 Axios client |
 | `src/api/queries/laboratories.js` | 연구실 목록 공통 캐시와 북마크 반영 | useLaboratoriesQuery |
 | `src/store/authStore.js` | user 및 loading/authenticated/anonymous 상태 | accessToken을 직접 저장하지 않음 |
 
 ## 실제 활성 라우트
 
-- `/`: 메인 화면, `/search`: 검색, `/colleges`: 단과대별 보기.
-- `/login`, `/mypage`, `/design-system`.
+- `/`: Home이 767px 이하에서는 SearchPage, 768px 이상에서는 MainPage를 렌더링한다. 모바일도 주소는 `/`를 유지한다.
+- `/search`: 연구실 검색, `/colleges`: 단과대별 보기.
+- `/login`, `/mypage`, `/design-system`, `/privacy`.
 - `/community/labs`: 후기 대상 연구실 목록.
 - `/community/labs/:laboratoryId`: 해당 연구실 후기 목록.
 - `/community/labs/:laboratoryId/write`: 후기 작성.
 - 일반 게시글의 `/community`, 작성·상세·수정 라우트는 코드에 있지만 App.jsx에서 주석 처리되어 있다.
 
+App은 라우트 바깥에 Footer, 요청·429 표시, 경로 이동 시 스크롤 처리와 맨 위로 버튼을 공통 배치한다. 개인정보 처리방침의 경로는 열려 있지만 본문은 아직 확정 예정 문구다. [[SEBU 메인과 모바일 화면]]
+
 ## 서버 데이터와 인증 상태의 관계
 
-`main.jsx`의 QueryClientProvider가 공통 캐시를 제공한다. 검색·단과대·랩실평가 홈은 동일한 `["laboratories"]`를 사용하며 staleTime은 1시간이다. 마이페이지는 `["mypage"]`로 별도 관리한다.
+`main.jsx`의 QueryClientProvider가 공통 캐시를 제공한다. 메인의 인기 연구실·후기 수 요약, 검색·단과대·랩실평가 홈은 동일한 `["laboratories"]`를 사용하며 staleTime은 1시간이다. 메인 단과대 소개는 별도 `["colleges"]` 캐시와 1시간 staleTime을 사용한다. 마이페이지는 `["mypage"]`로 관리한다.
 
-사용자 ID가 바뀌면 queryClient의 store 구독이 마이페이지 캐시를 제거하고 연구실 목록을 무효화하여 다시 조회한다. 연구실 기본정보가 같아도 `bookmarked`는 사용자별 값이기 때문이다. 화면별 관계는 [[SEBU 화면과 API 공유]]에 정리한다.
+사용자 ID가 바뀌면 queryClient의 store 구독이 마이페이지 캐시를 제거하고 연구실 목록을 무효화하여 다시 조회한다. 연구실 기본정보가 같아도 `bookmarked`는 사용자별 값이기 때문이다. 일반 카드와 인기 연구실 모달은 useLabBookmark로 공통 목록을 낙관적으로 갱신하고 성공 시 마이페이지를 무효화한다. 화면별 관계는 [[SEBU 화면과 API 공유]]에 정리한다.
 
 ## 쿠키·CSRF 처리
 
@@ -69,17 +81,23 @@ package.json은 React 19, Vite 8, React Router 7, Tailwind CSS 4, Zustand 5, Tan
 <!-- sources:start -->
 ## 근거 파일
 
-- [프론트 · package.json](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/package.json)
-- [프론트 · src/App.jsx](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/App.jsx)
-- [프론트 · src/main.jsx](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/main.jsx)
-- [프론트 · src/api/client.js](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/api/client.js)
-- [프론트 · src/api/queryClient.js](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/api/queryClient.js)
-- [프론트 · src/api/queries/laboratories.js](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/api/queries/laboratories.js)
-- [프론트 · src/store/authStore.js](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/store/authStore.js)
-- [프론트 · src/features/auth/hooks/useAuthRestore.js](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/features/auth/hooks/useAuthRestore.js)
-- [프론트 · src/features/auth/hooks/useLogin.js](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/features/auth/hooks/useLogin.js)
-- [프론트 · vite.config.js](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/vite.config.js)
-- [프론트 · vercel.json](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/vercel.json)
+- [프론트 · package.json](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/package.json)
+- [프론트 · src/App.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/App.jsx)
+- [프론트 · src/main.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/main.jsx)
+- [프론트 · src/pages/Home/index.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/pages/Home/index.jsx)
+- [프론트 · src/pages/Main/index.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/pages/Main/index.jsx)
+- [프론트 · src/hooks/useIsMobile.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/hooks/useIsMobile.js)
+- [프론트 · src/hooks/useLabBookmark.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/hooks/useLabBookmark.js)
+- [프론트 · src/constants/navigation.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/constants/navigation.js)
+- [프론트 · src/features/main/hooks/useColleges.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/main/hooks/useColleges.js)
+- [프론트 · src/api/client.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/api/client.js)
+- [프론트 · src/api/queryClient.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/api/queryClient.js)
+- [프론트 · src/api/queries/laboratories.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/api/queries/laboratories.js)
+- [프론트 · src/store/authStore.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/store/authStore.js)
+- [프론트 · src/features/auth/hooks/useAuthRestore.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/auth/hooks/useAuthRestore.js)
+- [프론트 · src/features/auth/hooks/useLogin.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/auth/hooks/useLogin.js)
+- [프론트 · vite.config.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/vite.config.js)
+- [프론트 · vercel.json](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/vercel.json)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->

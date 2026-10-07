@@ -1,40 +1,43 @@
 ---
 project: SEBU
 type: "reference"
-status: "원격 기준 커밋 확인"
+status: "원격 기준 커밋과 변경 내용 확인"
 created: 2026-09-26
-verified: 2026-09-26
+verified: 2026-10-07
 tags:
   - sebu
   - sebu/reference
 ---
 # SEBU 저장소와 기준 버전
 
-이 문서는 팀의 머지된 코드 커밋을 기준으로 한다. 개별 컴퓨터의 오래된 작업 폴더나 미커밋 파일을 팀의 최신 구현으로 취급하지 않는다.
+2026-10-07에 확인한 **백엔드 develop과 프론트 dev의 머지된 커밋**을 반영했다. 개별 컴퓨터의 미커밋 작업과 운영 서버의 배포 상태는 이 기준과 구분한다.
 
-| 저장소 | 기준 브랜치 | 반영한 커밋 | 커밋 내용 |
+| 저장소 | 기준 브랜치 | 반영한 커밋 | 마지막 커밋 내용 |
 |---|---|---|---|
-| [SEBU-backend](https://github.com/greedy-team/SEBU-backend) | develop | [f06c597](https://github.com/greedy-team/SEBU-backend/commit/f06c597bab64fb1559754644e633aea92be4fd2e) | 운영 JSON 응답 gzip 압축 활성화 |
-| [SEBU-frontend](https://github.com/greedy-team/SEBU-frontend) | dev | [2fb7566](https://github.com/greedy-team/SEBU-frontend/commit/2fb75666f9f75a062222f8f74b434a4ddd067fef) | 카드 로컬 상태를 제거하고 캐시로 북마크 관리 |
-| [SEBU-brain](https://github.com/greedy-team/SEBU-brain) | main | 이 문서 레포의 Git 기록 | 팀 지식 |
+| [SEBU-backend](https://github.com/greedy-team/SEBU-backend) | develop | [b6cf2e5](https://github.com/greedy-team/SEBU-backend/commit/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed) | PR #92 예체능 데이터 머지 |
+| [SEBU-frontend](https://github.com/greedy-team/SEBU-frontend) | dev | [88eee80](https://github.com/greedy-team/SEBU-frontend/commit/88eee80d88016b3e3067ac224651143b1d28351f) | 로고·메뉴 선택 표시·로그인 복귀 정비 |
+| [SEBU-brain](https://github.com/greedy-team/SEBU-brain) | main 및 문서 작업 브랜치 | 이 문서 레포의 Git 기록 | 팀 지식 |
 
-확인일은 2026-09-26이다. 구체적인 파일·해시·연결 노트는 저장소 루트의 `metadata/source-baseline.json`에 기록한다. 향후 갱신 시 이 표도 함께 수정한다.
+## 이번에 비교한 구간
 
-## 2026-10-06 확인한 차이와 별도 PR 기록
+| 저장소 | 이전 기준 → 이번 기준 | 비교 범위 |
+|---|---|---|
+| BE | f06c597 → b6cf2e5 | 10개 커밋(머지 포함), 변경 파일 26개 |
+| FE | 2fb7566 → 88eee80 | 18개 커밋, 변경 파일 45개 |
 
-원격 ref를 갱신해 확인한 백엔드 develop은 [80372b2](https://github.com/greedy-team/SEBU-backend/commit/80372b2c25b9cfb82763464a1bf00daa969782c8), 프론트 dev는 [2061cda](https://github.com/greedy-team/SEBU-frontend/commit/2061cdaa3692bf266830bc3908160422c8d55bf2)다. 위 문서 기준과 차이가 있지만, 전체 변경을 검토한 것은 아니므로 기존 기준 커밋·확인일·파일 해시는 유지한다.
+사용자가 Pull한 IntelliJ 백엔드의 HEAD도 위 BE 기준과 일치하는 것을 확인했다. 깨끗한 코드 사본에서 이전 기준 이후의 커밋과 전체 파일 차이를 검토했으며 사용자의 미커밋 파일은 수정하지 않았다. 새 API·동작·정책은 관련 기능 노트에 반영하고, 시각 스타일처럼 구조를 바꾸지 않는 변경은 [[SEBU 메인과 모바일 화면]]에 묶었다.
 
-[[SEBU 예체능대학 크롤링 검수 - 2026-10-06]]은 미머지 [백엔드 PR #92](https://github.com/greedy-team/SEBU-backend/pull/92)의 검수 기록이다. 해당 노트의 `source_ids`와 자동 근거 블록은 기존 기준의 공통 수집·승격 절차만 가리킨다. PR의 신규 SQL·검증·자료는 별도 고정 커밋 링크로 구분하며, 전역 기준이나 운영 적용 상태를 바꾸지 않는다. 이번 메타데이터 변경은 기존 출처에서 새 기록으로 연결되는 노트 목록만 추가한다.
+[[SEBU 예체능대학 크롤링 검수 - 2026-10-06]]의 PR #92는 이제 머지된 코드에 포함된다. 당시 격리 DB 검증 이력은 보존하고 운영 적용 여부는 계속 별도 확인 항목으로 둔다.
 
 ## 기준의 의미
 
-- 코드 구조와 계약은 위 커밋에서 확인한 사실이다.
-- 운영 배포 버전과 실제 학교 로그인 성공은 이번 문서 갱신에서 검증하지 않았다.
-- 과거 개인 노트의 Bearer 기반 프론트·북마크 미연결 설명은 현재 dev의 상태와 다르므로 갱신했다.
-- API 명세와 구현이 다르면 차이를 [[SEBU 변경 검토 목록]]에 기록한다.
-- 기록된 커밋 이후 변경은 자동으로 반영되지 않는다.
+- 기준 파일·해시·연결 노트는 루트 metadata/source-baseline.json에 기록한다.
+- 자동 근거 링크는 이번 기준 커밋으로 고정한다. 본문을 갱신한 노트의 verified 날짜를 바꾸며, 변경되지 않은 노트와 과거 검수 기록의 작성일·검증 이력은 보존한다.
+- 코드 존재와 계약을 정적으로 확인했다. 운영 배포 버전, 실제 학교 로그인, 앱 테스트 통과는 이번 갱신의 결과가 아니다.
+- 1시간 로그인 만료·연장·모달처럼 대화에서 제안한 사항은 실제 코드 반영 여부를 따로 적는다.
+- 이후 커밋은 자동 반영되지 않는다. 다음 갱신에서도 차이를 검토한 뒤 기준을 옮긴다.
 
-팀 갱신 절차: [[SEBU 팀 공유와 업데이트]] · [[SEBU 지식 갱신 방법]]
+[[SEBU 갱신 기록 - 2026-10-07]] · [[SEBU 팀 공유와 업데이트]] · [[SEBU 지식 갱신 방법]]
 
 ---
 [[SEBU 홈]] · [[SEBU 지식 지도]]

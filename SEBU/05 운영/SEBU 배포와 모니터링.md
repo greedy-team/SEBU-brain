@@ -1,9 +1,9 @@
 ---
 project: SEBU
 type: "runbook"
-status: "2026-09-26 코드·문서 확인"
+status: "2026-10-07 코드·문서 확인"
 created: 2026-09-26
-verified: 2026-09-26
+verified: 2026-10-07
 tags:
   - sebu
   - sebu/runbook
@@ -45,9 +45,15 @@ flowchart LR
 
 ## 최신 응답 압축
 
-백엔드 기준 커밋 `f06c597bab64fb1559754644e633aea92be4fd2e`의 `application-prod.yml`에는 `server.compression.enabled=true`, `mime-types=application/json`, `min-response-size=2KB`가 있다.
+9월 26일 `f06c597`에서 추가되어 현재 `b6cf2e5`에도 유지되는 `application-prod.yml`에는 `server.compression.enabled=true`, `mime-types=application/json`, `min-response-size=2KB`가 있다.
 
 압축 협상과 서버 조건을 만족하는 JSON 전달 크기를 줄이는 설정이다. 기본 연구실 목록을 페이지 목록으로 바꾸거나 응답 필드를 줄인 것은 아니다. 배포 후 실제 `Content-Encoding`과 전달 크기는 별도 확인한다.
+
+## 이번 기준 갱신 후 운영 확인
+
+코드에는 `sebu.kr`·`www.sebu.kr` 허용과 V47 로봇 분류, V48 예체능 교수·연구실, V49 예체능 연구분야 마이그레이션이 포함됐다. 머지 확인만으로 운영 반영을 완료 처리하지 않는다. 실제 이미지 커밋·Flyway 이력·API 응답·출처 설정의 환경 변수 덮어쓰기를 확인해야 한다.
+
+[[SEBU 예체능대학 크롤링 검수 - 2026-10-06]]의 격리 DB 검증 기록 역시 운영 DB 반영의 증거가 아니다.
 
 ## 상태 확인·지표·로그
 
@@ -70,17 +76,17 @@ flowchart LR
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · docs/ec2-pull-deploy.md](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/docs/ec2-pull-deploy.md)
-- [백엔드 · .github/workflows/ci.yml](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/.github/workflows/ci.yml)
-- [백엔드 · Dockerfile](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/Dockerfile)
-- [백엔드 · src/main/resources/application.yml](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/src/main/resources/application.yml)
-- [백엔드 · src/main/resources/application-prod.yml](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/src/main/resources/application-prod.yml)
-- [백엔드 · src/main/resources/application-monitoring.yml](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/src/main/resources/application-monitoring.yml)
-- [백엔드 · src/main/java/com/sebu/backend/global/monitoring/HealthCheckSecurityConfiguration.java](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/src/main/java/com/sebu/backend/global/monitoring/HealthCheckSecurityConfiguration.java)
-- [백엔드 · src/main/java/com/sebu/backend/global/monitoring/MonitoringSecurityConfiguration.java](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/src/main/java/com/sebu/backend/global/monitoring/MonitoringSecurityConfiguration.java)
-- [백엔드 · src/main/java/com/sebu/backend/global/monitoring/MonitoringMetricsConfiguration.java](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/src/main/java/com/sebu/backend/global/monitoring/MonitoringMetricsConfiguration.java)
-- [백엔드 · docs/logging.md](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/docs/logging.md)
-- [백엔드 · ops/deploy/deploy.py](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/ops/deploy/deploy.py)
+- [백엔드 · docs/ec2-pull-deploy.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/ec2-pull-deploy.md)
+- [백엔드 · .github/workflows/ci.yml](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/.github/workflows/ci.yml)
+- [백엔드 · Dockerfile](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/Dockerfile)
+- [백엔드 · src/main/resources/application.yml](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/resources/application.yml)
+- [백엔드 · src/main/resources/application-prod.yml](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/resources/application-prod.yml)
+- [백엔드 · src/main/resources/application-monitoring.yml](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/resources/application-monitoring.yml)
+- [백엔드 · src/main/java/com/sebu/backend/global/monitoring/HealthCheckSecurityConfiguration.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/java/com/sebu/backend/global/monitoring/HealthCheckSecurityConfiguration.java)
+- [백엔드 · src/main/java/com/sebu/backend/global/monitoring/MonitoringSecurityConfiguration.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/java/com/sebu/backend/global/monitoring/MonitoringSecurityConfiguration.java)
+- [백엔드 · src/main/java/com/sebu/backend/global/monitoring/MonitoringMetricsConfiguration.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/java/com/sebu/backend/global/monitoring/MonitoringMetricsConfiguration.java)
+- [백엔드 · docs/logging.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/logging.md)
+- [백엔드 · ops/deploy/deploy.py](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/ops/deploy/deploy.py)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->

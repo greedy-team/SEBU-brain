@@ -40,9 +40,9 @@ source_ids:
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · docs/professor-crawling.md](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/docs/professor-crawling.md)
-- [백엔드 · docs/professor-promotion.md](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/docs/professor-promotion.md)
-- [백엔드 · docs/research-field-promotion.md](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/docs/research-field-promotion.md)
+- [백엔드 · docs/professor-crawling.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/professor-crawling.md)
+- [백엔드 · docs/professor-promotion.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/professor-promotion.md)
+- [백엔드 · docs/research-field-promotion.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/research-field-promotion.md)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->

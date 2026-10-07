@@ -40,9 +40,9 @@ source_ids:
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · docs/professor-promotion.md](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/docs/professor-promotion.md)
-- [백엔드 · src/main/resources/db/migration/V16__add_multi_department_affiliations.sql](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/src/main/resources/db/migration/V16__add_multi_department_affiliations.sql)
-- [백엔드 · src/main/resources/db/migration/V46__add_laboratory_website_url_source.sql](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/src/main/resources/db/migration/V46__add_laboratory_website_url_source.sql)
+- [백엔드 · docs/professor-promotion.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/professor-promotion.md)
+- [백엔드 · src/main/resources/db/migration/V16__add_multi_department_affiliations.sql](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/resources/db/migration/V16__add_multi_department_affiliations.sql)
+- [백엔드 · src/main/resources/db/migration/V46__add_laboratory_website_url_source.sql](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/resources/db/migration/V46__add_laboratory_website_url_source.sql)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->

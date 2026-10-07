@@ -23,6 +23,8 @@ GitHub에서 읽을 때 사용하는 탐색 목록입니다. Obsidian에서는 S
 
 ## 03 기능
 
+- [SEBU 메인과 모바일 화면](<SEBU/03 기능/SEBU 메인과 모바일 화면.md>)
+
 - [SEBU 공개 API와 CORS](<SEBU/03 기능/SEBU 공개 API와 CORS.md>)
 - [SEBU 마이페이지와 북마크](<SEBU/03 기능/SEBU 마이페이지와 북마크.md>)
 - [SEBU 연구 분야 분류](<SEBU/03 기능/SEBU 연구 분야 분류.md>)
@@ -52,6 +54,8 @@ GitHub에서 읽을 때 사용하는 탐색 목록입니다. Obsidian에서는 S
 - [SEBU 학습 연결](<SEBU/06 학습/SEBU 학습 연결.md>)
 
 ## 07 기록
+
+- [SEBU 갱신 기록 - 2026-10-07](<SEBU/07 기록/SEBU 갱신 기록 - 2026-10-07.md>)
 
 - [SEBU 갱신 기록 - 2026-09-26](<SEBU/07 기록/SEBU 갱신 기록 - 2026-09-26.md>)
 - [SEBU 예체능대학 크롤링 검수 - 2026-10-06](<SEBU/07 기록/SEBU 예체능대학 크롤링 검수 - 2026-10-06.md>)

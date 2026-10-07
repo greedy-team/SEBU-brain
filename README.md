@@ -2,7 +2,7 @@
 
 SEBU의 기능, 구조, 설계 이유와 운영 지식을 연결하는 팀용 Obsidian 보관함입니다.
 
-**기준:** 2026-09-26 확인 · [백엔드 develop `f06c597`](https://github.com/greedy-team/SEBU-backend/commit/f06c597bab64fb1559754644e633aea92be4fd2e) · [프론트 dev `2fb7566`](https://github.com/greedy-team/SEBU-frontend/commit/2fb75666f9f75a062222f8f74b434a4ddd067fef)
+**기준:** 2026-10-07 확인 · [백엔드 develop `b6cf2e5`](https://github.com/greedy-team/SEBU-backend/commit/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed) · [프론트 dev `88eee80`](https://github.com/greedy-team/SEBU-frontend/commit/88eee80d88016b3e3067ac224651143b1d28351f)
 
 ## 처음 읽는 팀원
 
@@ -26,6 +26,7 @@ git pull --ff-only
 | 질문 | 문서 |
 |---|---|
 | 무엇을 만드는 서비스인가? | [프로젝트 개요](<SEBU/01 프로젝트/SEBU 프로젝트 개요.md>) |
+| 최근 머지에서 무엇이 바뀌었는가? | [10월 7일 갱신 기록](<SEBU/07 기록/SEBU 갱신 기록 - 2026-10-07.md>) |
 | 지금 구현된 것은 무엇인가? | [구현 현황](<SEBU/01 프로젝트/SEBU 구현 현황.md>) |
 | 검색·단과대·랩실평가가 같은 API를 쓰는가? | [화면과 API 공유](<SEBU/03 기능/SEBU 화면과 API 공유.md>) |
 | 공개 API를 외부 주소창에서 열 수 있는 이유는? | [공개 API와 CORS](<SEBU/03 기능/SEBU 공개 API와 CORS.md>) |

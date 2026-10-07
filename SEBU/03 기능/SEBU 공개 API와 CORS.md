@@ -1,9 +1,9 @@
 ---
 project: SEBU
 type: "feature"
-status: "2026-09-26 코드·문서 확인"
+status: "2026-10-07 코드·문서 확인"
 created: 2026-09-26
-verified: 2026-09-26
+verified: 2026-10-07
 tags:
   - sebu
   - sebu/feature
@@ -14,6 +14,7 @@ source_ids:
   - "B:src/main/resources/application.yml"
   - "B:src/main/resources/application-local.yml"
   - "B:src/test/java/com/sebu/backend/global/auth/CorsIntegrationTest.java"
+  - "B:src/test/java/com/sebu/backend/auth/controller/CookieCsrfIntegrationTest.java"
   - "B:src/main/java/com/sebu/backend/laboratory/controller/LaboratoryController.java"
   - "B:src/main/java/com/sebu/backend/laboratory/repository/LaboratoryRepository.java"
   - "B:src/main/java/com/sebu/backend/global/ratelimit/web/RateLimitRequestPolicyResolver.java"
@@ -32,7 +33,9 @@ source_ids:
 | CORS | 브라우저의 다른 출처 호출을 허용하는가 | `/api/**` 전체에 정확한 출처 허용 목록 |
 | CSRF·출처 검증 | 쿠키를 쓰는 변경 요청에 올바른 토큰과 출처가 있는가 | 로그인·북마크·글쓰기의 POST/PUT/PATCH/DELETE |
 
-Origin은 스킴·호스트·포트의 조합이다. 허용 목록의 기본값은 `https://sebu-frontend.vercel.app`, local 프로필은 `http://localhost:5173`과 `http://localhost:8080`이다. 실제 배포의 설정 덮어쓰기는 별도 확인 대상이다.
+Origin은 스킴·호스트·포트의 조합이다. CORS와 CSRF가 함께 쓰는 허용 목록의 기본값은 `https://sebu-frontend.vercel.app`, `https://sebu.kr`, `https://www.sebu.kr`이며, local 프로필은 `http://localhost:5173`과 `http://localhost:8080`이다. 새 두 도메인은 PR #90으로 `develop`에 병합됐다. 실제 배포의 설정 덮어쓰기는 별도 확인 대상이다.
+
+허용 여부는 정확한 출처 문자열로 비교한다. `https://preview.sebu.kr`, `http://www.sebu.kr`, `https://sebu.kr.evil.example` 등은 허용 목록에 포함되지 않는다. `CookieCsrfIntegrationTest`에는 세 기본 출처의 쿠키 포함 로그인 사전 요청 허용, CSRF 토큰 없는 로그인 거부, 토큰을 갖춘 로그인 성공과 유사 출처 거부를 확인하는 테스트가 있다. 이번 갱신은 코드 확인이며 해당 테스트를 다시 실행한 결과는 아니다.
 
 **‘세부 사이트에 들어왔다’와 ‘세부에 로그인했다’는 별개다.** 세부 사이트의 비로그인 방문자도 허용된 출처에서 공개 연구실 정보를 볼 수 있다. 북마크·글쓰기에는 로그인 확인이 추가된다. 로그인 API 자체는 기존 로그인 없이 호출하고, 학교 인증·CSRF·출처 검증으로 로그인 절차를 진행한다.
 
@@ -42,10 +45,10 @@ Origin은 스킴·호스트·포트의 조합이다. 허용 목록의 기본값�
 
 | 요청 | 동작 |
 |---|---|
-| `GET /laboratories`, Origin 없음 | 로그인 없이 목록 반환 |
+| `GET /api/v1/laboratories`, Origin 없음 | 로그인 없이 목록 반환 |
 | 허용된 Origin의 공개 GET | CORS 허용 헤더와 함께 반환 |
 | 허용되지 않은 다른 Origin의 GET·사전 요청 | CORS 처리에서 403 |
-| 허용된 Origin이지만 로그인 쿠키 없는 `GET /me` | 인증 401 |
+| 허용된 Origin이지만 로그인 쿠키 없는 `GET /api/v1/me` | 인증 401 |
 | 허용된 Origin이지만 CSRF 없는 변경 요청 | CSRF 403 |
 
 주소창 직접 조회나 Postman·외부 서버 호출에는 Origin이 없을 수 있다. 공개 GET은 이 이유로 거부하지 않는다. 변경 요청은 다르다. `TrustedOriginFilter`가 Origin을 먼저 확인하고, 없으면 Referer 출처를 확인하며, 둘 다 없거나 신뢰할 수 없으면 거부한다.
@@ -75,17 +78,18 @@ CORS는 외부 서버의 데이터 수집을 막는 인증 수단이 아니다. 
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · src/main/java/com/sebu/backend/global/auth/SecurityConfiguration.java](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/src/main/java/com/sebu/backend/global/auth/SecurityConfiguration.java)
-- [백엔드 · src/main/java/com/sebu/backend/global/auth/TrustedOriginFilter.java](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/src/main/java/com/sebu/backend/global/auth/TrustedOriginFilter.java)
-- [백엔드 · src/main/java/com/sebu/backend/auth/config/AuthCsrfProperties.java](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/src/main/java/com/sebu/backend/auth/config/AuthCsrfProperties.java)
-- [백엔드 · src/main/resources/application.yml](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/src/main/resources/application.yml)
-- [백엔드 · src/main/resources/application-local.yml](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/src/main/resources/application-local.yml)
-- [백엔드 · src/test/java/com/sebu/backend/global/auth/CorsIntegrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/src/test/java/com/sebu/backend/global/auth/CorsIntegrationTest.java)
-- [백엔드 · src/main/java/com/sebu/backend/laboratory/controller/LaboratoryController.java](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/src/main/java/com/sebu/backend/laboratory/controller/LaboratoryController.java)
-- [백엔드 · src/main/java/com/sebu/backend/laboratory/repository/LaboratoryRepository.java](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/src/main/java/com/sebu/backend/laboratory/repository/LaboratoryRepository.java)
-- [백엔드 · src/main/java/com/sebu/backend/global/ratelimit/web/RateLimitRequestPolicyResolver.java](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/src/main/java/com/sebu/backend/global/ratelimit/web/RateLimitRequestPolicyResolver.java)
-- [백엔드 · src/main/java/com/sebu/backend/global/ratelimit/service/InMemoryRateLimiter.java](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/src/main/java/com/sebu/backend/global/ratelimit/service/InMemoryRateLimiter.java)
-- [백엔드 · docs/cookie-authentication.md](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/docs/cookie-authentication.md)
+- [백엔드 · src/main/java/com/sebu/backend/global/auth/SecurityConfiguration.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/java/com/sebu/backend/global/auth/SecurityConfiguration.java)
+- [백엔드 · src/main/java/com/sebu/backend/global/auth/TrustedOriginFilter.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/java/com/sebu/backend/global/auth/TrustedOriginFilter.java)
+- [백엔드 · src/main/java/com/sebu/backend/auth/config/AuthCsrfProperties.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/java/com/sebu/backend/auth/config/AuthCsrfProperties.java)
+- [백엔드 · src/main/resources/application.yml](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/resources/application.yml)
+- [백엔드 · src/main/resources/application-local.yml](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/resources/application-local.yml)
+- [백엔드 · src/test/java/com/sebu/backend/global/auth/CorsIntegrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/test/java/com/sebu/backend/global/auth/CorsIntegrationTest.java)
+- [백엔드 · src/test/java/com/sebu/backend/auth/controller/CookieCsrfIntegrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/test/java/com/sebu/backend/auth/controller/CookieCsrfIntegrationTest.java)
+- [백엔드 · src/main/java/com/sebu/backend/laboratory/controller/LaboratoryController.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/java/com/sebu/backend/laboratory/controller/LaboratoryController.java)
+- [백엔드 · src/main/java/com/sebu/backend/laboratory/repository/LaboratoryRepository.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/java/com/sebu/backend/laboratory/repository/LaboratoryRepository.java)
+- [백엔드 · src/main/java/com/sebu/backend/global/ratelimit/web/RateLimitRequestPolicyResolver.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/java/com/sebu/backend/global/ratelimit/web/RateLimitRequestPolicyResolver.java)
+- [백엔드 · src/main/java/com/sebu/backend/global/ratelimit/service/InMemoryRateLimiter.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/java/com/sebu/backend/global/ratelimit/service/InMemoryRateLimiter.java)
+- [백엔드 · docs/cookie-authentication.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/cookie-authentication.md)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->
