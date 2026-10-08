@@ -8,7 +8,6 @@ tags:
   - sebu
   - sebu/decision
 source_ids:
-  - "B:docs/professor-promotion.md"
   - "B:src/main/resources/db/migration/V16__add_multi_department_affiliations.sql"
   - "B:src/main/resources/db/migration/V46__add_laboratory_website_url_source.sql"
 ---
@@ -37,12 +36,15 @@ source_ids:
 
 [[SEBU 데이터 모델]] · [[SEBU 크롤링과 승격]] · [[SEBU 결정 기록]]
 
+## 이전된 상세 문서
+
+- [[SEBU 백엔드 교수 후보 승격 실행 안내]]
+
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · docs/professor-promotion.md](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/docs/professor-promotion.md)
-- [백엔드 · src/main/resources/db/migration/V16__add_multi_department_affiliations.sql](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/src/main/resources/db/migration/V16__add_multi_department_affiliations.sql)
-- [백엔드 · src/main/resources/db/migration/V46__add_laboratory_website_url_source.sql](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/src/main/resources/db/migration/V46__add_laboratory_website_url_source.sql)
+- [백엔드 · src/main/resources/db/migration/V16__add_multi_department_affiliations.sql](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/main/resources/db/migration/V16__add_multi_department_affiliations.sql)
+- [백엔드 · src/main/resources/db/migration/V46__add_laboratory_website_url_source.sql](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/main/resources/db/migration/V46__add_laboratory_website_url_source.sql)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->

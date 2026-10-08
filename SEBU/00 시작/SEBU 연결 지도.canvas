@@ -3,7 +3,7 @@
     {
       "id": "intro",
       "type": "text",
-      "text": "# SEBU · 팀 지식 지도\n\n기능 → 구조 → 결정 → 다음 행동\n\n2026-09-26 · 코드 기준 커밋과 근거 파일을 연결한다.\nSEBU-brain 레포 루트를 보관함으로 연다.",
+      "text": "# SEBU · 팀 지식 지도\n\n기능 → 구조 → 결정 → 다음 행동\n\n2026-10-07 · BE b6cf2e5 / FE 88eee80 기준\nSEBU-brain 레포 루트를 보관함으로 연다.",
       "x": -520,
       "y": -260,
       "width": 1040,
@@ -169,6 +169,44 @@
       "width": 440,
       "height": 270,
       "color": "4"
+    },
+    {
+      "id": "refresh-oct7",
+      "type": "file",
+      "file": "SEBU/07 기록/SEBU 갱신 기록 - 2026-10-07.md",
+      "x": 340,
+      "y": 1580,
+      "width": 440,
+      "height": 270,
+      "color": "4"
+    },
+    {
+      "id": "main-mobile",
+      "type": "file",
+      "file": "SEBU/03 기능/SEBU 메인과 모바일 화면.md",
+      "x": -1340,
+      "y": 1580,
+      "width": 440,
+      "height": 270,
+      "color": "6"
+    },
+    {
+      "id": "backend-docs",
+      "type": "file",
+      "file": "SEBU/90 자료/SEBU 백엔드 문서 모음.md",
+      "x": 0,
+      "y": 1950,
+      "width": 400,
+      "height": 180
+    },
+    {
+      "id": "docs-migration",
+      "type": "file",
+      "file": "SEBU/07 기록/SEBU 문서 이전 기록 - 2026-10-08.md",
+      "x": 450,
+      "y": 1950,
+      "width": 400,
+      "height": 180
     }
   ],
   "edges": [
@@ -324,6 +362,38 @@
       "toSide": "right",
       "toEnd": "arrow",
       "label": "팀 갱신"
+    },
+    {
+      "id": "edge-17",
+      "fromNode": "learning",
+      "fromSide": "bottom",
+      "toNode": "refresh-oct7",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "label": "최신 변경"
+    },
+    {
+      "id": "edge-18",
+      "fromNode": "cors",
+      "fromSide": "bottom",
+      "toNode": "main-mobile",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "label": "공개 화면"
+    },
+    {
+      "id": "home-backend-docs",
+      "fromNode": "home",
+      "fromSide": "bottom",
+      "toNode": "backend-docs",
+      "toSide": "top"
+    },
+    {
+      "id": "home-docs-migration",
+      "fromNode": "home",
+      "fromSide": "bottom",
+      "toNode": "docs-migration",
+      "toSide": "top"
     }
   ]
 }

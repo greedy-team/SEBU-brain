@@ -8,9 +8,6 @@ tags:
   - sebu
   - sebu/learning
 source_ids:
-  - "B:docs/cookie-authentication.md"
-  - "B:docs/professor-promotion.md"
-  - "B:docs/account-withdrawal-recovery.md"
   - "F:src/api/queries/laboratories.js"
 ---
 # SEBU 학습 연결
@@ -40,13 +37,16 @@ JWT는 클레임과 서명을 담는 토큰 형식이고, 쿠키는 브라우저
 
 [[SEBU 공개 API와 CORS]] · [[SEBU 화면과 API 공유]] · [[SEBU 개념 노트 템플릿]] · [[SEBU 개발 기록 템플릿]] · [[SEBU 결정 기록]]
 
+## 이전된 상세 문서
+
+- [[SEBU 백엔드 쿠키 인증 계약]]
+- [[SEBU 백엔드 교수 후보 승격 실행 안내]]
+- [[SEBU 백엔드 탈퇴와 복구 계약]]
+
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · docs/cookie-authentication.md](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/docs/cookie-authentication.md)
-- [백엔드 · docs/professor-promotion.md](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/docs/professor-promotion.md)
-- [백엔드 · docs/account-withdrawal-recovery.md](https://github.com/greedy-team/SEBU-backend/blob/f06c597bab64fb1559754644e633aea92be4fd2e/docs/account-withdrawal-recovery.md)
-- [프론트 · src/api/queries/laboratories.js](https://github.com/greedy-team/SEBU-frontend/blob/2fb75666f9f75a062222f8f74b434a4ddd067fef/src/api/queries/laboratories.js)
+- [프론트 · src/api/queries/laboratories.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/api/queries/laboratories.js)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->
