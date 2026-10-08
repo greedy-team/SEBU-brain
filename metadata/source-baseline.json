@@ -6,7 +6,7 @@
     "B": {
       "repository": "greedy-team/SEBU-backend",
       "branch": "develop",
-      "commit": "21bd49e5133210978b4991a99d7e3cb6a33e6a7a"
+      "commit": "d1010d405abfcb5f9b01b155c48032da01ee1d2d"
     },
     "F": {
       "repository": "greedy-team/SEBU-frontend",
@@ -20,11 +20,13 @@
       "repository": "B",
       "path": ".github/workflows/ci.yml",
       "notes": [
+        "SEBU/01 프로젝트/SEBU 구현 현황.md",
         "SEBU/05 운영/SEBU 배포와 모니터링.md",
+        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
         "SEBU/05 운영/SEBU 테스트 지도.md"
       ],
-      "blob": "f56929a72cb2dc59cbf2f2943e7449521eed716f",
-      "sha256": "9654bd971534f61797d1dfdfb7d03033fe1e4c6c7f518e2f6b96549d860f971a"
+      "blob": "4cb44f0c450cfb5cd1ff26a46e57d26ba88f6cac",
+      "sha256": "112600780bc69cfab38b0055c375696548e46716d26e5ce0215e45222ee14cb5"
     },
     {
       "id": "B:build.gradle",
@@ -50,24 +52,153 @@
       "sha256": "70985a07cb85e37a5c244e6e6ff6508ee3e2e0f72b6ca4095ff416db9d029ffd"
     },
     {
+      "id": "B:ops/deploy/backend.develop.env.example",
+      "repository": "B",
+      "path": "ops/deploy/backend.develop.env.example",
+      "notes": [
+        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md"
+      ],
+      "blob": "a8229de20d074001532fc701c7ac9068718bffb2",
+      "sha256": "bef3fdef99ae0249c024071f37ea5a24be0ecd4833a5e5b430cee8977a0a72bb"
+    },
+    {
+      "id": "B:ops/deploy/backend.main.env.example",
+      "repository": "B",
+      "path": "ops/deploy/backend.main.env.example",
+      "notes": [
+        "SEBU/05 운영/SEBU 배포와 모니터링.md",
+        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md"
+      ],
+      "blob": "02021cdce58c7e92ef9a2a074c491b564f7233e9",
+      "sha256": "506bde10b3b77150a3a3ccf1a037ff636e5a32c8026b378a4ace58dd02064c5d"
+    },
+    {
+      "id": "B:ops/deploy/catalog_transfer.py",
+      "repository": "B",
+      "path": "ops/deploy/catalog_transfer.py",
+      "notes": [
+        "SEBU/01 프로젝트/SEBU 구현 현황.md",
+        "SEBU/02 구조/SEBU 데이터 모델.md",
+        "SEBU/05 운영/SEBU 배포와 모니터링.md",
+        "SEBU/05 운영/SEBU 변경 검토 목록.md",
+        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
+        "SEBU/07 기록/SEBU 운영 준비 검증 기록 - 2026-10-08.md"
+      ],
+      "blob": "a36116fa014c9d93522c97bb8714f431700334e9",
+      "sha256": "3850053502d00d5b2bba5debe09cfe81d28283a29b313438898160cfc8d6db76"
+    },
+    {
+      "id": "B:ops/deploy/config.example.json",
+      "repository": "B",
+      "path": "ops/deploy/config.example.json",
+      "notes": [
+        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md"
+      ],
+      "blob": "a141bee5077e49fdfa6ea017c29366558905a9fa",
+      "sha256": "e643fb8f60b1963306cfc9ce500fa91f5d149f418ecebb561c060cf83fbefbb6"
+    },
+    {
+      "id": "B:ops/deploy/config.main.example.json",
+      "repository": "B",
+      "path": "ops/deploy/config.main.example.json",
+      "notes": [
+        "SEBU/05 운영/SEBU 배포와 모니터링.md",
+        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md"
+      ],
+      "blob": "a911cf03b28149ec90b43533f773693b5a53aebf",
+      "sha256": "054ff4c1e68b1c3c8db61fb0726fc3a99b3da26d3b08193f9bb6ee23d2a69529"
+    },
+    {
       "id": "B:ops/deploy/deploy.py",
       "repository": "B",
       "path": "ops/deploy/deploy.py",
       "notes": [
-        "SEBU/05 운영/SEBU 배포와 모니터링.md"
+        "SEBU/01 프로젝트/SEBU 구현 현황.md",
+        "SEBU/05 운영/SEBU 배포와 모니터링.md",
+        "SEBU/05 운영/SEBU 변경 검토 목록.md",
+        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md"
       ],
-      "blob": "10fd8e303f5a428d30f89b00a725671488b16c9a",
-      "sha256": "9586027d955d9a47354c79f2f1d5e934aa2ff5e50023e7e6653a425a79e89311"
+      "blob": "a4d95ee3fb376f7d2380c2ed08ed0674199aa3ba",
+      "sha256": "01da450210f45efb40abaed061528393785f2ec4e4d2e5d36a32df4c2b5e0a84"
+    },
+    {
+      "id": "B:ops/deploy/install.sh",
+      "repository": "B",
+      "path": "ops/deploy/install.sh",
+      "notes": [
+        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md"
+      ],
+      "blob": "63a9f739b20461f2124529c5a058a783c5dde93b",
+      "sha256": "cbb50cba166e61683268716a396c18d5317bc7ef8a11c18586dfbfb6074d0dfe"
+    },
+    {
+      "id": "B:ops/deploy/sebu-pull-deploy.timer",
+      "repository": "B",
+      "path": "ops/deploy/sebu-pull-deploy.timer",
+      "notes": [
+        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md"
+      ],
+      "blob": "0bd9f6fef49c0854cb89a9f58fb4a3723f414b1a",
+      "sha256": "ded96b73561fb112ee13621b4de6457de9a2dca3c472cb27ba600685cdffda4f"
+    },
+    {
+      "id": "B:ops/deploy/smoke-catalog-transfer.sh",
+      "repository": "B",
+      "path": "ops/deploy/smoke-catalog-transfer.sh",
+      "notes": [
+        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
+        "SEBU/05 운영/SEBU 테스트 지도.md",
+        "SEBU/07 기록/SEBU 운영 준비 검증 기록 - 2026-10-08.md"
+      ],
+      "blob": "0d685440f1a79aaa5406ff916c851140369e64fc",
+      "sha256": "f366900037b22e78640b23561dda2f775c9d19bf13aeef23bb9410d383b64510"
+    },
+    {
+      "id": "B:ops/deploy/smoke-prod.sh",
+      "repository": "B",
+      "path": "ops/deploy/smoke-prod.sh",
+      "notes": [
+        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
+        "SEBU/05 운영/SEBU 테스트 지도.md",
+        "SEBU/07 기록/SEBU 운영 준비 검증 기록 - 2026-10-08.md"
+      ],
+      "blob": "473e279ddca428afc82e05d8ca58f7aa89a0ec58",
+      "sha256": "db544f265ef8259eaaaa88e1ca70e682366572e140ce09e2e31218bf2922b30d"
+    },
+    {
+      "id": "B:ops/deploy/tests/test_catalog_transfer.py",
+      "repository": "B",
+      "path": "ops/deploy/tests/test_catalog_transfer.py",
+      "notes": [
+        "SEBU/05 운영/SEBU 테스트 지도.md",
+        "SEBU/07 기록/SEBU 운영 준비 검증 기록 - 2026-10-08.md"
+      ],
+      "blob": "3ef9eeb66fa3bb0566eef1acae737159cca315ad",
+      "sha256": "4f042baa9469dc025f179e3730b1fbb27e0e9c75bc3b59520485fd3b1459f93c"
     },
     {
       "id": "B:ops/deploy/tests/test_deploy.py",
       "repository": "B",
       "path": "ops/deploy/tests/test_deploy.py",
       "notes": [
-        "SEBU/05 운영/SEBU 테스트 지도.md"
+        "SEBU/05 운영/SEBU 테스트 지도.md",
+        "SEBU/07 기록/SEBU 운영 준비 검증 기록 - 2026-10-08.md"
       ],
-      "blob": "168ca396f0ea9465239b0ed5759fea2e28f52b84",
-      "sha256": "5e88a1281da6ccb63e70cab1cbccd8fa80d47a19e0eccd3789cfffa99bf4e942"
+      "blob": "200d643771fcd7accc4d143587452674d6fe6410",
+      "sha256": "81014c1150989de2b2057079f8922bc548d26ccb61d2ee558c61d1571dbf5458"
+    },
+    {
+      "id": "B:ops/deploy/verify-production-seed.sql",
+      "repository": "B",
+      "path": "ops/deploy/verify-production-seed.sql",
+      "notes": [
+        "SEBU/02 구조/SEBU 데이터 모델.md",
+        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
+        "SEBU/05 운영/SEBU 테스트 지도.md",
+        "SEBU/07 기록/SEBU 운영 준비 검증 기록 - 2026-10-08.md"
+      ],
+      "blob": "5327a40a15e77b924b7c11e56f75aa1055397a91",
+      "sha256": "29d197789c96c409aa44db767969c8559a9e1fe477e9c5a0e46998199dd67d29"
     },
     {
       "id": "B:README.md",
@@ -80,8 +211,8 @@
         "SEBU/05 운영/SEBU 로컬 실행.md",
         "SEBU/90 자료/SEBU 원본 자료.md"
       ],
-      "blob": "5d4d6dbf5d7231c317d0fc9f011a8caea432e481",
-      "sha256": "cccb75d9a4ee248b39da58bf959e542b315986b659ac0714e1f53bfac3eb52c3"
+      "blob": "2026d1c6a416d046492c18248a7d99f692b09b55",
+      "sha256": "9696ea8ac9a5b7c798ccde085fc265ae6362c8451f99b4d79b1e9ded01931042"
     },
     {
       "id": "B:src/main/java/com/sebu/backend/auth/config/AuthCsrfProperties.java",
@@ -829,8 +960,8 @@
         "SEBU/03 기능/SEBU 연구 분야 분류.md",
         "SEBU/05 운영/SEBU 테스트 지도.md"
       ],
-      "blob": "cc2ef61c4925d555e1bec8aea831284649bb8ad9",
-      "sha256": "834f6084874a5938f7f892e8a5ffe9bf7cfae70f45e76244b6306f4456db115d"
+      "blob": "94ef7b96057953c568210734f3656034b575e854",
+      "sha256": "da3419b81c3b1931899326602ffdcf6ffe513d6bc48c2692935db9ecfc0dcdf3"
     },
     {
       "id": "F:package.json",

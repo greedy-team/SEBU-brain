@@ -29,7 +29,7 @@ source_ids:
 
 ## 백엔드 문서 이전
 
-백엔드 `docs/`의 상세 문서와 기존 README 본문은 [[SEBU 백엔드 문서 모음]]에서 관리한다. 각 이전 노트의 원본 경로·커밋·해시는 이전 시점의 이력을 보존한다. 더 이상 백엔드에 존재하지 않게 되는 `B:docs/...`는 자동 추적 출처에서 제외하고 보관함 내부 링크로 연결했다. 코드 근거는 기존 `B:`·`F:` 체계를 유지한다.
+백엔드 `docs/`의 상세 문서와 기존 README 본문은 [[SEBU 백엔드 문서 모음]]에서 관리한다. 각 이전 노트의 원본 경로·커밋·해시는 이전 시점의 이력을 보존한다. PR #93 머지 후 백엔드에서 제거된 `B:docs/...`는 자동 추적 출처에서 제외하고 보관함 내부 링크로 연결했다. 코드 근거는 기존 `B:`·`F:` 체계를 유지한다.
 
 ## 출처끼리 다를 때
 
@@ -57,7 +57,7 @@ source_ids:
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · README.md](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/README.md)
+- [백엔드 · README.md](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/README.md)
 - [프론트 · src/App.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/App.jsx)
 - [프론트 · src/api/queries/laboratories.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/api/queries/laboratories.js)
 - [프론트 · src/api/client.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/api/client.js)

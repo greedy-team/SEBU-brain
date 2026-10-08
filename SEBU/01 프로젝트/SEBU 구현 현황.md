@@ -8,6 +8,9 @@ tags:
   - sebu
   - sebu/status
 source_ids:
+  - "B:.github/workflows/ci.yml"
+  - "B:ops/deploy/deploy.py"
+  - "B:ops/deploy/catalog_transfer.py"
   - "F:src/App.jsx"
   - "F:src/api/client.js"
   - "F:src/api/queryClient.js"
@@ -43,10 +46,12 @@ source_ids:
 
 2026-10-08 백엔드 추가 확인: 새로 발급하는 Refresh 수명이 12시간으로 줄었다. 기존 토큰은 다음 갱신부터 전환되며 로그인 절대 수명은 30일이다. [[SEBU 인증과 CSRF]]
 
-기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다. 아래는 정적 코드 확인 결과이며 운영 배포·학교 로그인·앱 테스트 통과를 뜻하지 않는다.
+기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다. 기능 표는 각 근거 커밋의 코드 상태다. 10월 8일 배포·이관 CI와 격리 복원 결과는 별도 기록으로 연결하며, 운영 배포·학교 로그인 성공을 뜻하지 않는다. FE는 10월 7일 검토 기준을 유지했다.
 
 | 기능 | 현재 코드에서 확인한 내용 | 남은 확인·차이 |
 |---|---|---|
+| 운영 배포 분리 | develop/main별 이미지·서버 설정, 채널 검증 구현 | 실제 운영 EC2·DB·도메인 생성과 main 출시 미실행 |
+| 전체 연구 정보 이관 | 교수·연구실 각 622개 복원 검증, 테스트 후기 0개·원본 8개 보존 | 전환 직전 최신 스냅샷으로 새 운영 DB 이관 필요 |
 | 연구실 목록 | 검색·단과대·랩실평가 홈·메인 후기 소개가 공통 목록·캐시 사용 | 오류·0건 구분, 변경 후 최신성, 복수 소속 표시 |
 | 검색어 | URL keyword를 기준으로 검색, 제출 시 trim·빈 값 제거, 입력창이 뒤로가기에 동기화 | 입력만 지우고 미제출한 상태와 적용된 검색어 구분; 필터·정렬 URL 미저장 |
 | 로봇 분류 | V47 하위 카테고리 20개, 목록·연구실 응답 parentId | FE는 parentId 미사용, 부모·자식 칩·필터 계약 연결 필요 |
@@ -64,11 +69,14 @@ source_ids:
 
 이전 문서의 ‘프로필 저장 인자 불일치’, ‘추천 상세 북마크 미연결’, ‘PR #92 미머지’는 이번 기준에서 해소됐다. 기존 쿠키 인증·일반 카드 북마크·후기 라우트는 재구현할 항목이 아니다.
 
-[[SEBU 갱신 기록 - 2026-10-07]] · [[SEBU 변경 검토 목록]] · [[SEBU 메인과 모바일 화면]] · [[SEBU 연구 분야 분류]]
+[[SEBU 운영 준비 검증 기록 - 2026-10-08]] · [[SEBU 운영 전환과 연구 정보 이관]] · [[SEBU 갱신 기록 - 2026-10-07]] · [[SEBU 변경 검토 목록]] · [[SEBU 메인과 모바일 화면]] · [[SEBU 연구 분야 분류]]
 
 <!-- sources:start -->
 ## 근거 파일
 
+- [백엔드 · .github/workflows/ci.yml](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/.github/workflows/ci.yml)
+- [백엔드 · ops/deploy/deploy.py](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/ops/deploy/deploy.py)
+- [백엔드 · ops/deploy/catalog_transfer.py](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/ops/deploy/catalog_transfer.py)
 - [프론트 · src/App.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/App.jsx)
 - [프론트 · src/api/client.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/api/client.js)
 - [프론트 · src/api/queryClient.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/api/queryClient.js)
@@ -83,7 +91,7 @@ source_ids:
 - [프론트 · src/features/community/api/communityApi.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/community/api/communityApi.js)
 - [프론트 · src/features/community/components/LabReviewForm.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/community/components/LabReviewForm.jsx)
 - [프론트 · src/features/community/components/ReviewTagSummary.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/community/components/ReviewTagSummary.jsx)
-- [백엔드 · src/main/java/com/sebu/backend/laboratoryreview/controller/LaboratoryReviewController.java](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/main/java/com/sebu/backend/laboratoryreview/controller/LaboratoryReviewController.java)
+- [백엔드 · src/main/java/com/sebu/backend/laboratoryreview/controller/LaboratoryReviewController.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/laboratoryreview/controller/LaboratoryReviewController.java)
 - [프론트 · src/hooks/useLabBookmark.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/hooks/useLabBookmark.js)
 - [프론트 · src/features/search/hooks/useLabFilter.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/search/hooks/useLabFilter.js)
 - [프론트 · src/features/search/components/SearchBar.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/search/components/SearchBar.jsx)
@@ -93,10 +101,10 @@ source_ids:
 - [프론트 · src/pages/Home/index.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/pages/Home/index.jsx)
 - [프론트 · src/pages/Privacy/index.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/pages/Privacy/index.jsx)
 - [프론트 · src/features/main/components/LabReviewHighlights.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/main/components/LabReviewHighlights.jsx)
-- [백엔드 · src/main/resources/application.yml](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/main/resources/application.yml)
-- [백엔드 · src/main/resources/db/migration/V47__add_robot_autonomous_subcategories.sql](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/main/resources/db/migration/V47__add_robot_autonomous_subcategories.sql)
-- [백엔드 · src/main/resources/db/migration/V48__import_reviewed_arts_sports_professors.sql](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/main/resources/db/migration/V48__import_reviewed_arts_sports_professors.sql)
-- [백엔드 · src/main/resources/db/migration/V49__import_reviewed_arts_sports_research_fields.sql](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/main/resources/db/migration/V49__import_reviewed_arts_sports_research_fields.sql)
+- [백엔드 · src/main/resources/application.yml](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/application.yml)
+- [백엔드 · src/main/resources/db/migration/V47__add_robot_autonomous_subcategories.sql](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/db/migration/V47__add_robot_autonomous_subcategories.sql)
+- [백엔드 · src/main/resources/db/migration/V48__import_reviewed_arts_sports_professors.sql](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/db/migration/V48__import_reviewed_arts_sports_professors.sql)
+- [백엔드 · src/main/resources/db/migration/V49__import_reviewed_arts_sports_research_fields.sql](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/db/migration/V49__import_reviewed_arts_sports_research_fields.sql)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->
