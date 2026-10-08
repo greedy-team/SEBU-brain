@@ -2,7 +2,7 @@
 
 SEBU의 기능, 구조, 설계 이유와 운영 지식을 연결하는 팀용 Obsidian 보관함입니다.
 
-**기준:** 백엔드 2026-10-08, 프론트 2026-10-07 확인 · [백엔드 develop `21bd49e`](https://github.com/greedy-team/SEBU-backend/commit/21bd49e5133210978b4991a99d7e3cb6a33e6a7a) · [프론트 dev `88eee80`](https://github.com/greedy-team/SEBU-frontend/commit/88eee80d88016b3e3067ac224651143b1d28351f)
+**기준:** 백엔드 2026-10-08, 프론트 2026-10-07 확인 · [백엔드 develop `d1010d4`](https://github.com/greedy-team/SEBU-backend/commit/d1010d405abfcb5f9b01b155c48032da01ee1d2d) · [프론트 dev `88eee80`](https://github.com/greedy-team/SEBU-frontend/commit/88eee80d88016b3e3067ac224651143b1d28351f)
 
 ## 처음 읽는 팀원
 
@@ -27,6 +27,7 @@ git pull --ff-only
 |---|---|
 | 무엇을 만드는 서비스인가? | [프로젝트 개요](<SEBU/01 프로젝트/SEBU 프로젝트 개요.md>) |
 | 백엔드 docs와 실행 안내는 어디에 있는가? | [백엔드 문서 모음](<SEBU/90 자료/SEBU 백엔드 문서 모음.md>) · [이전 기록](<SEBU/07 기록/SEBU 문서 이전 기록 - 2026-10-08.md>) |
+| 운영 전환과 전체 연구 정보 이관은 어떻게 하는가? | [SEBU 운영 전환과 연구 정보 이관](<SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md>) · [검증 기록](<SEBU/07 기록/SEBU 운영 준비 검증 기록 - 2026-10-08.md>) |
 | 최근 머지에서 무엇이 바뀌었는가? | [10월 7일 갱신 기록](<SEBU/07 기록/SEBU 갱신 기록 - 2026-10-07.md>) |
 | 지금 구현된 것은 무엇인가? | [구현 현황](<SEBU/01 프로젝트/SEBU 구현 현황.md>) |
 | 검색·단과대·랩실평가가 같은 API를 쓰는가? | [화면과 API 공유](<SEBU/03 기능/SEBU 화면과 API 공유.md>) |
