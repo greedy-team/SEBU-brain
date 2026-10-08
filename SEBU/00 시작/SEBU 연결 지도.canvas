@@ -189,6 +189,24 @@
       "width": 440,
       "height": 270,
       "color": "6"
+    },
+    {
+      "id": "backend-docs",
+      "type": "file",
+      "file": "SEBU/90 자료/SEBU 백엔드 문서 모음.md",
+      "x": 0,
+      "y": 1950,
+      "width": 400,
+      "height": 180
+    },
+    {
+      "id": "docs-migration",
+      "type": "file",
+      "file": "SEBU/07 기록/SEBU 문서 이전 기록 - 2026-10-08.md",
+      "x": 450,
+      "y": 1950,
+      "width": 400,
+      "height": 180
     }
   ],
   "edges": [
@@ -362,6 +380,20 @@
       "toSide": "top",
       "toEnd": "arrow",
       "label": "공개 화면"
+    },
+    {
+      "id": "home-backend-docs",
+      "fromNode": "home",
+      "fromSide": "bottom",
+      "toNode": "backend-docs",
+      "toSide": "top"
+    },
+    {
+      "id": "home-docs-migration",
+      "fromNode": "home",
+      "fromSide": "bottom",
+      "toNode": "docs-migration",
+      "toSide": "top"
     }
   ]
 }

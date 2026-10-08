@@ -8,8 +8,6 @@ tags:
   - sebu
   - sebu/feature
 source_ids:
-  - "B:docs/account-withdrawal-recovery.md"
-  - "B:docs/cookie-authentication.md"
   - "B:src/main/resources/db/migration/V38__add_account_recovery_and_anonymization.sql"
   - "B:src/main/resources/db/migration/V39__add_app_user_auth_version.sql"
   - "F:src/pages/MyPage/index.jsx"
@@ -50,13 +48,16 @@ source_ids:
 
 [[SEBU 인증과 CSRF]] · [[SEBU 커뮤니티와 후기]] · [[SEBU 데이터 모델]]
 
+## 이전된 상세 문서
+
+- [[SEBU 백엔드 탈퇴와 복구 계약]]
+- [[SEBU 백엔드 쿠키 인증 계약]]
+
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · docs/account-withdrawal-recovery.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/account-withdrawal-recovery.md)
-- [백엔드 · docs/cookie-authentication.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/cookie-authentication.md)
-- [백엔드 · src/main/resources/db/migration/V38__add_account_recovery_and_anonymization.sql](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/resources/db/migration/V38__add_account_recovery_and_anonymization.sql)
-- [백엔드 · src/main/resources/db/migration/V39__add_app_user_auth_version.sql](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/resources/db/migration/V39__add_app_user_auth_version.sql)
+- [백엔드 · src/main/resources/db/migration/V38__add_account_recovery_and_anonymization.sql](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/main/resources/db/migration/V38__add_account_recovery_and_anonymization.sql)
+- [백엔드 · src/main/resources/db/migration/V39__add_app_user_auth_version.sql](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/main/resources/db/migration/V39__add_app_user_auth_version.sql)
 - [프론트 · src/pages/MyPage/index.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/pages/MyPage/index.jsx)
 - [프론트 · src/features/auth/hooks/useLogin.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/auth/hooks/useLogin.js)
 

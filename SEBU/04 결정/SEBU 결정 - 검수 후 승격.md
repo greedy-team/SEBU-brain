@@ -8,9 +8,6 @@ tags:
   - sebu
   - sebu/decision
 source_ids:
-  - "B:docs/professor-crawling.md"
-  - "B:docs/professor-promotion.md"
-  - "B:docs/research-field-promotion.md"
 ---
 # SEBU 결정 - 검수 후 승격
 
@@ -37,12 +34,15 @@ source_ids:
 
 [[SEBU 크롤링과 승격]] · [[SEBU 연구 분야 분류]] · [[SEBU 결정 기록]]
 
+## 이전된 상세 문서
+
+- [[SEBU 백엔드 교수 크롤링 실행 안내]]
+- [[SEBU 백엔드 교수 후보 승격 실행 안내]]
+- [[SEBU 백엔드 연구 분야 후보 승격 실행 안내]]
+
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · docs/professor-crawling.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/professor-crawling.md)
-- [백엔드 · docs/professor-promotion.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/professor-promotion.md)
-- [백엔드 · docs/research-field-promotion.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/research-field-promotion.md)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->

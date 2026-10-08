@@ -8,9 +8,6 @@ tags:
   - sebu
   - sebu/feature
 source_ids:
-  - "B:docs/professor-crawling.md"
-  - "B:docs/professor-promotion.md"
-  - "B:docs/erd.md"
   - "B:src/main/resources/db/migration/V48__import_reviewed_arts_sports_professors.sql"
   - "B:src/main/resources/db/migration/V49__import_reviewed_arts_sports_research_fields.sql"
   - "B:src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMigrationContract.java"
@@ -63,16 +60,19 @@ crawler와 promotion은 각각 전용 프로필과 enabled 설정이 필요한 �
 
 2026-10-06 수집·원문 검수·승격과 당시 테스트 결과는 [[SEBU 예체능대학 크롤링 검수 - 2026-10-06]]에 보존한다. 같은 절차를 다시 수행할 때는 [[SEBU 크롤링 스킬]]을 참고한다.
 
+## 이전된 상세 문서
+
+- [[SEBU 백엔드 교수 크롤링 실행 안내]]
+- [[SEBU 백엔드 교수 후보 승격 실행 안내]]
+- [[SEBU 백엔드 연구실 ERD]]
+
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · docs/professor-crawling.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/professor-crawling.md)
-- [백엔드 · docs/professor-promotion.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/professor-promotion.md)
-- [백엔드 · docs/erd.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/erd.md)
-- [백엔드 · src/main/resources/db/migration/V48__import_reviewed_arts_sports_professors.sql](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/resources/db/migration/V48__import_reviewed_arts_sports_professors.sql)
-- [백엔드 · src/main/resources/db/migration/V49__import_reviewed_arts_sports_research_fields.sql](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/resources/db/migration/V49__import_reviewed_arts_sports_research_fields.sql)
-- [백엔드 · src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMigrationContract.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMigrationContract.java)
-- [백엔드 · src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMigrationContract.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMigrationContract.java)
+- [백엔드 · src/main/resources/db/migration/V48__import_reviewed_arts_sports_professors.sql](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/main/resources/db/migration/V48__import_reviewed_arts_sports_professors.sql)
+- [백엔드 · src/main/resources/db/migration/V49__import_reviewed_arts_sports_research_fields.sql](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/main/resources/db/migration/V49__import_reviewed_arts_sports_research_fields.sql)
+- [백엔드 · src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMigrationContract.java](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMigrationContract.java)
+- [백엔드 · src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMigrationContract.java](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMigrationContract.java)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->

@@ -38,7 +38,7 @@ SEBU는 학생이 연구실을 찾고 관심 정보를 저장하며 연구실 �
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · README.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/README.md)
+- [백엔드 · README.md](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/README.md)
 - [프론트 · src/App.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/App.jsx)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.

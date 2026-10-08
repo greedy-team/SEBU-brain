@@ -1,14 +1,13 @@
 ---
 project: SEBU
 type: "feature"
-status: "2026-10-07 코드·문서 확인"
+status: "2026-10-08 백엔드 정책 확인"
 created: 2026-09-26
-verified: 2026-10-07
+verified: 2026-10-08
 tags:
   - sebu
   - sebu/feature
 source_ids:
-  - "B:docs/cookie-authentication.md"
   - "B:src/main/java/com/sebu/backend/global/auth/SecurityConfiguration.java"
   - "B:src/main/java/com/sebu/backend/global/auth/TrustedOriginFilter.java"
   - "B:src/main/java/com/sebu/backend/auth/controller/AuthCookieFactory.java"
@@ -62,7 +61,7 @@ sequenceDiagram
 | 쿠키 | 역할 | Path · 기본 수명 |
 |---|---|---|
 | access_token | API 인증 JWT, HttpOnly | /api/v1 · 30분 |
-| refresh_token | 갱신, HttpOnly | /api/v1/auth · 최근 로그인/갱신부터 14일 이내 |
+| refresh_token | 갱신, HttpOnly | /api/v1/auth · 최근 로그인/갱신부터 12시간 이내 |
 | recovery_token | 명시적 계정 복구, HttpOnly | /api/v1/auth/recovery · 최대 5분 |
 | XSRF-TOKEN | JS가 읽어 X-XSRF-TOKEN 헤더에 전달 | / · 세션 쿠키 |
 
@@ -85,11 +84,13 @@ CORS와 변경 요청의 Origin/Referer 검증은 같은 정확한 출처 목록
 
 ## 로그인 지속시간과 1시간 만료 제안
 
-현재 기본값은 Access 30분, Refresh 유휴 수명 14일, 로그인 세션 절대 수명 30일이다. 새로고침 시 인증 복원과 토큰 갱신이 가능하므로 Access 만료가 곧 최종 로그아웃은 아니다. 이번 비교 구간에서도 이 수명 설정은 바뀌지 않았다.
+현재 기본값은 Access 30분, Refresh 유휴 수명 12시간, 로그인 세션 절대 수명 30일이다. `d230a7d`에서 Refresh를 14일에서 12시간으로 줄였고 `21bd49e`에서 관련 쿠키 테스트 기대값을 맞췄다. 새로고침 시 인증 복원과 토큰 갱신이 가능하므로 Access 만료가 곧 최종 로그아웃은 아니다. 유휴 수명은 모든 클릭이 아니라 로그인·Refresh 성공 시각 기준이다.
+
+12시간은 배포 후 새 로그인·복구·갱신으로 발급하는 토큰부터 적용된다. 기존 14일 토큰은 저장된 만료를 유지하고 다음 갱신부터 12시간으로 바뀐다. 기존 토큰을 일괄 폐기하거나 만료를 소급 보정하는 변경은 없다. 코드 반영과 운영 배포 여부는 구분한다.
 
 **1시간 고정 만료·만료 5분 전 안내·사용자 확인 시 연장·만료 모달은 아직 구현되지 않은 제안이다.** 다음 구현 시 아래 경계를 함께 정한다.
 
-- BE의 절대 수명을 1시간으로 정하면 갱신된 Access도 최초 로그인 후 1시간을 넘지 못한다. 다만 현재 설정 검증은 Refresh 수명이 절대 수명 이하여야 하므로 절대 수명만 1시간으로 바꾸고 Refresh 14일을 유지하면 시작 시 검증에 실패한다. 예를 들어 둘 다 1시간으로 맞추고 Access 30분을 유지할 수 있다.
+- BE의 절대 수명을 1시간으로 정하면 갱신된 Access도 최초 로그인 후 1시간을 넘지 못한다. 다만 현재 설정 검증은 Refresh 수명이 절대 수명 이하여야 하므로 절대 수명만 1시간으로 바꾸고 Refresh 12시간을 유지하면 시작 시 검증에 실패한다. 예를 들어 둘 다 1시간으로 맞추고 Access 30분을 유지할 수 있다.
 - 이미 발급된 세션의 DB 만료 시각과 JWT는 설정 변경만으로 소급 단축되지 않는다. 기존 세션 처리 정책은 별도다.
 - 서버는 만료 시점에 브라우저로 응답을 먼저 보내지 않는다. FE가 즉시 화면을 바꾸려면 서버가 제공하는 만료 시각과 타이머·탭 복귀 시 재확인을 연동해야 한다. 현재 그런 계약과 UI는 없다.
 - 현행 자동 refresh는 최초 절대 만료 시각을 연장하지 않는다. ‘계속 로그인’ 확인으로 새 1시간을 주는 기능은 별도 API·세션 정책 합의가 필요하다.
@@ -108,27 +109,30 @@ CORS와 변경 요청의 Origin/Referer 검증은 같은 정확한 출처 목록
 
 이는 문서 감사에서 확인한 검토 항목이며 수정 완료 기록이 아니다. [[SEBU 변경 검토 목록]] · [[SEBU 결정 - 쿠키 인증]] · [[SEBU 탈퇴와 복구]]
 
+## 이전된 상세 문서
+
+- [[SEBU 백엔드 쿠키 인증 계약]]
+
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · docs/cookie-authentication.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/cookie-authentication.md)
-- [백엔드 · src/main/java/com/sebu/backend/global/auth/SecurityConfiguration.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/java/com/sebu/backend/global/auth/SecurityConfiguration.java)
-- [백엔드 · src/main/java/com/sebu/backend/global/auth/TrustedOriginFilter.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/java/com/sebu/backend/global/auth/TrustedOriginFilter.java)
-- [백엔드 · src/main/java/com/sebu/backend/auth/controller/AuthCookieFactory.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/java/com/sebu/backend/auth/controller/AuthCookieFactory.java)
-- [백엔드 · src/main/resources/application.yml](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/resources/application.yml)
-- [백엔드 · src/main/resources/application-local.yml](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/resources/application-local.yml)
+- [백엔드 · src/main/java/com/sebu/backend/global/auth/SecurityConfiguration.java](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/main/java/com/sebu/backend/global/auth/SecurityConfiguration.java)
+- [백엔드 · src/main/java/com/sebu/backend/global/auth/TrustedOriginFilter.java](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/main/java/com/sebu/backend/global/auth/TrustedOriginFilter.java)
+- [백엔드 · src/main/java/com/sebu/backend/auth/controller/AuthCookieFactory.java](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/main/java/com/sebu/backend/auth/controller/AuthCookieFactory.java)
+- [백엔드 · src/main/resources/application.yml](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/main/resources/application.yml)
+- [백엔드 · src/main/resources/application-local.yml](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/main/resources/application-local.yml)
 - [프론트 · src/api/client.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/api/client.js)
 - [프론트 · src/features/auth/api/authApi.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/auth/api/authApi.js)
 - [프론트 · src/features/auth/hooks/useLogin.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/auth/hooks/useLogin.js)
 - [프론트 · src/features/auth/hooks/useAuthRestore.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/auth/hooks/useAuthRestore.js)
 - [프론트 · src/store/authStore.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/store/authStore.js)
 - [프론트 · vercel.json](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/vercel.json)
-- [백엔드 · src/main/java/com/sebu/backend/auth/config/TokenProperties.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/java/com/sebu/backend/auth/config/TokenProperties.java)
-- [백엔드 · src/main/java/com/sebu/backend/auth/service/AuthSessionIssuer.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/java/com/sebu/backend/auth/service/AuthSessionIssuer.java)
-- [백엔드 · src/main/java/com/sebu/backend/auth/service/AuthSessionService.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/java/com/sebu/backend/auth/service/AuthSessionService.java)
-- [백엔드 · src/main/java/com/sebu/backend/auth/domain/RefreshToken.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/java/com/sebu/backend/auth/domain/RefreshToken.java)
-- [백엔드 · src/main/java/com/sebu/backend/auth/token/JwtAccessTokenService.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/java/com/sebu/backend/auth/token/JwtAccessTokenService.java)
-- [백엔드 · src/main/java/com/sebu/backend/auth/controller/AuthExceptionHandler.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/java/com/sebu/backend/auth/controller/AuthExceptionHandler.java)
+- [백엔드 · src/main/java/com/sebu/backend/auth/config/TokenProperties.java](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/main/java/com/sebu/backend/auth/config/TokenProperties.java)
+- [백엔드 · src/main/java/com/sebu/backend/auth/service/AuthSessionIssuer.java](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/main/java/com/sebu/backend/auth/service/AuthSessionIssuer.java)
+- [백엔드 · src/main/java/com/sebu/backend/auth/service/AuthSessionService.java](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/main/java/com/sebu/backend/auth/service/AuthSessionService.java)
+- [백엔드 · src/main/java/com/sebu/backend/auth/domain/RefreshToken.java](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/main/java/com/sebu/backend/auth/domain/RefreshToken.java)
+- [백엔드 · src/main/java/com/sebu/backend/auth/token/JwtAccessTokenService.java](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/main/java/com/sebu/backend/auth/token/JwtAccessTokenService.java)
+- [백엔드 · src/main/java/com/sebu/backend/auth/controller/AuthExceptionHandler.java](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/main/java/com/sebu/backend/auth/controller/AuthExceptionHandler.java)
 - [프론트 · src/components/layout/Header.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/components/layout/Header.jsx)
 - [프론트 · src/components/layout/MobileMenu.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/components/layout/MobileMenu.jsx)
 - [프론트 · src/hooks/useLabBookmark.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/hooks/useLabBookmark.js)

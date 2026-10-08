@@ -1,43 +1,38 @@
 ---
 project: SEBU
 type: "reference"
-status: "원격 기준 커밋과 변경 내용 확인"
+status: "백엔드 문서 이전과 추가 정책 변경 확인"
 created: 2026-09-26
-verified: 2026-10-07
+verified: 2026-10-08
 tags:
   - sebu
   - sebu/reference
 ---
 # SEBU 저장소와 기준 버전
 
-2026-10-07에 확인한 **백엔드 develop과 프론트 dev의 머지된 커밋**을 반영했다. 개별 컴퓨터의 미커밋 작업과 운영 서버의 배포 상태는 이 기준과 구분한다.
+백엔드는 2026-10-08에 확인한 develop 커밋, 프론트는 2026-10-07에 검토한 dev 커밋을 기준으로 한다. 운영 배포 상태와 개인의 미커밋 작업은 이 기준과 구분한다.
 
-| 저장소 | 기준 브랜치 | 반영한 커밋 | 마지막 커밋 내용 |
+| 저장소 | 기준 브랜치 | 반영한 커밋 | 반영 범위 |
 |---|---|---|---|
-| [SEBU-backend](https://github.com/greedy-team/SEBU-backend) | develop | [b6cf2e5](https://github.com/greedy-team/SEBU-backend/commit/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed) | PR #92 예체능 데이터 머지 |
-| [SEBU-frontend](https://github.com/greedy-team/SEBU-frontend) | dev | [88eee80](https://github.com/greedy-team/SEBU-frontend/commit/88eee80d88016b3e3067ac224651143b1d28351f) | 로고·메뉴 선택 표시·로그인 복귀 정비 |
-| [SEBU-brain](https://github.com/greedy-team/SEBU-brain) | main 및 문서 작업 브랜치 | 이 문서 레포의 Git 기록 | 팀 지식 |
+| [SEBU-backend](https://github.com/greedy-team/SEBU-backend) | develop | [21bd49e](https://github.com/greedy-team/SEBU-backend/commit/21bd49e5133210978b4991a99d7e3cb6a33e6a7a) | Refresh 12시간 설정·계약·테스트, 문서 이전 직전 원본 |
+| [SEBU-frontend](https://github.com/greedy-team/SEBU-frontend) | dev | [88eee80](https://github.com/greedy-team/SEBU-frontend/commit/88eee80d88016b3e3067ac224651143b1d28351f) | 10월 7일 검토 기준 유지 |
+| [SEBU-brain](https://github.com/greedy-team/SEBU-brain) | main 및 문서 작업 브랜치 | 이 저장소의 Git 기록 | 팀 지식과 이전된 상세 문서 |
 
 ## 이번에 비교한 구간
 
-| 저장소 | 이전 기준 → 이번 기준 | 비교 범위 |
-|---|---|---|
-| BE | f06c597 → b6cf2e5 | 10개 커밋(머지 포함), 변경 파일 26개 |
-| FE | 2fb7566 → 88eee80 | 18개 커밋, 변경 파일 45개 |
+백엔드 `b6cf2e5 → 21bd49e`의 2개 커밋·8개 파일을 읽고 Refresh 12시간 정책과 기존 토큰 전환 조건을 관련 노트에 반영했다. FE는 이번 이전 작업에서 기준을 변경하지 않았다. 이전 BE·FE 갱신 범위와 검수 이력은 [[SEBU 갱신 기록 - 2026-10-07]]에 보존한다.
 
-사용자가 Pull한 IntelliJ 백엔드의 HEAD도 위 BE 기준과 일치하는 것을 확인했다. 깨끗한 코드 사본에서 이전 기준 이후의 커밋과 전체 파일 차이를 검토했으며 사용자의 미커밋 파일은 수정하지 않았다. 새 API·동작·정책은 관련 기능 노트에 반영하고, 시각 스타일처럼 구조를 바꾸지 않는 변경은 [[SEBU 메인과 모바일 화면]]에 묶었다.
-
-[[SEBU 예체능대학 크롤링 검수 - 2026-10-06]]의 PR #92는 이제 머지된 코드에 포함된다. 당시 격리 DB 검증 이력은 보존하고 운영 적용 여부는 계속 별도 확인 항목으로 둔다.
+백엔드 `docs/`와 README의 상세 본문은 [[SEBU 백엔드 문서 모음]]으로 이전했다. 위 BE 커밋은 이전 전 원본의 출처이며, 백엔드 문서 정리 PR의 머지 또는 운영 배포를 뜻하지 않는다. 이전 원문의 내용 확인일과 이전 검증일은 각 노트에서 구분한다.
 
 ## 기준의 의미
 
-- 기준 파일·해시·연결 노트는 루트 metadata/source-baseline.json에 기록한다.
-- 자동 근거 링크는 이번 기준 커밋으로 고정한다. 본문을 갱신한 노트의 verified 날짜를 바꾸며, 변경되지 않은 노트와 과거 검수 기록의 작성일·검증 이력은 보존한다.
-- 코드 존재와 계약을 정적으로 확인했다. 운영 배포 버전, 실제 학교 로그인, 앱 테스트 통과는 이번 갱신의 결과가 아니다.
-- 1시간 로그인 만료·연장·모달처럼 대화에서 제안한 사항은 실제 코드 반영 여부를 따로 적는다.
-- 이후 커밋은 자동 반영되지 않는다. 다음 갱신에서도 차이를 검토한 뒤 기준을 옮긴다.
+- 코드의 파일·해시·연결 노트는 `metadata/source-baseline.json`에 기록한다.
+- 이전된 문서는 보관함 내부 링크로 연결하고, 각 원문의 과거 GitHub 링크와 해시를 남긴다. 삭제될 `B:docs/...`를 새 코드 기준의 필수 파일로 요구하지 않는다.
+- 구현과 계약을 정적으로 확인했다. 실제 학교 로그인·운영 DB·운영 배포는 이번 문서 작업에서 실행 검증하지 않았다.
+- 로그인 1시간 만료·연장·모달은 여전히 미구현 제안이다. Refresh 12시간 변경과 혼동하지 않는다.
+- 이후 변경은 자동 반영되지 않는다. 관련 노트를 검토한 뒤 기준을 갱신한다.
 
-[[SEBU 갱신 기록 - 2026-10-07]] · [[SEBU 팀 공유와 업데이트]] · [[SEBU 지식 갱신 방법]]
+[[SEBU 문서 이전 기록 - 2026-10-08]] · [[SEBU 팀 공유와 업데이트]] · [[SEBU 지식 갱신 방법]]
 
 ---
 [[SEBU 홈]] · [[SEBU 지식 지도]]

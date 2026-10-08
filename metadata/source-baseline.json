@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "verifiedDate": "2026-10-07",
+  "verifiedDate": "2026-10-08",
   "scope": "Committed Git source snapshots; not a statement of deployed state or passed application tests.",
   "repositories": {
     "B": {
       "repository": "greedy-team/SEBU-backend",
       "branch": "develop",
-      "commit": "b6cf2e5eacfe7b076c8f7553e01243b5e3304fed"
+      "commit": "21bd49e5133210978b4991a99d7e3cb6a33e6a7a"
     },
     "F": {
       "repository": "greedy-team/SEBU-frontend",
@@ -48,114 +48,6 @@
       ],
       "blob": "35d7bd41d219d989b51ba3bb8474d9a1e19a9185",
       "sha256": "70985a07cb85e37a5c244e6e6ff6508ee3e2e0f72b6ca4095ff416db9d029ffd"
-    },
-    {
-      "id": "B:docs/account-withdrawal-recovery.md",
-      "repository": "B",
-      "path": "docs/account-withdrawal-recovery.md",
-      "notes": [
-        "SEBU/03 기능/SEBU 탈퇴와 복구.md",
-        "SEBU/06 학습/SEBU 학습 연결.md",
-        "SEBU/90 자료/SEBU 원본 자료.md"
-      ],
-      "blob": "32d8439f592dc428401babc36cf0c087a07f41c0",
-      "sha256": "57c8ddabb494a2eeb1aebefc155cfcb49e21cf1315235a2c3ed420436e638767"
-    },
-    {
-      "id": "B:docs/cookie-authentication.md",
-      "repository": "B",
-      "path": "docs/cookie-authentication.md",
-      "notes": [
-        "SEBU/03 기능/SEBU 공개 API와 CORS.md",
-        "SEBU/03 기능/SEBU 인증과 CSRF.md",
-        "SEBU/03 기능/SEBU 탈퇴와 복구.md",
-        "SEBU/04 결정/SEBU 결정 - 쿠키 인증.md",
-        "SEBU/04 결정/SEBU 결정 기록.md",
-        "SEBU/05 운영/SEBU 테스트 지도.md",
-        "SEBU/06 학습/SEBU 학습 연결.md",
-        "SEBU/90 자료/SEBU 원본 자료.md"
-      ],
-      "blob": "08dcb601895148bb669b0cd843b600dd021b7787",
-      "sha256": "ff905f39288ce8a0f48ceaecfcd2a147820bd80b3ab691428955c2517b5288ac"
-    },
-    {
-      "id": "B:docs/ec2-pull-deploy.md",
-      "repository": "B",
-      "path": "docs/ec2-pull-deploy.md",
-      "notes": [
-        "SEBU/04 결정/SEBU 결정 기록.md",
-        "SEBU/05 운영/SEBU 배포와 모니터링.md",
-        "SEBU/90 자료/SEBU 원본 자료.md"
-      ],
-      "blob": "d2900dd02c91318e47f8146c741328ea380d5b22",
-      "sha256": "0fadc87df43bf9959ef763d488c689a32989c1dce046b08868cb68152fa7b193"
-    },
-    {
-      "id": "B:docs/erd.md",
-      "repository": "B",
-      "path": "docs/erd.md",
-      "notes": [
-        "SEBU/02 구조/SEBU 데이터 모델.md",
-        "SEBU/03 기능/SEBU 크롤링과 승격.md",
-        "SEBU/90 자료/SEBU 원본 자료.md"
-      ],
-      "blob": "e3884b6960d03ce9409c33dd3923f0f13fac4e4a",
-      "sha256": "f972e0cbdd2172c36288a015a4eea93a29d796495a4ff8cd95fd87914a4e9bd3"
-    },
-    {
-      "id": "B:docs/logging.md",
-      "repository": "B",
-      "path": "docs/logging.md",
-      "notes": [
-        "SEBU/05 운영/SEBU 배포와 모니터링.md",
-        "SEBU/90 자료/SEBU 원본 자료.md"
-      ],
-      "blob": "4633de0df30520814ca04f18ee3672c2a644bf80",
-      "sha256": "1d36697929997c899bfa2ae99a9fa1b2553ad57d5d3672c615a99d95c47d9134"
-    },
-    {
-      "id": "B:docs/professor-crawling.md",
-      "repository": "B",
-      "path": "docs/professor-crawling.md",
-      "notes": [
-        "SEBU/03 기능/SEBU 크롤링과 승격.md",
-        "SEBU/04 결정/SEBU 결정 - 검수 후 승격.md",
-        "SEBU/07 기록/SEBU 예체능대학 크롤링 검수 - 2026-10-06.md",
-        "SEBU/90 자료/SEBU 원본 자료.md"
-      ],
-      "blob": "777994f61254449e394b215e996baebc7a1fd7cf",
-      "sha256": "5154670dca2c12055b3c646120a19ede20f62cf90d505dff069df79ce6f9237a"
-    },
-    {
-      "id": "B:docs/professor-promotion.md",
-      "repository": "B",
-      "path": "docs/professor-promotion.md",
-      "notes": [
-        "SEBU/02 구조/SEBU 데이터 모델.md",
-        "SEBU/02 구조/SEBU 시스템 구조.md",
-        "SEBU/03 기능/SEBU 크롤링과 승격.md",
-        "SEBU/04 결정/SEBU 결정 - 검수 후 승격.md",
-        "SEBU/04 결정/SEBU 결정 - 복수 학과와 출처 보존.md",
-        "SEBU/04 결정/SEBU 결정 기록.md",
-        "SEBU/06 학습/SEBU 학습 연결.md",
-        "SEBU/07 기록/SEBU 예체능대학 크롤링 검수 - 2026-10-06.md",
-        "SEBU/90 자료/SEBU 원본 자료.md"
-      ],
-      "blob": "e79c0bf8e8895298da5d10ab1aad322182c5db3d",
-      "sha256": "9e21bb3cef118c496a7e65a1fd505d1efc70e2ad2742a51530dba73b5832cc83"
-    },
-    {
-      "id": "B:docs/research-field-promotion.md",
-      "repository": "B",
-      "path": "docs/research-field-promotion.md",
-      "notes": [
-        "SEBU/03 기능/SEBU 연구 분야 분류.md",
-        "SEBU/04 결정/SEBU 결정 - 검수 후 승격.md",
-        "SEBU/07 기록/SEBU 예체능대학 크롤링 검수 - 2026-10-06.md",
-        "SEBU/90 자료/SEBU 원본 자료.md"
-      ],
-      "blob": "4ed4eb5e5dd839ce70332cdd99a35598ef492810",
-      "sha256": "9d98b5ef27e35f548fad0bfcff22d7f6bf54c8c5cc042a2fd7e2fe66ec1f7bfb"
     },
     {
       "id": "B:ops/deploy/deploy.py",
@@ -642,8 +534,8 @@
         "SEBU/05 운영/SEBU 배포와 모니터링.md",
         "SEBU/05 운영/SEBU 변경 검토 목록.md"
       ],
-      "blob": "5bd061551a5480f060ce1eb77c047ffb7ff1a1f2",
-      "sha256": "a9389d859aaa1fd4afb0b3eec70b944bdcd24ca1c500a7bbd78f66b203aad56d"
+      "blob": "26dd4b0b439e413823e25a0d19b70e8929343cab",
+      "sha256": "d4c0de67e74a48907763293449f4dc3d5f63245ea816b8bbcfb55043afac1562"
     },
     {
       "id": "B:src/main/resources/db/migration/V16__add_multi_department_affiliations.sql",
@@ -799,8 +691,8 @@
         "SEBU/03 기능/SEBU 공개 API와 CORS.md",
         "SEBU/05 운영/SEBU 테스트 지도.md"
       ],
-      "blob": "7ef9a14ab361cac3d152fa38d1a8b4a606faf078",
-      "sha256": "b77507f863bcfffaa9f32018dc0922fd2d27aafdddf329e65b4c5e5c8ee85ea2"
+      "blob": "c9b802730c87cacefa298a93fdc0cecf07fbc680",
+      "sha256": "5bac4018de0c869e86eb035c8059efe5931600548bb9759386b70b0436d4081f"
     },
     {
       "id": "B:src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMigrationContract.java",

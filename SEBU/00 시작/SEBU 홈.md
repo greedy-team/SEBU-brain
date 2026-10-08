@@ -3,7 +3,7 @@ project: SEBU
 type: "hub"
 status: "공유용 정리"
 created: 2026-09-26
-verified: 2026-10-07
+verified: 2026-10-08
 tags:
   - sebu
   - sebu/hub
@@ -14,16 +14,17 @@ source_ids:
 ---
 # SEBU 홈
 
-SEBU의 구조, 실제 구현, 설계 이유와 남은 과제를 연결하는 팀 지식 보관함이다. **2026-10-07에 확인한 백엔드 develop과 프론트 dev의 커밋**을 기준으로 한다.
+SEBU의 구조, 실제 구현, 설계 이유와 남은 과제를 연결하는 팀 지식 보관함이다. **2026-10-08에 확인한 백엔드 develop과 2026-10-07에 확인한 프론트 dev의 커밋**을 기준으로 한다.
 
 > [!important] 현재 구현
-> sebu.kr 허용, 로봇 하위 분류, 예체능 데이터가 BE에 머지됐다. FE는 추천 상세 북마크·프로필 저장·검색어 URL 동기화를 수정하고 메인·모바일 화면을 갱신했다. 카테고리 계층 UI와 1시간 로그인 만료·연장·만료 모달은 아직 구현되지 않았다. 운영 반영은 별도 확인한다.
+> 백엔드 상세 문서는 [[SEBU 백엔드 문서 모음]]으로 이전했다. Refresh 기본 수명은 12시간이며 절대 수명은 30일이다. sebu.kr 허용, 로봇 하위 분류, 예체능 데이터가 BE에 머지됐다. FE는 추천 상세 북마크·프로필 저장·검색어 URL 동기화를 수정하고 메인·모바일 화면을 갱신했다. 카테고리 계층 UI와 1시간 로그인 만료·연장·만료 모달은 아직 구현되지 않았다. 운영 반영은 별도 확인한다.
 
 ## 하려는 일에서 시작하기
 
 | 목적 | 읽을 노트 |
 |---|---|
 | 처음 프로젝트 이해하기 | [[SEBU 프로젝트 개요]] → [[SEBU 시스템 구조]] |
+| 백엔드 상세 계약·실행 안내 읽기 | [[SEBU 백엔드 문서 모음]] · [[SEBU 문서 이전 기록 - 2026-10-08]] |
 | 최근 변경 확인하기 | [[SEBU 갱신 기록 - 2026-10-07]] · [[SEBU 메인과 모바일 화면]] |
 | 여러 화면이 같은 API를 쓰는 이유 | [[SEBU 화면과 API 공유]] |
 | 공개 API와 도메인 제한 이해하기 | [[SEBU 공개 API와 CORS]] |
@@ -48,7 +49,7 @@ SEBU의 구조, 실제 구현, 설계 이유와 남은 과제를 연결하는 �
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · README.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/README.md)
+- [백엔드 · README.md](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/README.md)
 - [프론트 · src/App.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/App.jsx)
 - [프론트 · src/api/queries/laboratories.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/api/queries/laboratories.js)
 

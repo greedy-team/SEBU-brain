@@ -8,9 +8,6 @@ tags:
   - sebu
   - sebu/decision-index
 source_ids:
-  - "B:docs/cookie-authentication.md"
-  - "B:docs/professor-promotion.md"
-  - "B:docs/ec2-pull-deploy.md"
   - "F:src/api/queries/laboratories.js"
   - "F:src/api/queryClient.js"
 ---
@@ -29,12 +26,15 @@ source_ids:
 
 새 결정은 [[SEBU 의사결정 템플릿]]으로 문제·대안·선택·비용·재검토 조건을 남긴다. 구현에서 확인한 동작과 제안은 구분한다.
 
+## 이전된 상세 문서
+
+- [[SEBU 백엔드 쿠키 인증 계약]]
+- [[SEBU 백엔드 교수 후보 승격 실행 안내]]
+- [[SEBU 백엔드 EC2 자동 배포 안내]]
+
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · docs/cookie-authentication.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/cookie-authentication.md)
-- [백엔드 · docs/professor-promotion.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/professor-promotion.md)
-- [백엔드 · docs/ec2-pull-deploy.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/ec2-pull-deploy.md)
 - [프론트 · src/api/queries/laboratories.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/api/queries/laboratories.js)
 - [프론트 · src/api/queryClient.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/api/queryClient.js)
 

@@ -8,7 +8,6 @@ tags:
   - sebu
   - sebu/decision
 source_ids:
-  - "B:docs/cookie-authentication.md"
   - "B:src/main/java/com/sebu/backend/global/auth/SecurityConfiguration.java"
 ---
 # SEBU 결정 - 쿠키 인증
@@ -39,11 +38,14 @@ JavaScript에서 인증 토큰 원문을 직접 읽는 경로를 줄인다. 토�
 
 [[SEBU 인증과 CSRF]] · [[SEBU 탈퇴와 복구]] · [[SEBU 결정 기록]]
 
+## 이전된 상세 문서
+
+- [[SEBU 백엔드 쿠키 인증 계약]]
+
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · docs/cookie-authentication.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/cookie-authentication.md)
-- [백엔드 · src/main/java/com/sebu/backend/global/auth/SecurityConfiguration.java](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/src/main/java/com/sebu/backend/global/auth/SecurityConfiguration.java)
+- [백엔드 · src/main/java/com/sebu/backend/global/auth/SecurityConfiguration.java](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/src/main/java/com/sebu/backend/global/auth/SecurityConfiguration.java)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->

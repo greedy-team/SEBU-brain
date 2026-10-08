@@ -3,20 +3,12 @@ project: SEBU
 type: "source-index"
 status: "공개 저장소 근거"
 created: 2026-09-26
-verified: 2026-09-26
+verified: 2026-10-08
 tags:
   - sebu
   - sebu/source-index
 source_ids:
   - "B:README.md"
-  - "B:docs/cookie-authentication.md"
-  - "B:docs/account-withdrawal-recovery.md"
-  - "B:docs/professor-crawling.md"
-  - "B:docs/professor-promotion.md"
-  - "B:docs/research-field-promotion.md"
-  - "B:docs/erd.md"
-  - "B:docs/ec2-pull-deploy.md"
-  - "B:docs/logging.md"
   - "F:src/App.jsx"
   - "F:src/api/queries/laboratories.js"
   - "F:src/api/client.js"
@@ -35,6 +27,10 @@ source_ids:
 
 원본 파일의 Git blob SHA, SHA-256, 연결 노트는 metadata/source-baseline.json에 기록한다. Git blob을 읽어 비교하므로 Windows와 다른 OS의 작업 파일 개행 차이로 기준이 달라지지 않는다.
 
+## 백엔드 문서 이전
+
+백엔드 `docs/`의 상세 문서와 기존 README 본문은 [[SEBU 백엔드 문서 모음]]에서 관리한다. 각 이전 노트의 원본 경로·커밋·해시는 이전 시점의 이력을 보존한다. 더 이상 백엔드에 존재하지 않게 되는 `B:docs/...`는 자동 추적 출처에서 제외하고 보관함 내부 링크로 연결했다. 코드 근거는 기존 `B:`·`F:` 체계를 유지한다.
+
 ## 출처끼리 다를 때
 
 최신 기준의 controller/DTO/호출 코드를 먼저 확인하고, 계약 문서의 의도와 대조한다. 불일치는 [[SEBU 변경 검토 목록]]에 남긴다.
@@ -47,18 +43,21 @@ source_ids:
 
 [[SEBU 지식 갱신 방법]] · [[SEBU 팀 공유와 업데이트]]
 
+## 이전된 상세 문서
+
+- [[SEBU 백엔드 쿠키 인증 계약]]
+- [[SEBU 백엔드 탈퇴와 복구 계약]]
+- [[SEBU 백엔드 교수 크롤링 실행 안내]]
+- [[SEBU 백엔드 교수 후보 승격 실행 안내]]
+- [[SEBU 백엔드 연구 분야 후보 승격 실행 안내]]
+- [[SEBU 백엔드 연구실 ERD]]
+- [[SEBU 백엔드 EC2 자동 배포 안내]]
+- [[SEBU 백엔드 운영 보안 로깅]]
+
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · README.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/README.md)
-- [백엔드 · docs/cookie-authentication.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/cookie-authentication.md)
-- [백엔드 · docs/account-withdrawal-recovery.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/account-withdrawal-recovery.md)
-- [백엔드 · docs/professor-crawling.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/professor-crawling.md)
-- [백엔드 · docs/professor-promotion.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/professor-promotion.md)
-- [백엔드 · docs/research-field-promotion.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/research-field-promotion.md)
-- [백엔드 · docs/erd.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/erd.md)
-- [백엔드 · docs/ec2-pull-deploy.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/ec2-pull-deploy.md)
-- [백엔드 · docs/logging.md](https://github.com/greedy-team/SEBU-backend/blob/b6cf2e5eacfe7b076c8f7553e01243b5e3304fed/docs/logging.md)
+- [백엔드 · README.md](https://github.com/greedy-team/SEBU-backend/blob/21bd49e5133210978b4991a99d7e3cb6a33e6a7a/README.md)
 - [프론트 · src/App.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/App.jsx)
 - [프론트 · src/api/queries/laboratories.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/api/queries/laboratories.js)
 - [프론트 · src/api/client.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/api/client.js)
