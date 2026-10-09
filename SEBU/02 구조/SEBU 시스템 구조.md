@@ -3,7 +3,7 @@ project: SEBU
 type: "architecture"
 status: "기준 코드 확인"
 created: 2026-09-26
-verified: 2026-09-26
+verified: 2026-10-09
 tags:
   - sebu
   - sebu/architecture
@@ -37,9 +37,9 @@ flowchart TD
 
 ## 실행 경계
 
-프론트의 Axios client는 /api/v1을 기준으로 쿠키·CSRF 요청을 다룬다. 개발 환경은 Vite 프록시, 배포 설정은 vercel.json의 /api rewrite를 사용한다.
+프론트의 Axios client는 /api/v1을 기준으로 쿠키·CSRF 요청을 다룬다. 개발 환경은 Vite 프록시, 배포 설정은 vercel.json의 /api rewrite를 사용한다. 최신 FE 코드의 전달 대상은 `https://api.sebu.kr/api/:path*`다. 기존 `sebu-frontend.vercel.app`의 `/api/` 외 페이지는 `https://www.sebu.kr`로 영구 이동하는 설정이며 실제 배포와 DNS·인증서 검증 기록은 [[SEBU 배포와 모니터링]]에서 구분한다.
 
-검색·단과대·랩실평가 홈은 하나의 연구실 목록 쿼리를 공유한다. 캐시가 유효하면 같은 데이터를 재사용하고 로그인 사용자가 달라지면 사용자별 북마크 상태를 갱신한다. [[SEBU 화면과 API 공유]]
+검색·단과대·랩실 후기 홈은 하나의 연구실 목록 쿼리를 공유한다. 캐시가 유효하면 같은 데이터를 재사용하고 로그인 사용자가 달라지면 사용자별 북마크 상태를 갱신한다. [[SEBU 화면과 API 공유]]
 
 백엔드는 요청 권한·업무 규칙·DB 조회와 저장을 담당한다. 크롤러와 승격은 일반 웹 요청과 별도 프로필로 실행한다.
 
@@ -56,13 +56,13 @@ CORS를 허용했다는 사실만으로 쿠키·CSRF가 필요한 요청을 별�
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · build.gradle](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/build.gradle)
-- [백엔드 · README.md](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/README.md)
-- [프론트 · src/main.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/main.jsx)
-- [프론트 · src/api/client.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/api/client.js)
-- [프론트 · src/api/queryClient.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/api/queryClient.js)
-- [프론트 · vite.config.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/vite.config.js)
-- [프론트 · vercel.json](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/vercel.json)
+- [백엔드 · build.gradle](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/build.gradle)
+- [백엔드 · README.md](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/README.md)
+- [프론트 · src/main.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/main.jsx)
+- [프론트 · src/api/client.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/api/client.js)
+- [프론트 · src/api/queryClient.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/api/queryClient.js)
+- [프론트 · vite.config.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/vite.config.js)
+- [프론트 · vercel.json](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/vercel.json)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->

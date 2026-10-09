@@ -3,7 +3,7 @@ project: SEBU
 type: "project"
 status: "기준 코드 확인"
 created: 2026-09-26
-verified: 2026-09-26
+verified: 2026-10-09
 tags:
   - sebu
   - sebu/project
@@ -15,6 +15,8 @@ source_ids:
 
 SEBU는 학생이 연구실을 찾고 관심 정보를 저장하며 연구실 경험을 공유하도록 만드는 서비스다. 데이터 수집과 검수도 이 제품을 유지하는 기반이다.
 
+운영 서비스는 [www.sebu.kr](https://www.sebu.kr/), 운영 API는 [api.sebu.kr](https://api.sebu.kr/api/v1/laboratories)이다. BE main은 운영, BE develop은 개발이며 FE는 dev를 운영 브랜치로 사용한다. 실제 배포·데이터 규모·백업의 확인 시점은 [[SEBU 운영 배포 완료 기록 - 2026-10-09]]에 남긴다.
+
 ## 사용자가 얻는 가치
 
 | 영역 | 역할 | 연결 |
@@ -23,7 +25,7 @@ SEBU는 학생이 연구실을 찾고 관심 정보를 저장하며 연구실 �
 | 개인화 | 프로필과 관심 연구실 관리 | [[SEBU 마이페이지와 북마크]] |
 | 경험 공유 | 연구실 후기와 게시글·댓글 API | [[SEBU 커뮤니티와 후기]] |
 
-현재 프론트는 메인, 검색, 단과대, 로그인, 마이페이지, 랩실평가 홈·상세·작성 라우트를 활성화한다. 일반 게시판 화면 파일은 있지만 해당 라우트는 주석 상태다. 파일 존재와 사용자 접근 가능을 구분한다.
+현재 프론트는 메인, 검색, 단과대, 로그인, 마이페이지, 랩실 후기 홈·상세·작성과 약관·개인정보처리방침 라우트를 활성화한다. 일반 게시판 화면 파일은 있지만 해당 라우트는 주석 상태다. 파일 존재와 사용자 접근 가능을 구분한다. 신고·관리자 관련 요구사항은 [[SEBU 신고와 관리자 검토]]에서 현재 외부 접수 기능과 구분한다.
 
 ## 대표 사용자 흐름
 
@@ -38,8 +40,8 @@ SEBU는 학생이 연구실을 찾고 관심 정보를 저장하며 연구실 �
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · README.md](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/README.md)
-- [프론트 · src/App.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/App.jsx)
+- [백엔드 · README.md](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/README.md)
+- [프론트 · src/App.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/App.jsx)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->

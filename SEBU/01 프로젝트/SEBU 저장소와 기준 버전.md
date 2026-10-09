@@ -1,42 +1,47 @@
 ---
 project: SEBU
 type: "reference"
-status: "PR 94 develop 머지와 운영 준비 검증 반영"
+status: "운영 배포·핫픽스와 최신 FE 코드 대조"
 created: 2026-09-26
-verified: 2026-10-08
+verified: 2026-10-09
 tags:
   - sebu
   - sebu/reference
 ---
 # SEBU 저장소와 기준 버전
 
-백엔드는 2026-10-08에 확인한 develop 커밋, 프론트는 2026-10-07에 검토한 dev 커밋을 기준으로 한다. 운영 배포 상태와 개인의 미커밋 작업은 이 기준과 구분한다.
+2026-10-09 기준으로 BE는 main이 운영, develop이 개발이며 FE는 dev가 운영 브랜치다. 아래 커밋은 문서가 확인한 시점의 기준이다. 이후 브랜치 이동이나 배포 성공을 자동으로 반영하지 않는다.
 
 | 저장소 | 기준 브랜치 | 반영한 커밋 | 반영 범위 |
 |---|---|---|---|
-| [SEBU-backend](https://github.com/greedy-team/SEBU-backend) | develop | [d1010d4](https://github.com/greedy-team/SEBU-backend/commit/d1010d405abfcb5f9b01b155c48032da01ee1d2d) | PR #93 문서 이전·PR #94 배포 채널 분리와 전체 연구 정보 이관 |
-| [SEBU-frontend](https://github.com/greedy-team/SEBU-frontend) | dev | [88eee80](https://github.com/greedy-team/SEBU-frontend/commit/88eee80d88016b3e3067ac224651143b1d28351f) | 10월 7일 검토 기준 유지 |
+| [SEBU-backend 운영](https://github.com/greedy-team/SEBU-backend) | main | [977ca6c](https://github.com/greedy-team/SEBU-backend/commit/977ca6cc8cf60fcb31c7e1445978b4a23dfb486e) | PR #95 운영 출시 이후 PR #96 홈페이지 핫픽스. 운영 API 반영 확인 |
+| [SEBU-backend 개발·코드 근거](https://github.com/greedy-team/SEBU-backend) | develop | [bb73725](https://github.com/greedy-team/SEBU-backend/commit/bb7372518cb2d69f0e83cad2ec760a8920c7f964) | PR #97로 동일 V50 반영. 운영 main과 파일 내용이 같음 |
+| [SEBU-frontend 운영](https://github.com/greedy-team/SEBU-frontend) | dev | [e7e54de](https://github.com/greedy-team/SEBU-frontend/commit/e7e54deff631adfef08b9b9e0dac9af5c398c317) | 운영 API rewrite, 검색 상태, 로그인 전 동의·정책 문서·탐색 문구 검토 |
 | [SEBU-brain](https://github.com/greedy-team/SEBU-brain) | main 및 문서 작업 브랜치 | 이 저장소의 Git 기록 | 팀 지식과 이전된 상세 문서 |
 
 ## 이번에 비교한 구간
 
-백엔드 `21bd49e → d1010d4`에서 문서 이전 PR #93, 배포·이관 PR #94의 develop 머지를 확인했다. 일반 상세 문서는 Brain으로 옮기고 테스트 분류 CSV는 `src/test/resources/fixtures/`에 남겼다. 개발·운영 채널, 환경 예시, 11개 연구 정보 테이블 이관, 실제 MySQL 검증을 새 운영 안내와 관련 노트에 반영했다. 애플리케이션 업무 로직과 기존 SQL·Java 마이그레이션은 이번 구간에서 변경하지 않았다.
+- BE `d1010d4 → bb73725`: V50과 H2/MySQL 마이그레이션 테스트 3개 파일이 추가됐다. 운영 준비 코드는 이미 이전 기준에 포함돼 있었으며, 이번에는 실제 운영 배포·데이터 이관·백업 실행 결과도 문서에 반영했다.
+- FE `88eee80 → e7e54de`: 변경 파일 34개를 검토했다. 검색어를 history state로 관리하고 기존 keyword URL을 정리하는 처리, 로그인 전 약관·개인정보 동의, 정책 Markdown, 내비게이션·로고·검색 메타데이터, 운영 API 목적지가 포함된다. 패키지 변경은 Markdown 렌더링 의존성 추가와 연결해 확인했다.
+- 애플리케이션 코드를 수정하거나 FE 배포를 수행한 문서 작업은 아니다. 원격 커밋의 내용을 읽어 기록했다.
 
-PR #94는 **2026-10-08 14:09 KST**에 develop으로 머지됐다. main 출시·운영 서버 배포를 의미하지 않는다. 실행 근거와 남은 단계는 [[SEBU 운영 준비 검증 기록 - 2026-10-08]]과 [[SEBU 운영 전환과 연구 정보 이관]]에 있다.
+FE의 dev를 BE의 개발 환경과 같은 의미로 해석하지 않는다. FE 브랜치를 main으로 옮기는 것은 이번 팀 운영 방식이 아니다. FE 코드·배포는 FE 담당자가 관리한다.
 
-FE 기준은 검토한 `88eee80`을 유지한다. 10월 8일 원격 dev의 더 새 커밋 [4821453](https://github.com/greedy-team/SEBU-frontend/commit/482145344796fd17dd728c16b9cc1cfc09c21642)을 확인했지만 **이번 배포 문서 작업에서는 해당 FE 변경을 검토·반영하지 않았다.** FE 설명을 현재 원격 최신 상태로 단정하지 않는다.
+2026-10-09 14:38 KST에 운영 API와 서비스 프록시에서 홈페이지 14건 반영, 전체 연구실 622개와 물리천문학과 29개 유지를 확인했다. Aside로 김경호 교수 연구실 상세의 링크 표시도 확인했다. 이 결과로 학교 계정 로그인·후기 작성·수정·삭제까지 모두 통과했다고 판단하지 않는다.
 
-백엔드 `docs/`와 README 상세 본문의 과거 원문은 [[SEBU 백엔드 문서 모음]]에 보존한다. 원문의 `21bd49e` 커밋과 해시는 역사적 출처이므로 현재 코드 기준으로 덮어쓰지 않는다. 이전 BE·FE 갱신 범위는 [[SEBU 갱신 기록 - 2026-10-07]]에 남아 있다.
+FE 원격 dev 커밋 확인은 Vercel 콘솔에서 동일 배포 SHA를 확인했다는 뜻이 아니다. 공개 서비스의 API 연결과 일부 화면 실행 검증은 [[SEBU 운영 배포 완료 기록 - 2026-10-09]] 및 [[SEBU 물리천문학과 링크 보완 기록 - 2026-10-09]]에서 구분한다.
+
+[[SEBU 운영 준비 검증 기록 - 2026-10-08]]의 “운영 배포 전”은 당시 상태다. 현재 상태를 설명하는 노트만 갱신하고 과거 기록을 배포 완료 기록으로 바꾸지 않는다. 백엔드 원문은 [[SEBU 백엔드 문서 모음]]에 보존하며, `21bd49e` 원본 출처·해시는 역사적 증거이므로 새 코드 기준으로 덮어쓰지 않는다.
 
 ## 기준의 의미
 
-- 코드의 파일·해시·연결 노트는 `metadata/source-baseline.json`에 기록한다.
+- 코드의 파일·해시·연결 노트는 `metadata/source-baseline.json`에 B=develop, F=dev로 기록한다. BE 운영 main 커밋은 위 표와 배포 기록에 별도로 남긴다. 이번 BE 두 커밋은 이력이 다르지만 트리가 같으므로 B 근거의 구현이 확인한 운영 코드와 일치한다.
 - 이전된 문서는 보관함 내부 링크로 연결하고, 각 원문의 과거 GitHub 링크와 해시를 남긴다. 삭제될 `B:docs/...`를 새 코드 기준의 필수 파일로 요구하지 않는다.
-- 구현·계약의 코드 확인, PR #94 CI, AWS 내부 격리 복원 실행 결과를 구분한다. 실제 학교 로그인·운영 DB 이관·운영 배포는 아직 검증하지 않았다.
+- 코드 확인, CI 통과, 서버 적용, 실제 사용자 시나리오 검증을 구분한다. 운영 배포·DB 이관은 완료 기록이 있고, 실제 학교 로그인과 인증된 쓰기 수용 검증은 별도다.
 - 로그인 1시간 만료·연장·모달은 여전히 미구현 제안이다. Refresh 12시간 변경과 혼동하지 않는다.
 - 이후 변경은 자동 반영되지 않는다. 관련 노트를 검토한 뒤 기준을 갱신한다.
 
-[[SEBU 문서 이전 기록 - 2026-10-08]] · [[SEBU 팀 공유와 업데이트]] · [[SEBU 지식 갱신 방법]]
+[[SEBU 갱신 기록 - 2026-10-09]] · [[SEBU 문서 이전 기록 - 2026-10-08]] · [[SEBU 팀 공유와 업데이트]] · [[SEBU 지식 갱신 방법]]
 
 ---
 [[SEBU 홈]] · [[SEBU 지식 지도]]

@@ -3,7 +3,7 @@ project: SEBU
 type: "feature"
 status: "기준 코드 및 계약 차이 확인"
 created: 2026-09-26
-verified: 2026-10-07
+verified: 2026-10-09
 tags:
   - sebu
   - sebu/feature
@@ -23,12 +23,13 @@ source_ids:
   - "B:src/main/java/com/sebu/backend/laboratoryreview/controller/LaboratoryReviewController.java"
   - "B:src/main/java/com/sebu/backend/laboratoryreview/dto/LaboratoryReviewCreateRequest.java"
   - "B:src/main/java/com/sebu/backend/laboratoryreview/dto/LaboratoryReviewListResponse.java"
+  - "F:src/content/terms/terms-2026-10-09.md"
 ---
 # SEBU 커뮤니티와 후기
 
-랩실평가는 연구실 선택 목록과 후기 조회·작성 화면까지 프론트 라우트에 연결되어 있다. 메인 후기 수 요약과 연구실 카드에서도 후기 목록으로 이동할 수 있다. 일반 게시판은 관련 코드가 있지만 라우트가 주석 처리되어 있다. 아래 내용은 기준 코드 확인 결과이며 실제 후기 등록을 실행한 기록은 아니다.
+랩실 후기는 연구실 선택 목록과 후기 조회·작성 화면까지 프론트 라우트에 연결되어 있다. 최신 UI는 기존 ‘랩실 평가’ 명칭을 ‘랩실 후기’로 바꿨으며 API·라우트는 유지한다. 메인 후기 수 요약과 연구실 카드에서도 후기 목록으로 이동할 수 있다. 일반 게시판은 관련 코드가 있지만 라우트가 주석 처리되어 있다. 아래 내용은 기준 코드 확인 결과이며 실제 후기 등록을 실행한 기록은 아니다.
 
-## 랩실평가의 세 단계
+## 랩실 후기의 세 단계
 
 | 단계 | 화면 경로 | API |
 |---|---|---|
@@ -61,32 +62,37 @@ source_ids:
 
 표의 경로는 /api/v1 아래다. 후기 폼에 남은 '수정 및 삭제가 불가능' 문구는 현재 백엔드의 기능과 차이가 있다. 이를 제품 정책으로 유지할지, 수정·삭제를 연결하고 안내를 바꿀지는 팀 결정이 필요하다.
 
+새 이용약관은 탈퇴 전 작성물 수정·삭제와 탈퇴 후 삭제 요청 창구를 안내한다. 약관의 안내만으로 후기 수정·삭제 화면이 연결됐다고 볼 수 없으며, 현재 작성 폼의 문구·FE 연결·운영 접수 절차를 함께 맞춰야 한다.
+
 태그 요약은 현재 페이지까지 로드한 후기만 세므로 전체 후기의 통계로 해석하면 안 된다. 전체 통계가 필요하면 이미 존재하는 review-summary 응답과 UI의 표시 요구를 대조한다.
 
 ## 일반 커뮤니티
 
-communityApi에는 게시글 목록·상세·작성·수정·삭제, 댓글, 좋아요, 글 북마크 함수가 있다. 하지만 App.jsx의 일반 게시판 라우트는 주석 처리되어 있다. Header와 모바일 메뉴가 함께 쓰는 NAV_ITEMS에는 연구실 탐색·단과대별 보기·랩실 평가만 있으며 일반 커뮤니티는 MVP 제외 설명이 남아 있다. 일반 게시판 코드의 존재와 사용자에게 노출된 화면을 구분한다.
+communityApi에는 게시글 목록·상세·작성·수정·삭제, 댓글, 좋아요, 글 북마크 함수가 있다. 하지만 App.jsx의 일반 게시판 라우트는 주석 처리되어 있다. Header와 모바일 메뉴가 함께 쓰는 NAV_ITEMS에는 연구실 탐색·단과대별 보기·랩실 후기만 있으며 일반 커뮤니티는 MVP 제외 설명이 남아 있다. 일반 게시판 코드의 존재와 사용자에게 노출된 화면을 구분한다.
+
+신고/제보 외부 폼은 헤더·푸터에 연결됐다. 로그인 사용자의 후기·글·댓글 신고와 관리자 검토 화면·API는 별도 요구 단계이며 [[SEBU 신고와 관리자 검토]]에서 현재 구현과 구분한다.
 
 [[SEBU API 지도]] · [[SEBU 구현 현황]] · [[SEBU 변경 검토 목록]]
 
 <!-- sources:start -->
 ## 근거 파일
 
-- [프론트 · src/App.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/App.jsx)
-- [프론트 · src/components/layout/Header.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/components/layout/Header.jsx)
-- [프론트 · src/constants/navigation.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/constants/navigation.js)
-- [프론트 · src/components/common/LabCard.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/components/common/LabCard.jsx)
-- [프론트 · src/features/main/components/LabReviewHighlights.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/main/components/LabReviewHighlights.jsx)
-- [프론트 · src/features/community/api/communityApi.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/community/api/communityApi.js)
-- [프론트 · src/features/community/hooks/useLabList.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/community/hooks/useLabList.js)
-- [프론트 · src/features/community/hooks/useLabReviews.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/community/hooks/useLabReviews.js)
-- [프론트 · src/pages/LabReview/index.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/pages/LabReview/index.jsx)
-- [프론트 · src/pages/LabReviewWrite/index.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/pages/LabReviewWrite/index.jsx)
-- [프론트 · src/features/community/components/LabReviewForm.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/community/components/LabReviewForm.jsx)
-- [프론트 · src/features/community/components/ReviewTagSummary.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/community/components/ReviewTagSummary.jsx)
-- [백엔드 · src/main/java/com/sebu/backend/laboratoryreview/controller/LaboratoryReviewController.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/laboratoryreview/controller/LaboratoryReviewController.java)
-- [백엔드 · src/main/java/com/sebu/backend/laboratoryreview/dto/LaboratoryReviewCreateRequest.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/laboratoryreview/dto/LaboratoryReviewCreateRequest.java)
-- [백엔드 · src/main/java/com/sebu/backend/laboratoryreview/dto/LaboratoryReviewListResponse.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/laboratoryreview/dto/LaboratoryReviewListResponse.java)
+- [프론트 · src/App.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/App.jsx)
+- [프론트 · src/components/layout/Header.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/components/layout/Header.jsx)
+- [프론트 · src/constants/navigation.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/constants/navigation.js)
+- [프론트 · src/components/common/LabCard.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/components/common/LabCard.jsx)
+- [프론트 · src/features/main/components/LabReviewHighlights.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/main/components/LabReviewHighlights.jsx)
+- [프론트 · src/features/community/api/communityApi.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/community/api/communityApi.js)
+- [프론트 · src/features/community/hooks/useLabList.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/community/hooks/useLabList.js)
+- [프론트 · src/features/community/hooks/useLabReviews.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/community/hooks/useLabReviews.js)
+- [프론트 · src/pages/LabReview/index.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/pages/LabReview/index.jsx)
+- [프론트 · src/pages/LabReviewWrite/index.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/pages/LabReviewWrite/index.jsx)
+- [프론트 · src/features/community/components/LabReviewForm.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/community/components/LabReviewForm.jsx)
+- [프론트 · src/features/community/components/ReviewTagSummary.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/community/components/ReviewTagSummary.jsx)
+- [백엔드 · src/main/java/com/sebu/backend/laboratoryreview/controller/LaboratoryReviewController.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/laboratoryreview/controller/LaboratoryReviewController.java)
+- [백엔드 · src/main/java/com/sebu/backend/laboratoryreview/dto/LaboratoryReviewCreateRequest.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/laboratoryreview/dto/LaboratoryReviewCreateRequest.java)
+- [백엔드 · src/main/java/com/sebu/backend/laboratoryreview/dto/LaboratoryReviewListResponse.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/laboratoryreview/dto/LaboratoryReviewListResponse.java)
+- [프론트 · src/content/terms/terms-2026-10-09.md](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/content/terms/terms-2026-10-09.md)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->
