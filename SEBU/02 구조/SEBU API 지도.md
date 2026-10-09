@@ -1,9 +1,9 @@
 ---
 project: SEBU
 type: "reference"
-status: "2026-10-07 코드·문서 확인"
+status: "2026-10-09 코드·문서 확인"
 created: 2026-09-26
-verified: 2026-10-07
+verified: 2026-10-09
 tags:
   - sebu
   - sebu/reference
@@ -28,10 +28,12 @@ source_ids:
   - "F:src/features/main/hooks/useColleges.js"
   - "F:src/features/main/components/LabReviewHighlights.jsx"
   - "F:src/features/search/hooks/useLabFilter.js"
+  - "F:src/features/auth/api/authApi.js"
+  - "B:src/main/java/com/sebu/backend/auth/dto/SejongLoginRequest.java"
 ---
 # SEBU API 지도
 
-검색·단과대·랩실평가 홈과 메인 후기 소개는 같은 연구실 목록 API를 사용한다. 실제 후기 조회·작성, 개인 북마크와 프로필은 별도 API다. 백엔드는 계약을 제공하고 프론트는 화면별로 필요한 요청을 선택한다.
+검색·단과대·랩실 후기 홈과 메인 후기 소개는 같은 연구실 목록 API를 사용한다. 실제 후기 조회·작성, 개인 북마크와 프로필은 별도 API다. 백엔드는 계약을 제공하고 프론트는 화면별로 필요한 요청을 선택한다.
 
 아래 상대 경로 앞에는 모두 `/api/v1`이 붙는다. 이 표는 코드 탐색용이며 요청 DTO·상태 코드 전체 명세를 대체하지 않는다.
 
@@ -62,7 +64,7 @@ source_ids:
 |---|---|
 | 검색 | 검색어·조건 필터링, 선택한 정렬 |
 | 단과대 | 단과대·학과로 묶어서 표시 |
-| 랩실평가 홈 | `reviewCount` 순으로 연구실 표시 |
+| 랩실 후기 홈 | `reviewCount` 순으로 연구실 표시 |
 | 메인 후기 소개 | 후기가 있는 연구실 상위 9개를 후기 수 순으로 표시. 후기 본문 조회는 아님 |
 
 프론트의 `useLaboratoriesQuery()`는 `['laboratories']` 캐시를 재사용한다. 같은 API 사용은 반드시 화면마다 네트워크 요청을 새로 보낸다는 뜻이 아니다. 연구실을 선택해 후기 내용을 읽으면 `GET /laboratories/{id}/reviews`로 요청한다. [[SEBU 연구실 탐색]] · [[SEBU 커뮤니티와 후기]]
@@ -71,7 +73,7 @@ source_ids:
 
 메인 단과대 카드는 별도 `GET /colleges`를 사용하고 연구실 0개인 단과대도 표시한다. 검색 칩은 연구실 목록에서 추출하므로 두 화면의 단과대 수가 항상 같지는 않다. [[SEBU 메인과 모바일 화면]]
 
-## 이번 카테고리 응답 변경
+## 카테고리 계층 응답
 
 카테고리 목록 `data.categories[]`와 연구실 항목의 `researchFieldCategories[]`에 nullable `parentId`가 추가됐다. 목록은 평면 배열을 유지하고 부모 ID로 로봇 상위 카테고리와 20개 하위 카테고리를 연결한다. `researchFieldDetails[].categoryIds[]`에는 해당 분야에 직접 매핑된 카테고리 ID가 담긴다.
 
@@ -83,29 +85,33 @@ JSON 공통 형태는 `{ success, data, error }`이며 오류에 code/message/fi
 
 공개 조회도 `/api/**` CORS 설정의 대상이며 변경 요청은 CSRF·출처 검증을 받는다. 로그인 API 자체는 기존 로그인 없이 호출해야 한다. [[SEBU 공개 API와 CORS]] · [[SEBU 인증과 CSRF]]
 
+로그인 전 약관·개인정보 동의 UI가 추가됐지만 로그인 요청은 여전히 `studentId`, `password`만 전송한다. 동의 이력 저장 계약이나 새 로그인 API가 추가된 변경은 아니다. 또한 신고/제보는 외부 폼 연결이며 로그인 사용자 신고·관리자 API 경로와 응답 필드는 미확정이다. [[SEBU 신고와 관리자 검토]]
+
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · src/main/java/com/sebu/backend/global/auth/SecurityConfiguration.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/global/auth/SecurityConfiguration.java)
-- [백엔드 · src/main/java/com/sebu/backend/auth/controller/AuthController.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/auth/controller/AuthController.java)
-- [백엔드 · src/main/java/com/sebu/backend/auth/controller/MeController.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/auth/controller/MeController.java)
-- [백엔드 · src/main/java/com/sebu/backend/laboratory/controller/LaboratoryController.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/laboratory/controller/LaboratoryController.java)
-- [백엔드 · src/main/java/com/sebu/backend/college/controller/CollegeController.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/college/controller/CollegeController.java)
-- [백엔드 · src/main/java/com/sebu/backend/researchfield/category/controller/ResearchFieldCategoryController.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/researchfield/category/controller/ResearchFieldCategoryController.java)
-- [백엔드 · src/main/java/com/sebu/backend/mypage/controller/MyPageController.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/mypage/controller/MyPageController.java)
-- [백엔드 · src/main/java/com/sebu/backend/bookmark/controller/BookmarkController.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/bookmark/controller/BookmarkController.java)
-- [백엔드 · src/main/java/com/sebu/backend/community/post/controller/CommunityPostController.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/community/post/controller/CommunityPostController.java)
-- [백엔드 · src/main/java/com/sebu/backend/community/comment/controller/CommunityCommentController.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/community/comment/controller/CommunityCommentController.java)
-- [백엔드 · src/main/java/com/sebu/backend/community/reaction/controller/CommunityPostReactionController.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/community/reaction/controller/CommunityPostReactionController.java)
-- [백엔드 · src/main/java/com/sebu/backend/community/profile/controller/CommunityProfileController.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/community/profile/controller/CommunityProfileController.java)
-- [백엔드 · src/main/java/com/sebu/backend/laboratoryreview/controller/LaboratoryReviewController.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/laboratoryreview/controller/LaboratoryReviewController.java)
-- [백엔드 · src/main/java/com/sebu/backend/global/response/ApiResponse.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/global/response/ApiResponse.java)
-- [프론트 · src/api/queries/laboratories.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/api/queries/laboratories.js)
-- [백엔드 · src/main/java/com/sebu/backend/researchfield/category/dto/ResearchFieldCategoriesResponse.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/researchfield/category/dto/ResearchFieldCategoriesResponse.java)
-- [백엔드 · src/main/java/com/sebu/backend/laboratory/dto/LaboratoriesResponse.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/laboratory/dto/LaboratoriesResponse.java)
-- [프론트 · src/features/main/hooks/useColleges.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/main/hooks/useColleges.js)
-- [프론트 · src/features/main/components/LabReviewHighlights.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/main/components/LabReviewHighlights.jsx)
-- [프론트 · src/features/search/hooks/useLabFilter.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/search/hooks/useLabFilter.js)
+- [백엔드 · src/main/java/com/sebu/backend/global/auth/SecurityConfiguration.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/global/auth/SecurityConfiguration.java)
+- [백엔드 · src/main/java/com/sebu/backend/auth/controller/AuthController.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/auth/controller/AuthController.java)
+- [백엔드 · src/main/java/com/sebu/backend/auth/controller/MeController.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/auth/controller/MeController.java)
+- [백엔드 · src/main/java/com/sebu/backend/laboratory/controller/LaboratoryController.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/laboratory/controller/LaboratoryController.java)
+- [백엔드 · src/main/java/com/sebu/backend/college/controller/CollegeController.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/college/controller/CollegeController.java)
+- [백엔드 · src/main/java/com/sebu/backend/researchfield/category/controller/ResearchFieldCategoryController.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/researchfield/category/controller/ResearchFieldCategoryController.java)
+- [백엔드 · src/main/java/com/sebu/backend/mypage/controller/MyPageController.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/mypage/controller/MyPageController.java)
+- [백엔드 · src/main/java/com/sebu/backend/bookmark/controller/BookmarkController.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/bookmark/controller/BookmarkController.java)
+- [백엔드 · src/main/java/com/sebu/backend/community/post/controller/CommunityPostController.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/community/post/controller/CommunityPostController.java)
+- [백엔드 · src/main/java/com/sebu/backend/community/comment/controller/CommunityCommentController.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/community/comment/controller/CommunityCommentController.java)
+- [백엔드 · src/main/java/com/sebu/backend/community/reaction/controller/CommunityPostReactionController.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/community/reaction/controller/CommunityPostReactionController.java)
+- [백엔드 · src/main/java/com/sebu/backend/community/profile/controller/CommunityProfileController.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/community/profile/controller/CommunityProfileController.java)
+- [백엔드 · src/main/java/com/sebu/backend/laboratoryreview/controller/LaboratoryReviewController.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/laboratoryreview/controller/LaboratoryReviewController.java)
+- [백엔드 · src/main/java/com/sebu/backend/global/response/ApiResponse.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/global/response/ApiResponse.java)
+- [프론트 · src/api/queries/laboratories.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/api/queries/laboratories.js)
+- [백엔드 · src/main/java/com/sebu/backend/researchfield/category/dto/ResearchFieldCategoriesResponse.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/researchfield/category/dto/ResearchFieldCategoriesResponse.java)
+- [백엔드 · src/main/java/com/sebu/backend/laboratory/dto/LaboratoriesResponse.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/laboratory/dto/LaboratoriesResponse.java)
+- [프론트 · src/features/main/hooks/useColleges.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/main/hooks/useColleges.js)
+- [프론트 · src/features/main/components/LabReviewHighlights.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/main/components/LabReviewHighlights.jsx)
+- [프론트 · src/features/search/hooks/useLabFilter.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/search/hooks/useLabFilter.js)
+- [프론트 · src/features/auth/api/authApi.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/auth/api/authApi.js)
+- [백엔드 · src/main/java/com/sebu/backend/auth/dto/SejongLoginRequest.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/auth/dto/SejongLoginRequest.java)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->

@@ -3,7 +3,7 @@ project: SEBU
 type: "feature"
 status: "기준 코드 및 연결 차이 확인"
 created: 2026-09-26
-verified: 2026-10-07
+verified: 2026-10-09
 tags:
   - sebu
   - sebu/feature
@@ -28,6 +28,9 @@ source_ids:
   - "F:src/store/authStore.js"
   - "B:src/main/java/com/sebu/backend/bookmark/controller/BookmarkController.java"
   - "B:src/main/java/com/sebu/backend/mypage/dto/ProfileUpdateRequest.java"
+  - "F:src/features/auth/hooks/useAuthRestore.js"
+  - "F:src/features/search/hooks/useLabFilter.js"
+  - "B:src/main/java/com/sebu/backend/auth/controller/MeController.java"
 ---
 # SEBU 마이페이지와 북마크
 
@@ -59,9 +62,11 @@ source_ids:
 
 `bookmarked: false`는 '현재 사용자가 저장하지 않음'을 나타낸다. 로그인 여부 판별은 authStore의 사용자·상태로 한다. 로그인 사용자도 아직 저장하지 않았다면 false다.
 
+`GET /api/v1/me`는 현재 쿠키가 유효한 사용자 자격인지 확인하는 개인 정보 API다. 비로그인 접근의 401과 공개 연구실 목록의 `bookmarked:false`는 서로 다른 의미다. 북마크를 누를 때마다 `/me`를 먼저 조회하는 구조도 아니다. 앱 시작 때 인증 복원으로 채운 authStore를 공용 훅이 사용하고, 실제 저장 요청의 인증은 BE가 다시 검증한다. [[SEBU 공개 API와 CORS]]
+
 ## 로그인 안내에 대해 합의할 내용
 
-현재 useLogin은 성공 시 from 경로 또는 홈으로 돌아간다. 헤더·모바일 메뉴·후기 작성 화면은 `pathname + search`를 전달한다. 다만 useLabBookmark의 비로그인 유도는 여전히 pathname만 담으므로 북마크를 눌러 로그인하면 검색 쿼리를 보존하지 않는다. 필터·정렬은 원래 URL에 저장하지 않는다.
+현재 useLogin은 성공 시 from 경로 또는 홈으로 돌아간다. 헤더·모바일 메뉴·후기 작성 화면은 `pathname + search`를 전달하고 useLabBookmark는 pathname만 담는다. 최신 검색어는 URL 대신 `location.state.keyword`에 있으므로 두 방식 모두 로그인 복귀 시 검색어를 넘기지 않는다. 필터·정렬도 컴포넌트 상태에만 있어 별도 보존하지 않는다.
 
 클릭한 연구실 ID를 대기 작업으로 보존하거나 로그인 후 자동으로 저장하는 코드는 없다. 로그인 안내 모달과 자동 저장은 제안 단계다.
 
@@ -89,26 +94,29 @@ MyPage는 이제 훅 선언과 같은 `useProfileForm(updateUser, callback)`으�
 <!-- sources:start -->
 ## 근거 파일
 
-- [프론트 · src/features/mypage/api/mypageApi.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/mypage/api/mypageApi.js)
-- [프론트 · src/features/mypage/hooks/useMyPage.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/mypage/hooks/useMyPage.js)
-- [프론트 · src/features/mypage/hooks/useProfileForm.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/mypage/hooks/useProfileForm.js)
-- [프론트 · src/features/mypage/components/ProfileForm.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/mypage/components/ProfileForm.jsx)
-- [프론트 · src/pages/MyPage/index.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/pages/MyPage/index.jsx)
-- [프론트 · src/api/bookmarkApi.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/api/bookmarkApi.js)
-- [프론트 · src/api/queries/laboratories.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/api/queries/laboratories.js)
-- [프론트 · src/api/queryClient.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/api/queryClient.js)
-- [프론트 · src/components/common/LabCard.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/components/common/LabCard.jsx)
-- [프론트 · src/components/common/LabDetailModal.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/components/common/LabDetailModal.jsx)
-- [프론트 · src/hooks/useLabBookmark.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/hooks/useLabBookmark.js)
-- [프론트 · src/features/search/components/RecommendedLabs.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/search/components/RecommendedLabs.jsx)
-- [프론트 · src/features/mypage/components/BookmarkedLabs.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/mypage/components/BookmarkedLabs.jsx)
-- [프론트 · src/components/layout/Header.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/components/layout/Header.jsx)
-- [프론트 · src/components/layout/MobileMenu.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/components/layout/MobileMenu.jsx)
-- [프론트 · src/pages/LabReviewWrite/index.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/pages/LabReviewWrite/index.jsx)
-- [프론트 · src/features/auth/hooks/useLogin.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/auth/hooks/useLogin.js)
-- [프론트 · src/store/authStore.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/store/authStore.js)
-- [백엔드 · src/main/java/com/sebu/backend/bookmark/controller/BookmarkController.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/bookmark/controller/BookmarkController.java)
-- [백엔드 · src/main/java/com/sebu/backend/mypage/dto/ProfileUpdateRequest.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/mypage/dto/ProfileUpdateRequest.java)
+- [프론트 · src/features/mypage/api/mypageApi.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/mypage/api/mypageApi.js)
+- [프론트 · src/features/mypage/hooks/useMyPage.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/mypage/hooks/useMyPage.js)
+- [프론트 · src/features/mypage/hooks/useProfileForm.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/mypage/hooks/useProfileForm.js)
+- [프론트 · src/features/mypage/components/ProfileForm.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/mypage/components/ProfileForm.jsx)
+- [프론트 · src/pages/MyPage/index.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/pages/MyPage/index.jsx)
+- [프론트 · src/api/bookmarkApi.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/api/bookmarkApi.js)
+- [프론트 · src/api/queries/laboratories.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/api/queries/laboratories.js)
+- [프론트 · src/api/queryClient.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/api/queryClient.js)
+- [프론트 · src/components/common/LabCard.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/components/common/LabCard.jsx)
+- [프론트 · src/components/common/LabDetailModal.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/components/common/LabDetailModal.jsx)
+- [프론트 · src/hooks/useLabBookmark.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/hooks/useLabBookmark.js)
+- [프론트 · src/features/search/components/RecommendedLabs.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/search/components/RecommendedLabs.jsx)
+- [프론트 · src/features/mypage/components/BookmarkedLabs.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/mypage/components/BookmarkedLabs.jsx)
+- [프론트 · src/components/layout/Header.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/components/layout/Header.jsx)
+- [프론트 · src/components/layout/MobileMenu.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/components/layout/MobileMenu.jsx)
+- [프론트 · src/pages/LabReviewWrite/index.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/pages/LabReviewWrite/index.jsx)
+- [프론트 · src/features/auth/hooks/useLogin.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/auth/hooks/useLogin.js)
+- [프론트 · src/store/authStore.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/store/authStore.js)
+- [백엔드 · src/main/java/com/sebu/backend/bookmark/controller/BookmarkController.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/bookmark/controller/BookmarkController.java)
+- [백엔드 · src/main/java/com/sebu/backend/mypage/dto/ProfileUpdateRequest.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/mypage/dto/ProfileUpdateRequest.java)
+- [프론트 · src/features/auth/hooks/useAuthRestore.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/auth/hooks/useAuthRestore.js)
+- [프론트 · src/features/search/hooks/useLabFilter.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/search/hooks/useLabFilter.js)
+- [백엔드 · src/main/java/com/sebu/backend/auth/controller/MeController.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/auth/controller/MeController.java)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->

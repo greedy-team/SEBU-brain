@@ -3,7 +3,7 @@ project: SEBU
 type: "maintenance"
 status: "팀용 도구 안내"
 created: 2026-09-26
-verified: 2026-09-26
+verified: 2026-10-09
 tags:
   - sebu
   - sebu/maintenance
@@ -36,14 +36,18 @@ npm run sources:check
 2. 새 출처는 노트 frontmatter의 source_ids에 B:또는 F:저장소상대경로로 추가한다.
 3. 구현을 확인한 노트의 verified 날짜와 상태를 갱신한다.
 4. [[SEBU 저장소와 기준 버전]] 표, 변경 기록과 미완료 과제도 수정한다.
+   운영 이력이 바뀌었으면 BE main 배포 커밋과 실행 확인 시각도 별도로 남긴다. B=develop의 해시만으로 운영 버전을 추정하지 않는다. FE는 이 팀에서 dev가 운영 브랜치다.
 5. 검토를 마쳤을 때만 아래 명령으로 커밋·파일 해시와 자동 근거 링크를 갱신한다.
 
 ```sh
 npm run sources:record -- --reviewed
 npm run check
+npm test
 ```
 
 source_ids에 남은 파일이 기준 ref에서 삭제됐다면 기록이 실패한다. 출처를 새 경로로 옮기거나 노트에서 제거한 뒤 다시 실행한다. sources:record는 문장 자체나 verified 날짜를 자동 수정하지 않는다.
+
+날짜가 붙은 과거 기록과 이전한 원문은 그 시점의 상태를 보존한다. 현재 현황·홈·지도·검토 목록을 갱신하고, 과거 기록에는 새 완료 기록으로 가는 안내를 붙인다. 배포 준비 완료를 배포 완료로, 공개 API 200을 로그인·작성 성공으로 바꾸지 않는다.
 
 ## 종료 코드와 한계
 

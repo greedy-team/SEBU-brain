@@ -29,6 +29,7 @@ GitHub에서 읽을 때 사용하는 탐색 목록입니다. Obsidian에서는 S
 - [SEBU 마이페이지와 북마크](<SEBU/03 기능/SEBU 마이페이지와 북마크.md>)
 - [SEBU 연구 분야 분류](<SEBU/03 기능/SEBU 연구 분야 분류.md>)
 - [SEBU 연구실 탐색](<SEBU/03 기능/SEBU 연구실 탐색.md>)
+- [SEBU 신고와 관리자 검토](<SEBU/03 기능/SEBU 신고와 관리자 검토.md>)
 - [SEBU 인증과 CSRF](<SEBU/03 기능/SEBU 인증과 CSRF.md>)
 - [SEBU 커뮤니티와 후기](<SEBU/03 기능/SEBU 커뮤니티와 후기.md>)
 - [SEBU 크롤링과 승격](<SEBU/03 기능/SEBU 크롤링과 승격.md>)
@@ -45,6 +46,7 @@ GitHub에서 읽을 때 사용하는 탐색 목록입니다. Obsidian에서는 S
 ## 05 운영
 
 - [SEBU 운영 전환과 연구 정보 이관](<SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md>)
+- [SEBU 운영 핫픽스와 데이터 보정](<SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md>)
 
 - [SEBU 로컬 실행](<SEBU/05 운영/SEBU 로컬 실행.md>)
 - [SEBU 배포와 모니터링](<SEBU/05 운영/SEBU 배포와 모니터링.md>)
@@ -56,6 +58,10 @@ GitHub에서 읽을 때 사용하는 탐색 목록입니다. Obsidian에서는 S
 - [SEBU 학습 연결](<SEBU/06 학습/SEBU 학습 연결.md>)
 
 ## 07 기록
+
+- [SEBU 갱신 기록 - 2026-10-09](<SEBU/07 기록/SEBU 갱신 기록 - 2026-10-09.md>)
+- [SEBU 운영 배포 완료 기록 - 2026-10-09](<SEBU/07 기록/SEBU 운영 배포 완료 기록 - 2026-10-09.md>)
+- [SEBU 물리천문학과 링크 보완 기록 - 2026-10-09](<SEBU/07 기록/SEBU 물리천문학과 링크 보완 기록 - 2026-10-09.md>)
 
 - [SEBU 운영 준비 검증 기록 - 2026-10-08](<SEBU/07 기록/SEBU 운영 준비 검증 기록 - 2026-10-08.md>)
 
@@ -82,5 +88,6 @@ GitHub에서 읽을 때 사용하는 탐색 목록입니다. Obsidian에서는 S
 - [SEBU 지식 갱신 방법](<SEBU/90 자료/SEBU 지식 갱신 방법.md>)
 - [SEBU 크롤링 스킬](<SEBU/90 자료/SEBU 크롤링 스킬.md>)
 - [SEBU 팀 공유와 업데이트](<SEBU/90 자료/SEBU 팀 공유와 업데이트.md>)
+- [SEBU 협업과 AI 작업 원칙](<SEBU/90 자료/SEBU 협업과 AI 작업 원칙.md>)
 
 [연결 지도](<SEBU/00 시작/SEBU 연결 지도.canvas>) · [팀 시작 안내](README.md)

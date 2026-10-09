@@ -1,9 +1,9 @@
 ---
 project: SEBU
 type: "feature"
-status: "2026-10-08 백엔드 정책 확인"
+status: "2026-10-09 인증·동의 흐름 확인"
 created: 2026-09-26
-verified: 2026-10-08
+verified: 2026-10-09
 tags:
   - sebu
   - sebu/feature
@@ -28,6 +28,9 @@ source_ids:
   - "F:src/components/layout/Header.jsx"
   - "F:src/components/layout/MobileMenu.jsx"
   - "F:src/hooks/useLabBookmark.js"
+  - "F:src/features/auth/components/LoginForm.jsx"
+  - "F:src/features/auth/components/PrivacyNoticeModal.jsx"
+  - "B:src/main/java/com/sebu/backend/auth/dto/SejongLoginRequest.java"
 ---
 # SEBU 인증과 CSRF
 
@@ -58,6 +61,10 @@ sequenceDiagram
 
 정상 로그인은 응답에 포함된 `user`로 로그인 상태를 설정한다. `/me` 조회는 앱 시작·새로고침 시 기존 쿠키로 사용자를 복원하는 `useAuthRestore`의 역할이며, 로그인 성공 직후 반드시 이어지는 요청은 아니다. 복원 중 `/me` 조회에 실패하면 아래 설명처럼 갱신과 재조회를 시도한다.
 
+2026-10-09 프론트 기준으로 **로그인 요청 전에 이용약관·개인정보 수집·이용 필수 동의를 받는다.** 체크박스는 로그인 화면에 진입할 때마다 미선택이며 미동의 제출은 요청 전에 막는다. 약관·안내 모달은 읽기용이다. 신규 사용자만 로그인 후 동의 모달을 띄우던 경로는 제거됐고, 정상 로그인은 신규 여부와 관계없이 사용자 상태를 설정한 뒤 복귀한다.
+
+현재 동의 선택은 FE 상태다. 로그인 API와 BE `SejongLoginRequest`에는 `studentId`, `password`만 있으며 동의 여부·문서 버전·시각을 보내거나 저장하는 계약은 없다. 화면에서 동의를 받는 구현과 서버가 동의 이력을 보관하는 구현을 구분한다. [[SEBU 메인과 모바일 화면]]
+
 | 쿠키 | 역할 | Path · 기본 수명 |
 |---|---|---|
 | access_token | API 인증 JWT, HttpOnly | /api/v1 · 30분 |
@@ -72,7 +79,7 @@ Access/Refresh 수명은 최초 로그인으로부터 30일인 절대 만료를 
 - `src/api/client.js`: `/api/v1`, `withCredentials`, XSRF 쿠키·헤더 이름, 응답 인터셉터.
 - `useAuthRestore`: 앱 시작 시 CSRF 초기화 → `/me` → 실패 시 refresh → `/me` 재조회.
 - `authStore`: 토큰 원문 대신 `user`와 `loading/authenticated/anonymous` 상태를 관리.
-- `vercel.json`: 프론트 동일 출처 `/api`를 API 서버로 전달.
+- `vercel.json`: 프론트 동일 출처 `/api`를 `https://api.sebu.kr/api/:path*`로 전달. 기존 Vercel 호스트의 `/api/` 이외 페이지는 `https://www.sebu.kr`로 영구 이동하는 설정.
 
 ‘코드가 존재한다’는 확인이며 실제 학교 로그인·배포 프록시 동작을 이번 문서 갱신에서 실행 검증하지 않았다.
 
@@ -97,7 +104,7 @@ CORS와 변경 요청의 Origin/Referer 검증은 같은 정확한 출처 목록
 
 현재 refresh가 만료·폐기·사용 완료 등으로 실패하면 **401, `error.code=REFRESH_TOKEN_INVALID`**, 메시지 **‘로그인이 만료되었습니다. 다시 로그인해주세요.’**를 반환한다. 내부 `SESSION_EXPIRED` 사유는 이 공개 오류 코드와 구분해 노출하지 않는다. FE는 이 응답만으로 ‘세션 초기화’를 원인으로 단정하면 안 된다. 만료 안내는 이전 로그인 상태와 최종 갱신 실패를 확인해 표시하고, 최초 비로그인·사용자 로그아웃·네트워크 장애와 구분한다.
 
-헤더·모바일 메뉴 로그인은 `pathname + search`를 복귀 정보로 넘긴다. 북마크 공통 훅은 아직 pathname만 보존한다. [[SEBU 마이페이지와 북마크]]
+헤더·모바일 메뉴 로그인은 `pathname + search`를 복귀 정보로 넘긴다. 북마크 공통 훅은 아직 pathname만 보존한다. 현재 검색어는 URL 대신 `location.state.keyword`에 있으므로 두 방식 모두 검색어를 복귀 정보에 담지 않는다. [[SEBU 마이페이지와 북마크]]
 
 ## 남은 오류 처리 차이
 
@@ -116,26 +123,29 @@ CORS와 변경 요청의 Origin/Referer 검증은 같은 정확한 출처 목록
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · src/main/java/com/sebu/backend/global/auth/SecurityConfiguration.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/global/auth/SecurityConfiguration.java)
-- [백엔드 · src/main/java/com/sebu/backend/global/auth/TrustedOriginFilter.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/global/auth/TrustedOriginFilter.java)
-- [백엔드 · src/main/java/com/sebu/backend/auth/controller/AuthCookieFactory.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/auth/controller/AuthCookieFactory.java)
-- [백엔드 · src/main/resources/application.yml](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/application.yml)
-- [백엔드 · src/main/resources/application-local.yml](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/application-local.yml)
-- [프론트 · src/api/client.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/api/client.js)
-- [프론트 · src/features/auth/api/authApi.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/auth/api/authApi.js)
-- [프론트 · src/features/auth/hooks/useLogin.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/auth/hooks/useLogin.js)
-- [프론트 · src/features/auth/hooks/useAuthRestore.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/auth/hooks/useAuthRestore.js)
-- [프론트 · src/store/authStore.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/store/authStore.js)
-- [프론트 · vercel.json](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/vercel.json)
-- [백엔드 · src/main/java/com/sebu/backend/auth/config/TokenProperties.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/auth/config/TokenProperties.java)
-- [백엔드 · src/main/java/com/sebu/backend/auth/service/AuthSessionIssuer.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/auth/service/AuthSessionIssuer.java)
-- [백엔드 · src/main/java/com/sebu/backend/auth/service/AuthSessionService.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/auth/service/AuthSessionService.java)
-- [백엔드 · src/main/java/com/sebu/backend/auth/domain/RefreshToken.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/auth/domain/RefreshToken.java)
-- [백엔드 · src/main/java/com/sebu/backend/auth/token/JwtAccessTokenService.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/auth/token/JwtAccessTokenService.java)
-- [백엔드 · src/main/java/com/sebu/backend/auth/controller/AuthExceptionHandler.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/auth/controller/AuthExceptionHandler.java)
-- [프론트 · src/components/layout/Header.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/components/layout/Header.jsx)
-- [프론트 · src/components/layout/MobileMenu.jsx](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/components/layout/MobileMenu.jsx)
-- [프론트 · src/hooks/useLabBookmark.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/hooks/useLabBookmark.js)
+- [백엔드 · src/main/java/com/sebu/backend/global/auth/SecurityConfiguration.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/global/auth/SecurityConfiguration.java)
+- [백엔드 · src/main/java/com/sebu/backend/global/auth/TrustedOriginFilter.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/global/auth/TrustedOriginFilter.java)
+- [백엔드 · src/main/java/com/sebu/backend/auth/controller/AuthCookieFactory.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/auth/controller/AuthCookieFactory.java)
+- [백엔드 · src/main/resources/application.yml](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/application.yml)
+- [백엔드 · src/main/resources/application-local.yml](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/application-local.yml)
+- [프론트 · src/api/client.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/api/client.js)
+- [프론트 · src/features/auth/api/authApi.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/auth/api/authApi.js)
+- [프론트 · src/features/auth/hooks/useLogin.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/auth/hooks/useLogin.js)
+- [프론트 · src/features/auth/hooks/useAuthRestore.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/auth/hooks/useAuthRestore.js)
+- [프론트 · src/store/authStore.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/store/authStore.js)
+- [프론트 · vercel.json](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/vercel.json)
+- [백엔드 · src/main/java/com/sebu/backend/auth/config/TokenProperties.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/auth/config/TokenProperties.java)
+- [백엔드 · src/main/java/com/sebu/backend/auth/service/AuthSessionIssuer.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/auth/service/AuthSessionIssuer.java)
+- [백엔드 · src/main/java/com/sebu/backend/auth/service/AuthSessionService.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/auth/service/AuthSessionService.java)
+- [백엔드 · src/main/java/com/sebu/backend/auth/domain/RefreshToken.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/auth/domain/RefreshToken.java)
+- [백엔드 · src/main/java/com/sebu/backend/auth/token/JwtAccessTokenService.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/auth/token/JwtAccessTokenService.java)
+- [백엔드 · src/main/java/com/sebu/backend/auth/controller/AuthExceptionHandler.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/auth/controller/AuthExceptionHandler.java)
+- [프론트 · src/components/layout/Header.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/components/layout/Header.jsx)
+- [프론트 · src/components/layout/MobileMenu.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/components/layout/MobileMenu.jsx)
+- [프론트 · src/hooks/useLabBookmark.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/hooks/useLabBookmark.js)
+- [프론트 · src/features/auth/components/LoginForm.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/auth/components/LoginForm.jsx)
+- [프론트 · src/features/auth/components/PrivacyNoticeModal.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/auth/components/PrivacyNoticeModal.jsx)
+- [백엔드 · src/main/java/com/sebu/backend/auth/dto/SejongLoginRequest.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/auth/dto/SejongLoginRequest.java)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->

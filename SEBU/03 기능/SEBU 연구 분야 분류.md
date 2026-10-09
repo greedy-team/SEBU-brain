@@ -1,9 +1,9 @@
 ---
 project: SEBU
 type: "feature"
-status: "2026-10-07 코드·문서 확인"
+status: "2026-10-09 코드·분류 원칙 확인"
 created: 2026-09-26
-verified: 2026-10-07
+verified: 2026-10-09
 tags:
   - sebu
   - sebu/feature
@@ -20,6 +20,8 @@ source_ids:
   - "B:src/test/java/com/sebu/backend/researchfield/category/repository/ResearchFieldCategoryMySqlMigrationTest.java"
   - "F:src/features/search/hooks/useLabFilter.js"
   - "F:src/features/search/utils/labFilterUtils.js"
+  - "B:src/main/java/com/sebu/backend/researchfield/candidate/domain/LaboratoryResearchFieldCandidate.java"
+  - "B:src/main/java/com/sebu/backend/researchfield/promotion/service/ResearchFieldNameNormalizer.java"
 ---
 # SEBU 연구 분야 분류
 
@@ -63,9 +65,17 @@ V47은 기존 로봇 부모에 직접 연결된 분야를 검수된 이름별 �
 
 ## 프론트에 연결할 때
 
-현재 검색 화면은 공통 연구실 목록의 `researchFieldCategories`와 `researchFieldDetails`에서 필터 항목을 만들며 별도 분류 API를 호출하지 않는다. 카테고리를 이름순으로 평탄하게 정렬하고 실제 카테고리 ID를 비교한다. 프론트 기준 `88eee80`에는 `parentId`를 이용한 계층 표시나 부모 선택 시 자식 ID 확장이 없다. 따라서 API의 계층 정보 제공과 화면의 계층 필터 구현을 구분한다.
+현재 검색 화면은 공통 연구실 목록의 `researchFieldCategories`와 `researchFieldDetails`에서 필터 항목을 만들며 별도 분류 API를 호출하지 않는다. 카테고리를 이름순으로 평탄하게 정렬하고 실제 카테고리 ID를 비교한다. 프론트 기준 `e7e54de`에도 `parentId`를 이용한 계층 표시나 부모 선택 시 자식 ID 확장이 없다. 따라서 API의 계층 정보 제공과 화면의 계층 필터 구현을 구분한다.
 
 검색 유틸은 연구실 이름·교수명·`researchFields` 문자열과 분야 ID·카테고리 필터를 처리한다. 분야 ID를 선택하면 그 ID로 연구실을 찾으며, 카테고리 선택을 바꾸면 선택한 분야 ID를 초기화한다.
+
+## 원문 보존과 개발자 매핑 원칙
+
+분류를 넓히거나 화면의 카테고리를 바꾸는 작업은 **원문을 보존한 상태에서 별도 매핑을 검토하는 작업**이다. 수집 원문을 카테고리명에 맞춰 덮어쓰거나 빈 연구소개에 추정 분야를 채우지 않는다. 개발자는 분야와 카테고리의 연결 근거를 확인해 매핑을 정리하고, 원문 수정·후보 분리·화면 분류 변경은 각각 별도 변경으로 기록한다.
+
+현행 후보 모델은 `rawFieldText`, `candidateName`, 출처 설명 해시, 추출 규칙 버전과 검수 이력을 구분한다. 승격의 이름 정규화는 NFKC·양끝 및 연속 공백 정리 수준이며 원문의 의미를 재작성하는 기능이 아니다. V47의 이름별 대응표와 V49의 검수 데이터는 명시적 매핑의 예다. 어색한 분야명을 정리하려면 원문과 검수 근거를 먼저 대조한다.
+
+이미 적용된 Flyway 파일을 수정하면 이력 검증과 환경별 동일성을 해친다. 분류·연결을 바꿀 때는 새 버전 마이그레이션으로 반영하고, 기존 연구실·분야 ID 및 소속·후기·북마크를 보존한다. `parentId` 계층 제공, 개발자 매핑, FE 계층 선택은 서로 다른 범위다.
 
 [[SEBU 연구실 탐색]] · [[SEBU 크롤링과 승격]] · [[SEBU 데이터 모델]]
 
@@ -82,18 +92,20 @@ PR #92는 `b6cf2e5`에서 `develop`에 병합됐다. V49는 최상위 `MUSIC_PER
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · src/main/java/com/sebu/backend/laboratory/dto/LaboratoriesResponse.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/laboratory/dto/LaboratoriesResponse.java)
-- [백엔드 · src/main/resources/db/migration/V23__create_research_field_categories.sql](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/db/migration/V23__create_research_field_categories.sql)
-- [백엔드 · src/main/resources/db/migration/V47__add_robot_autonomous_subcategories.sql](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/db/migration/V47__add_robot_autonomous_subcategories.sql)
-- [백엔드 · src/main/resources/db/migration/V49__import_reviewed_arts_sports_research_fields.sql](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/db/migration/V49__import_reviewed_arts_sports_research_fields.sql)
-- [백엔드 · src/main/java/com/sebu/backend/researchfield/category/controller/ResearchFieldCategoryController.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/researchfield/category/controller/ResearchFieldCategoryController.java)
-- [백엔드 · src/main/java/com/sebu/backend/researchfield/category/dto/ResearchFieldCategoriesResponse.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/researchfield/category/dto/ResearchFieldCategoriesResponse.java)
-- [백엔드 · src/main/java/com/sebu/backend/laboratory/repository/LaboratoryResearchFieldCategoryQueryRepository.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/laboratory/repository/LaboratoryResearchFieldCategoryQueryRepository.java)
-- [백엔드 · src/main/java/com/sebu/backend/laboratory/service/LaboratoryQueryService.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/laboratory/service/LaboratoryQueryService.java)
-- [백엔드 · src/test/java/com/sebu/backend/researchfield/category/controller/ResearchFieldCategoryApiIntegrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/test/java/com/sebu/backend/researchfield/category/controller/ResearchFieldCategoryApiIntegrationTest.java)
-- [백엔드 · src/test/java/com/sebu/backend/researchfield/category/repository/ResearchFieldCategoryMySqlMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/test/java/com/sebu/backend/researchfield/category/repository/ResearchFieldCategoryMySqlMigrationTest.java)
-- [프론트 · src/features/search/hooks/useLabFilter.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/search/hooks/useLabFilter.js)
-- [프론트 · src/features/search/utils/labFilterUtils.js](https://github.com/greedy-team/SEBU-frontend/blob/88eee80d88016b3e3067ac224651143b1d28351f/src/features/search/utils/labFilterUtils.js)
+- [백엔드 · src/main/java/com/sebu/backend/laboratory/dto/LaboratoriesResponse.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/laboratory/dto/LaboratoriesResponse.java)
+- [백엔드 · src/main/resources/db/migration/V23__create_research_field_categories.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/db/migration/V23__create_research_field_categories.sql)
+- [백엔드 · src/main/resources/db/migration/V47__add_robot_autonomous_subcategories.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/db/migration/V47__add_robot_autonomous_subcategories.sql)
+- [백엔드 · src/main/resources/db/migration/V49__import_reviewed_arts_sports_research_fields.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/db/migration/V49__import_reviewed_arts_sports_research_fields.sql)
+- [백엔드 · src/main/java/com/sebu/backend/researchfield/category/controller/ResearchFieldCategoryController.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/researchfield/category/controller/ResearchFieldCategoryController.java)
+- [백엔드 · src/main/java/com/sebu/backend/researchfield/category/dto/ResearchFieldCategoriesResponse.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/researchfield/category/dto/ResearchFieldCategoriesResponse.java)
+- [백엔드 · src/main/java/com/sebu/backend/laboratory/repository/LaboratoryResearchFieldCategoryQueryRepository.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/laboratory/repository/LaboratoryResearchFieldCategoryQueryRepository.java)
+- [백엔드 · src/main/java/com/sebu/backend/laboratory/service/LaboratoryQueryService.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/laboratory/service/LaboratoryQueryService.java)
+- [백엔드 · src/test/java/com/sebu/backend/researchfield/category/controller/ResearchFieldCategoryApiIntegrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/researchfield/category/controller/ResearchFieldCategoryApiIntegrationTest.java)
+- [백엔드 · src/test/java/com/sebu/backend/researchfield/category/repository/ResearchFieldCategoryMySqlMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/researchfield/category/repository/ResearchFieldCategoryMySqlMigrationTest.java)
+- [프론트 · src/features/search/hooks/useLabFilter.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/search/hooks/useLabFilter.js)
+- [프론트 · src/features/search/utils/labFilterUtils.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/search/utils/labFilterUtils.js)
+- [백엔드 · src/main/java/com/sebu/backend/researchfield/candidate/domain/LaboratoryResearchFieldCandidate.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/researchfield/candidate/domain/LaboratoryResearchFieldCandidate.java)
+- [백엔드 · src/main/java/com/sebu/backend/researchfield/promotion/service/ResearchFieldNameNormalizer.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/researchfield/promotion/service/ResearchFieldNameNormalizer.java)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->

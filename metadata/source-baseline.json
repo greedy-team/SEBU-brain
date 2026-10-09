@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "verifiedDate": "2026-10-08",
+  "verifiedDate": "2026-10-09",
   "scope": "Committed Git source snapshots; not a statement of deployed state or passed application tests.",
   "repositories": {
     "B": {
       "repository": "greedy-team/SEBU-backend",
       "branch": "develop",
-      "commit": "d1010d405abfcb5f9b01b155c48032da01ee1d2d"
+      "commit": "bb7372518cb2d69f0e83cad2ec760a8920c7f964"
     },
     "F": {
       "repository": "greedy-team/SEBU-frontend",
       "branch": "dev",
-      "commit": "88eee80d88016b3e3067ac224651143b1d28351f"
+      "commit": "e7e54deff631adfef08b9b9e0dac9af5c398c317"
     }
   },
   "files": [
@@ -21,9 +21,14 @@
       "path": ".github/workflows/ci.yml",
       "notes": [
         "SEBU/01 프로젝트/SEBU 구현 현황.md",
+        "SEBU/04 결정/SEBU 결정 기록.md",
         "SEBU/05 운영/SEBU 배포와 모니터링.md",
         "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
-        "SEBU/05 운영/SEBU 테스트 지도.md"
+        "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md",
+        "SEBU/05 운영/SEBU 테스트 지도.md",
+        "SEBU/07 기록/SEBU 갱신 기록 - 2026-10-09.md",
+        "SEBU/07 기록/SEBU 물리천문학과 링크 보완 기록 - 2026-10-09.md",
+        "SEBU/07 기록/SEBU 운영 배포 완료 기록 - 2026-10-09.md"
       ],
       "blob": "4cb44f0c450cfb5cd1ff26a46e57d26ba88f6cac",
       "sha256": "112600780bc69cfab38b0055c375696548e46716d26e5ce0215e45222ee14cb5"
@@ -82,7 +87,7 @@
         "SEBU/05 운영/SEBU 배포와 모니터링.md",
         "SEBU/05 운영/SEBU 변경 검토 목록.md",
         "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
-        "SEBU/07 기록/SEBU 운영 준비 검증 기록 - 2026-10-08.md"
+        "SEBU/07 기록/SEBU 운영 배포 완료 기록 - 2026-10-09.md"
       ],
       "blob": "a36116fa014c9d93522c97bb8714f431700334e9",
       "sha256": "3850053502d00d5b2bba5debe09cfe81d28283a29b313438898160cfc8d6db76"
@@ -103,7 +108,8 @@
       "path": "ops/deploy/config.main.example.json",
       "notes": [
         "SEBU/05 운영/SEBU 배포와 모니터링.md",
-        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md"
+        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
+        "SEBU/07 기록/SEBU 운영 배포 완료 기록 - 2026-10-09.md"
       ],
       "blob": "a911cf03b28149ec90b43533f773693b5a53aebf",
       "sha256": "054ff4c1e68b1c3c8db61fb0726fc3a99b3da26d3b08193f9bb6ee23d2a69529"
@@ -114,9 +120,12 @@
       "path": "ops/deploy/deploy.py",
       "notes": [
         "SEBU/01 프로젝트/SEBU 구현 현황.md",
+        "SEBU/04 결정/SEBU 결정 기록.md",
         "SEBU/05 운영/SEBU 배포와 모니터링.md",
         "SEBU/05 운영/SEBU 변경 검토 목록.md",
-        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md"
+        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
+        "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md",
+        "SEBU/07 기록/SEBU 운영 배포 완료 기록 - 2026-10-09.md"
       ],
       "blob": "a4d95ee3fb376f7d2380c2ed08ed0674199aa3ba",
       "sha256": "01da450210f45efb40abaed061528393785f2ec4e4d2e5d36a32df4c2b5e0a84"
@@ -136,7 +145,9 @@
       "repository": "B",
       "path": "ops/deploy/sebu-pull-deploy.timer",
       "notes": [
-        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md"
+        "SEBU/05 운영/SEBU 배포와 모니터링.md",
+        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
+        "SEBU/07 기록/SEBU 운영 배포 완료 기록 - 2026-10-09.md"
       ],
       "blob": "0bd9f6fef49c0854cb89a9f58fb4a3723f414b1a",
       "sha256": "ded96b73561fb112ee13621b4de6457de9a2dca3c472cb27ba600685cdffda4f"
@@ -147,8 +158,7 @@
       "path": "ops/deploy/smoke-catalog-transfer.sh",
       "notes": [
         "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
-        "SEBU/05 운영/SEBU 테스트 지도.md",
-        "SEBU/07 기록/SEBU 운영 준비 검증 기록 - 2026-10-08.md"
+        "SEBU/05 운영/SEBU 테스트 지도.md"
       ],
       "blob": "0d685440f1a79aaa5406ff916c851140369e64fc",
       "sha256": "f366900037b22e78640b23561dda2f775c9d19bf13aeef23bb9410d383b64510"
@@ -159,8 +169,7 @@
       "path": "ops/deploy/smoke-prod.sh",
       "notes": [
         "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
-        "SEBU/05 운영/SEBU 테스트 지도.md",
-        "SEBU/07 기록/SEBU 운영 준비 검증 기록 - 2026-10-08.md"
+        "SEBU/05 운영/SEBU 테스트 지도.md"
       ],
       "blob": "473e279ddca428afc82e05d8ca58f7aa89a0ec58",
       "sha256": "db544f265ef8259eaaaa88e1ca70e682366572e140ce09e2e31218bf2922b30d"
@@ -170,8 +179,7 @@
       "repository": "B",
       "path": "ops/deploy/tests/test_catalog_transfer.py",
       "notes": [
-        "SEBU/05 운영/SEBU 테스트 지도.md",
-        "SEBU/07 기록/SEBU 운영 준비 검증 기록 - 2026-10-08.md"
+        "SEBU/05 운영/SEBU 테스트 지도.md"
       ],
       "blob": "3ef9eeb66fa3bb0566eef1acae737159cca315ad",
       "sha256": "4f042baa9469dc025f179e3730b1fbb27e0e9c75bc3b59520485fd3b1459f93c"
@@ -181,8 +189,7 @@
       "repository": "B",
       "path": "ops/deploy/tests/test_deploy.py",
       "notes": [
-        "SEBU/05 운영/SEBU 테스트 지도.md",
-        "SEBU/07 기록/SEBU 운영 준비 검증 기록 - 2026-10-08.md"
+        "SEBU/05 운영/SEBU 테스트 지도.md"
       ],
       "blob": "200d643771fcd7accc4d143587452674d6fe6410",
       "sha256": "81014c1150989de2b2057079f8922bc548d26ccb61d2ee558c61d1571dbf5458"
@@ -194,8 +201,7 @@
       "notes": [
         "SEBU/02 구조/SEBU 데이터 모델.md",
         "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
-        "SEBU/05 운영/SEBU 테스트 지도.md",
-        "SEBU/07 기록/SEBU 운영 준비 검증 기록 - 2026-10-08.md"
+        "SEBU/05 운영/SEBU 테스트 지도.md"
       ],
       "blob": "5327a40a15e77b924b7c11e56f75aa1055397a91",
       "sha256": "29d197789c96c409aa44db767969c8559a9e1fe477e9c5a0e46998199dd67d29"
@@ -270,7 +276,8 @@
       "repository": "B",
       "path": "src/main/java/com/sebu/backend/auth/controller/MeController.java",
       "notes": [
-        "SEBU/02 구조/SEBU API 지도.md"
+        "SEBU/02 구조/SEBU API 지도.md",
+        "SEBU/03 기능/SEBU 마이페이지와 북마크.md"
       ],
       "blob": "d93a1f8630687d2abdc9d436f3246fb907530f8a",
       "sha256": "b609add68fba335144663ec5860d29427511bf8874dd993eb9e3ea13f82a2884"
@@ -284,6 +291,17 @@
       ],
       "blob": "5c0134d8b3fed4c3034e79c936482ceee6fbb605",
       "sha256": "2684c716f6364735454e3a86841f79a57e755f06b7bf39bb56947f63be12671d"
+    },
+    {
+      "id": "B:src/main/java/com/sebu/backend/auth/dto/SejongLoginRequest.java",
+      "repository": "B",
+      "path": "src/main/java/com/sebu/backend/auth/dto/SejongLoginRequest.java",
+      "notes": [
+        "SEBU/02 구조/SEBU API 지도.md",
+        "SEBU/03 기능/SEBU 인증과 CSRF.md"
+      ],
+      "blob": "cbdc81a24c8b7ee04cf2d01bb2765c67103f043f",
+      "sha256": "e6e74216970e90228d2db556281c65ec6c6f016ad47795a53a1826ba002ee923"
     },
     {
       "id": "B:src/main/java/com/sebu/backend/auth/service/AuthSessionIssuer.java",
@@ -341,7 +359,8 @@
       "repository": "B",
       "path": "src/main/java/com/sebu/backend/community/comment/controller/CommunityCommentController.java",
       "notes": [
-        "SEBU/02 구조/SEBU API 지도.md"
+        "SEBU/02 구조/SEBU API 지도.md",
+        "SEBU/03 기능/SEBU 신고와 관리자 검토.md"
       ],
       "blob": "3418c5784bdbe1a98e17f255e242f3258445b3dd",
       "sha256": "ff5df3d4cffe6aeef787be74fa1b4d7d3f40e880f0d0296eadb0312e61852c29"
@@ -351,7 +370,8 @@
       "repository": "B",
       "path": "src/main/java/com/sebu/backend/community/post/controller/CommunityPostController.java",
       "notes": [
-        "SEBU/02 구조/SEBU API 지도.md"
+        "SEBU/02 구조/SEBU API 지도.md",
+        "SEBU/03 기능/SEBU 신고와 관리자 검토.md"
       ],
       "blob": "09f5b27c655268340f6c69332c837976c2d8c2d7",
       "sha256": "badb5c4929f751b0807cb711fd0f74cc68b6ae5840baf5b7e00900237feea56a"
@@ -384,6 +404,7 @@
         "SEBU/02 구조/SEBU API 지도.md",
         "SEBU/02 구조/SEBU 백엔드 구조.md",
         "SEBU/03 기능/SEBU 공개 API와 CORS.md",
+        "SEBU/03 기능/SEBU 신고와 관리자 검토.md",
         "SEBU/03 기능/SEBU 인증과 CSRF.md",
         "SEBU/04 결정/SEBU 결정 - 쿠키 인증.md"
       ],
@@ -476,6 +497,17 @@
       "sha256": "72358e2151aa6d647afe072c7dcd5525dccaad5f5e3cea23aff3ab6cd0343070"
     },
     {
+      "id": "B:src/main/java/com/sebu/backend/laboratory/domain/Laboratory.java",
+      "repository": "B",
+      "path": "src/main/java/com/sebu/backend/laboratory/domain/Laboratory.java",
+      "notes": [
+        "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md",
+        "SEBU/07 기록/SEBU 물리천문학과 링크 보완 기록 - 2026-10-09.md"
+      ],
+      "blob": "ac7e0c7deb7de49d53f5b196bfd594b2ea1990a1",
+      "sha256": "9988740f35002e91e22667f019c2bd1cbe70b16c9a3bd46233b8d118b5432b8d"
+    },
+    {
       "id": "B:src/main/java/com/sebu/backend/laboratory/dto/LaboratoriesResponse.java",
       "repository": "B",
       "path": "src/main/java/com/sebu/backend/laboratory/dto/LaboratoriesResponse.java",
@@ -540,6 +572,7 @@
       "notes": [
         "SEBU/01 프로젝트/SEBU 구현 현황.md",
         "SEBU/02 구조/SEBU API 지도.md",
+        "SEBU/03 기능/SEBU 신고와 관리자 검토.md",
         "SEBU/03 기능/SEBU 커뮤니티와 후기.md",
         "SEBU/03 기능/SEBU 화면과 API 공유.md",
         "SEBU/05 운영/SEBU 변경 검토 목록.md"
@@ -589,6 +622,17 @@
       "sha256": "81c5c806b7c3b1c0948b87df9d11ad42a468c7f1f48d431fde71190acbcd74de"
     },
     {
+      "id": "B:src/main/java/com/sebu/backend/researchfield/candidate/domain/LaboratoryResearchFieldCandidate.java",
+      "repository": "B",
+      "path": "src/main/java/com/sebu/backend/researchfield/candidate/domain/LaboratoryResearchFieldCandidate.java",
+      "notes": [
+        "SEBU/03 기능/SEBU 연구 분야 분류.md",
+        "SEBU/03 기능/SEBU 크롤링과 승격.md"
+      ],
+      "blob": "d6cccf2f9730b7dca229e7bdad25cf9c7f1f13dc",
+      "sha256": "38fa4a39c2f4b227393cd7e9c066d9000f109c6f34fa025e09eaf600d9269fe7"
+    },
+    {
       "id": "B:src/main/java/com/sebu/backend/researchfield/category/controller/ResearchFieldCategoryController.java",
       "repository": "B",
       "path": "src/main/java/com/sebu/backend/researchfield/category/controller/ResearchFieldCategoryController.java",
@@ -622,6 +666,17 @@
       "sha256": "d2a4aa479fbffcb9c6407f29fd8382976baa978fa8fff075af28ec1ec3322523"
     },
     {
+      "id": "B:src/main/java/com/sebu/backend/researchfield/promotion/service/ResearchFieldNameNormalizer.java",
+      "repository": "B",
+      "path": "src/main/java/com/sebu/backend/researchfield/promotion/service/ResearchFieldNameNormalizer.java",
+      "notes": [
+        "SEBU/03 기능/SEBU 연구 분야 분류.md",
+        "SEBU/03 기능/SEBU 크롤링과 승격.md"
+      ],
+      "blob": "f521662eba376cf72e3f54047ae5b0f765b105bf",
+      "sha256": "bc4c589222ddc0d1b40eef1b8b1291e56c4d542f896cc2a535f4a19a75824dfb"
+    },
+    {
       "id": "B:src/main/resources/application-local.yml",
       "repository": "B",
       "path": "src/main/resources/application-local.yml",
@@ -648,8 +703,7 @@
       "path": "src/main/resources/application-prod.yml",
       "notes": [
         "SEBU/02 구조/SEBU 백엔드 구조.md",
-        "SEBU/05 운영/SEBU 배포와 모니터링.md",
-        "SEBU/07 기록/SEBU 갱신 기록 - 2026-09-26.md"
+        "SEBU/05 운영/SEBU 배포와 모니터링.md"
       ],
       "blob": "5ad20b62e318205898e0c697febd73f812fa4ad0",
       "sha256": "e59772be10194ed1ffb57d3b922b140b3f4a26879465d9451de60afa8c53cf4b"
@@ -773,8 +827,7 @@
         "SEBU/01 프로젝트/SEBU 구현 현황.md",
         "SEBU/02 구조/SEBU 데이터 모델.md",
         "SEBU/02 구조/SEBU 백엔드 구조.md",
-        "SEBU/03 기능/SEBU 크롤링과 승격.md",
-        "SEBU/07 기록/SEBU 예체능대학 크롤링 검수 - 2026-10-06.md"
+        "SEBU/03 기능/SEBU 크롤링과 승격.md"
       ],
       "blob": "b99e278dbde287aee3a0bd4a4514a36cb851a0ac",
       "sha256": "ac61bf40c54a36a4844d2c6ec200420d4e551204be64b5320cb61f39cde88200"
@@ -788,11 +841,29 @@
         "SEBU/02 구조/SEBU 데이터 모델.md",
         "SEBU/02 구조/SEBU 백엔드 구조.md",
         "SEBU/03 기능/SEBU 연구 분야 분류.md",
-        "SEBU/03 기능/SEBU 크롤링과 승격.md",
-        "SEBU/07 기록/SEBU 예체능대학 크롤링 검수 - 2026-10-06.md"
+        "SEBU/03 기능/SEBU 크롤링과 승격.md"
       ],
       "blob": "e44404bd6dbf914b8791dc9988208dc876496cdf",
       "sha256": "e38406191f0617807c7cbd53a8ec5fc343360fc0910e329ae7caa164266c8f04"
+    },
+    {
+      "id": "B:src/main/resources/db/migration/V50__add_missing_physics_astronomy_laboratory_links.sql",
+      "repository": "B",
+      "path": "src/main/resources/db/migration/V50__add_missing_physics_astronomy_laboratory_links.sql",
+      "notes": [
+        "SEBU/01 프로젝트/SEBU 구현 현황.md",
+        "SEBU/02 구조/SEBU 데이터 모델.md",
+        "SEBU/03 기능/SEBU 크롤링과 승격.md",
+        "SEBU/04 결정/SEBU 결정 기록.md",
+        "SEBU/05 운영/SEBU 배포와 모니터링.md",
+        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
+        "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md",
+        "SEBU/07 기록/SEBU 갱신 기록 - 2026-10-09.md",
+        "SEBU/07 기록/SEBU 물리천문학과 링크 보완 기록 - 2026-10-09.md",
+        "SEBU/07 기록/SEBU 운영 배포 완료 기록 - 2026-10-09.md"
+      ],
+      "blob": "536bb6c443787b4f9bd66e324f996d79cf299761",
+      "sha256": "4e3886c81c05555e36e0b5c59955041038efb1c88922baeb8b4d5fe9f548b4d6"
     },
     {
       "id": "B:src/main/resources/db/migration/V6__add_active_laboratory_name_unique_constraint.sql",
@@ -831,8 +902,7 @@
       "path": "src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMigrationContract.java",
       "notes": [
         "SEBU/03 기능/SEBU 크롤링과 승격.md",
-        "SEBU/05 운영/SEBU 테스트 지도.md",
-        "SEBU/07 기록/SEBU 예체능대학 크롤링 검수 - 2026-10-06.md"
+        "SEBU/05 운영/SEBU 테스트 지도.md"
       ],
       "blob": "b14ba0b68ee75ee0248fd201f294c92a337cd94f",
       "sha256": "c8eee893781f21b844a1058d58f8276036914fb0b74ffc4507e188d25058dce9"
@@ -909,6 +979,45 @@
       "sha256": "3aea48757bfe958b812325098f4e393dce4ef1b5ba945cefd9837381034ecd60"
     },
     {
+      "id": "B:src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationContract.java",
+      "repository": "B",
+      "path": "src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationContract.java",
+      "notes": [
+        "SEBU/02 구조/SEBU 데이터 모델.md",
+        "SEBU/03 기능/SEBU 크롤링과 승격.md",
+        "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md",
+        "SEBU/05 운영/SEBU 테스트 지도.md",
+        "SEBU/07 기록/SEBU 물리천문학과 링크 보완 기록 - 2026-10-09.md"
+      ],
+      "blob": "be4ee62f98f9d536d3047c8a19edb8aa4b3a87a7",
+      "sha256": "8aa3f629712ea85bc33fca60510a8b2ace93197b3731800ebb47934b10993342"
+    },
+    {
+      "id": "B:src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationTest.java",
+      "repository": "B",
+      "path": "src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationTest.java",
+      "notes": [
+        "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md",
+        "SEBU/05 운영/SEBU 테스트 지도.md",
+        "SEBU/07 기록/SEBU 물리천문학과 링크 보완 기록 - 2026-10-09.md"
+      ],
+      "blob": "45b3c579424366130d9251b326ee686dc72985d7",
+      "sha256": "24aa3850b279b67792c262f5ef7727d70f2eb73dfbc514b4b931e2dbb52aa03f"
+    },
+    {
+      "id": "B:src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMySqlMigrationTest.java",
+      "repository": "B",
+      "path": "src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMySqlMigrationTest.java",
+      "notes": [
+        "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md",
+        "SEBU/05 운영/SEBU 테스트 지도.md",
+        "SEBU/07 기록/SEBU 갱신 기록 - 2026-10-09.md",
+        "SEBU/07 기록/SEBU 물리천문학과 링크 보완 기록 - 2026-10-09.md"
+      ],
+      "blob": "46872f9639829558c038edd5f49e51dcb4458d92",
+      "sha256": "b3c8eb257fda500bdc1e007c564507963aaa567e5a23ec08fa1ceea96f786ce6"
+    },
+    {
       "id": "B:src/test/java/com/sebu/backend/researchfield/category/controller/ResearchFieldCategoryApiIntegrationTest.java",
       "repository": "B",
       "path": "src/test/java/com/sebu/backend/researchfield/category/controller/ResearchFieldCategoryApiIntegrationTest.java",
@@ -926,8 +1035,7 @@
       "notes": [
         "SEBU/02 구조/SEBU 데이터 모델.md",
         "SEBU/03 기능/SEBU 크롤링과 승격.md",
-        "SEBU/05 운영/SEBU 테스트 지도.md",
-        "SEBU/07 기록/SEBU 예체능대학 크롤링 검수 - 2026-10-06.md"
+        "SEBU/05 운영/SEBU 테스트 지도.md"
       ],
       "blob": "80c0f3a577e24bb4220ab2ea173f1db7c5424ae9",
       "sha256": "6e855363200e21dd7be096b2b9247935fa92ffd7485aeb7a103862720e81e85f"
@@ -972,8 +1080,8 @@
         "SEBU/05 운영/SEBU 로컬 실행.md",
         "SEBU/05 운영/SEBU 테스트 지도.md"
       ],
-      "blob": "3ec36eafc3924b84b3c5275a0da05c7104eefc21",
-      "sha256": "2a896d518eaf1e7b07d0ae17addc0b07c911ee8e7d4ba13163c6b2656b725945"
+      "blob": "0ad576d4655b71e566d34a2794222bd1119aa191",
+      "sha256": "3f5e0ccd7998cca4aee800554ae127ad4dc06d148d01e87381783b20d52f88f2"
     },
     {
       "id": "F:src/api/bookmarkApi.js",
@@ -1026,7 +1134,6 @@
         "SEBU/03 기능/SEBU 화면과 API 공유.md",
         "SEBU/04 결정/SEBU 결정 기록.md",
         "SEBU/06 학습/SEBU 학습 연결.md",
-        "SEBU/07 기록/SEBU 갱신 기록 - 2026-09-26.md",
         "SEBU/90 자료/SEBU 원본 자료.md"
       ],
       "blob": "73d1914363ac113904bf14603f7f05cd4132c035",
@@ -1057,13 +1164,13 @@
         "SEBU/01 프로젝트/SEBU 프로젝트 개요.md",
         "SEBU/02 구조/SEBU 프론트엔드 구조.md",
         "SEBU/03 기능/SEBU 메인과 모바일 화면.md",
+        "SEBU/03 기능/SEBU 신고와 관리자 검토.md",
         "SEBU/03 기능/SEBU 커뮤니티와 후기.md",
         "SEBU/05 운영/SEBU 변경 검토 목록.md",
-        "SEBU/07 기록/SEBU 갱신 기록 - 2026-09-26.md",
         "SEBU/90 자료/SEBU 원본 자료.md"
       ],
-      "blob": "dac286611415dee1faaf67ed795821e73ae02ec0",
-      "sha256": "557e9bd3e003cdcd2f8512284aefed195a9e3141d828ee28bfd01e723422ea60"
+      "blob": "4119a45c6faf77ca29a6ada550ee54f098ea11a2",
+      "sha256": "c194098a5dc689c15ac0df1b158d46c3e8c349157d09d37840bd0e1df946c2f9"
     },
     {
       "id": "F:src/components/common/LabCard.jsx",
@@ -1074,11 +1181,10 @@
         "SEBU/03 기능/SEBU 마이페이지와 북마크.md",
         "SEBU/03 기능/SEBU 연구실 탐색.md",
         "SEBU/03 기능/SEBU 커뮤니티와 후기.md",
-        "SEBU/05 운영/SEBU 변경 검토 목록.md",
-        "SEBU/07 기록/SEBU 갱신 기록 - 2026-09-26.md"
+        "SEBU/05 운영/SEBU 변경 검토 목록.md"
       ],
-      "blob": "bc721610af0334278edc8016566f8746fb224a00",
-      "sha256": "64595438aa076a7bb07d4faec7f225eca891f0ba5215c806b85905b433316926"
+      "blob": "d75faf4d3b9ba76bcfac8dfe06f9acd58b385aa2",
+      "sha256": "111f035f132784f2f6e6f7da8150b41753b0c2ecebcd0a1e4b54c66029c727fb"
     },
     {
       "id": "F:src/components/common/LabDetailModal.jsx",
@@ -1088,8 +1194,19 @@
         "SEBU/03 기능/SEBU 마이페이지와 북마크.md",
         "SEBU/03 기능/SEBU 연구실 탐색.md"
       ],
-      "blob": "d877c2b285c635bb719fbaf785079fbf3d1bec69",
-      "sha256": "b9535877b80ada8298df56312feb2560621fafb3fac3cdba756b6e35990b546d"
+      "blob": "836156192a8b1fb1d4cb0587ea512ea55ab7dced",
+      "sha256": "c8855c0d1dab3c663013d791b2e98043285997f1b2d0db1fb0f98b0cd7d6cc3f"
+    },
+    {
+      "id": "F:src/components/common/MarkdownDocument.jsx",
+      "repository": "F",
+      "path": "src/components/common/MarkdownDocument.jsx",
+      "notes": [
+        "SEBU/02 구조/SEBU 프론트엔드 구조.md",
+        "SEBU/03 기능/SEBU 메인과 모바일 화면.md"
+      ],
+      "blob": "6ef32fe7969a2b25187e2f66408b0fc3a4fa9bfe",
+      "sha256": "29781d49361787c31f1d086273c47906e3520af5b24d955f5083a09327188a8a"
     },
     {
       "id": "F:src/components/common/ScrollToTopButton.jsx",
@@ -1106,10 +1223,11 @@
       "repository": "F",
       "path": "src/components/layout/Footer.jsx",
       "notes": [
-        "SEBU/03 기능/SEBU 메인과 모바일 화면.md"
+        "SEBU/03 기능/SEBU 메인과 모바일 화면.md",
+        "SEBU/03 기능/SEBU 신고와 관리자 검토.md"
       ],
-      "blob": "cf904eeca567a29d7ef91f2c415c2af66467b808",
-      "sha256": "bd7b7789ab1307afbe3ee2bb8d903043647fc74070d3d8970485e99de046b743"
+      "blob": "9800073af6242e6048dc01daa8523800220f388e",
+      "sha256": "9e5bc64e6821515b71dd24c66d60e4aaa8bb38afdcf66560d4dc35dbd87a977e"
     },
     {
       "id": "F:src/components/layout/Header.jsx",
@@ -1119,11 +1237,12 @@
         "SEBU/01 프로젝트/SEBU 구현 현황.md",
         "SEBU/03 기능/SEBU 마이페이지와 북마크.md",
         "SEBU/03 기능/SEBU 메인과 모바일 화면.md",
+        "SEBU/03 기능/SEBU 신고와 관리자 검토.md",
         "SEBU/03 기능/SEBU 인증과 CSRF.md",
         "SEBU/03 기능/SEBU 커뮤니티와 후기.md"
       ],
-      "blob": "e9f88f02987c86fdb43367e8eac8ca24e8ffb8bd",
-      "sha256": "01558a160a6f91894b95bd6fb2f1c5a7fe483471ea51bac31fe8dee089486cfd"
+      "blob": "156b2c481c9c7daf085554cb213e093e23e68821",
+      "sha256": "0384063f7edc7d679a43f55f6aba9d4767e8d1204bbd1ed56853e1aaec2f1301"
     },
     {
       "id": "F:src/components/layout/MobileMenu.jsx",
@@ -1139,6 +1258,19 @@
       "sha256": "aaf0e0e823caf9e8ee5190fab688b85a533098384cda2fe02a43a057c79570fa"
     },
     {
+      "id": "F:src/constants/links.js",
+      "repository": "F",
+      "path": "src/constants/links.js",
+      "notes": [
+        "SEBU/02 구조/SEBU 프론트엔드 구조.md",
+        "SEBU/03 기능/SEBU 메인과 모바일 화면.md",
+        "SEBU/03 기능/SEBU 신고와 관리자 검토.md",
+        "SEBU/07 기록/SEBU 갱신 기록 - 2026-10-09.md"
+      ],
+      "blob": "de96f0a35c3b63b9b57e4da81617345463464c00",
+      "sha256": "fdba75317e057da4f427b459e19fd754ce9b1a7a7a377274106003f8984da954"
+    },
+    {
       "id": "F:src/constants/navigation.js",
       "repository": "F",
       "path": "src/constants/navigation.js",
@@ -1147,14 +1279,73 @@
         "SEBU/03 기능/SEBU 메인과 모바일 화면.md",
         "SEBU/03 기능/SEBU 커뮤니티와 후기.md"
       ],
-      "blob": "e7d6f48489ac9d2219b1e7af64a934841b20a43f",
-      "sha256": "ea0099c9a66d8121e54980f72de2ee35dde6af8205cf76f179f71196da9de950"
+      "blob": "ffc19089cce87a7be38b1e7678734f1640aaf77c",
+      "sha256": "0f72faae737f865d10405985bbcfcd14b660a97f3db58853243b73c6f28b0f49"
+    },
+    {
+      "id": "F:src/content/privacy/consent-notice-2026-10-07.md",
+      "repository": "F",
+      "path": "src/content/privacy/consent-notice-2026-10-07.md",
+      "notes": [
+        "SEBU/03 기능/SEBU 메인과 모바일 화면.md"
+      ],
+      "blob": "90ce965a881dbc2b2973d89f52398d14498b316a",
+      "sha256": "eae2c8f27f4a0ac94f130b6557f280743f89c3378b1e3df7ec988107636fa93a"
+    },
+    {
+      "id": "F:src/content/privacy/index.js",
+      "repository": "F",
+      "path": "src/content/privacy/index.js",
+      "notes": [
+        "SEBU/01 프로젝트/SEBU 구현 현황.md",
+        "SEBU/02 구조/SEBU 프론트엔드 구조.md",
+        "SEBU/03 기능/SEBU 메인과 모바일 화면.md"
+      ],
+      "blob": "52b427def74a6b51c086ceee1bb5ecb80840bd11",
+      "sha256": "c45caff1194da3cf98428adfd0f7fad3ae8afcea874b1b3b55547d1f586109b2"
+    },
+    {
+      "id": "F:src/content/privacy/privacy-policy-2026-10-07.md",
+      "repository": "F",
+      "path": "src/content/privacy/privacy-policy-2026-10-07.md",
+      "notes": [
+        "SEBU/03 기능/SEBU 메인과 모바일 화면.md",
+        "SEBU/03 기능/SEBU 탈퇴와 복구.md"
+      ],
+      "blob": "c9e6c4c967e7571d0c8016efad17b283c5d334bf",
+      "sha256": "b9d5cb9bd36e9d88e663737b4c3fde0217e90e4e72835c98d1958a3843cc5589"
+    },
+    {
+      "id": "F:src/content/terms/index.js",
+      "repository": "F",
+      "path": "src/content/terms/index.js",
+      "notes": [
+        "SEBU/01 프로젝트/SEBU 구현 현황.md",
+        "SEBU/02 구조/SEBU 프론트엔드 구조.md",
+        "SEBU/03 기능/SEBU 메인과 모바일 화면.md"
+      ],
+      "blob": "40ab9a271363363c56717ff11939737bbff0b311",
+      "sha256": "995cbc3c8fb9665da7320c6ec4bad14b234305e40aa1318d19eaf0d476765d1e"
+    },
+    {
+      "id": "F:src/content/terms/terms-2026-10-09.md",
+      "repository": "F",
+      "path": "src/content/terms/terms-2026-10-09.md",
+      "notes": [
+        "SEBU/03 기능/SEBU 메인과 모바일 화면.md",
+        "SEBU/03 기능/SEBU 신고와 관리자 검토.md",
+        "SEBU/03 기능/SEBU 커뮤니티와 후기.md",
+        "SEBU/03 기능/SEBU 탈퇴와 복구.md"
+      ],
+      "blob": "47e99d9809c0feee69a5d9248614a3d9d8235c90",
+      "sha256": "0df5980f82d4ca2b2c9aaeb76da4e25d2689e7f0a564989b8025942dc67f88f8"
     },
     {
       "id": "F:src/features/auth/api/authApi.js",
       "repository": "F",
       "path": "src/features/auth/api/authApi.js",
       "notes": [
+        "SEBU/02 구조/SEBU API 지도.md",
         "SEBU/03 기능/SEBU 인증과 CSRF.md",
         "SEBU/05 운영/SEBU 변경 검토 목록.md"
       ],
@@ -1166,20 +1357,27 @@
       "repository": "F",
       "path": "src/features/auth/components/LoginForm.jsx",
       "notes": [
-        "SEBU/03 기능/SEBU 메인과 모바일 화면.md"
+        "SEBU/01 프로젝트/SEBU 구현 현황.md",
+        "SEBU/02 구조/SEBU 프론트엔드 구조.md",
+        "SEBU/03 기능/SEBU 메인과 모바일 화면.md",
+        "SEBU/03 기능/SEBU 인증과 CSRF.md",
+        "SEBU/05 운영/SEBU 변경 검토 목록.md",
+        "SEBU/07 기록/SEBU 갱신 기록 - 2026-10-09.md"
       ],
-      "blob": "0129119738660349dd5f614a8277781d5cb67cbb",
-      "sha256": "c741c7179b31b8f145c6f0fdb916180739f13676cd5b0a10ffe3211540658c93"
+      "blob": "3eebf2556294bac4e86aad8aba5d37437c5c3a5a",
+      "sha256": "d89da59e363984a503ab71b1975797fb8417468aaef029e43ff3bfc980286dfe"
     },
     {
-      "id": "F:src/features/auth/components/PrivacyConsentModal.jsx",
+      "id": "F:src/features/auth/components/PrivacyNoticeModal.jsx",
       "repository": "F",
-      "path": "src/features/auth/components/PrivacyConsentModal.jsx",
+      "path": "src/features/auth/components/PrivacyNoticeModal.jsx",
       "notes": [
-        "SEBU/03 기능/SEBU 메인과 모바일 화면.md"
+        "SEBU/03 기능/SEBU 메인과 모바일 화면.md",
+        "SEBU/03 기능/SEBU 인증과 CSRF.md",
+        "SEBU/05 운영/SEBU 변경 검토 목록.md"
       ],
-      "blob": "919096f927a509faf6f9d6549e1155015f254a5a",
-      "sha256": "b54bee5bb641bb986be00275e13962f67ed6e8374ac2ebb09530f9e03a298480"
+      "blob": "cdc1f34f8ab0beb98b6c5e6296d98d6889867911",
+      "sha256": "065bd8c9c1fae121acf7a70a9005e779f2b2c8f77c287ae8766ccb895b0652e2"
     },
     {
       "id": "F:src/features/auth/components/RecoveryModal.jsx",
@@ -1198,6 +1396,7 @@
       "notes": [
         "SEBU/01 프로젝트/SEBU 구현 현황.md",
         "SEBU/02 구조/SEBU 프론트엔드 구조.md",
+        "SEBU/03 기능/SEBU 마이페이지와 북마크.md",
         "SEBU/03 기능/SEBU 인증과 CSRF.md",
         "SEBU/05 운영/SEBU 변경 검토 목록.md"
       ],
@@ -1216,8 +1415,8 @@
         "SEBU/03 기능/SEBU 인증과 CSRF.md",
         "SEBU/03 기능/SEBU 탈퇴와 복구.md"
       ],
-      "blob": "a70a64753fca93870e45ccebc73c0d450ef14485",
-      "sha256": "65dcfa1fc951851ff0b35542a813a18bf8b709127d0fba2fff0ab4ee6df0655a"
+      "blob": "3b2b2130104b21b8ff54989c69f155e8d9883dfe",
+      "sha256": "22123c9ab2521f36b6f90dc4915b3098ac4ff8b1f3aa6832bf8b29fd8a2d9fe8"
     },
     {
       "id": "F:src/features/collegeView/components/CollegeAccordionItem.jsx",
@@ -1349,8 +1548,8 @@
       "notes": [
         "SEBU/03 기능/SEBU 메인과 모바일 화면.md"
       ],
-      "blob": "6f92e30766415987ae7e37c460731b3b45c43151",
-      "sha256": "90a944819a26f2bba395688967347456445d3a7701be16959206ae156254648b"
+      "blob": "02c838b81e49ff4855c85ca81baaa57fde06c0bc",
+      "sha256": "d07d47b1dceb225675317702af32c8d0b737210f18394aba2c96240dbffbd2ab"
     },
     {
       "id": "F:src/features/main/components/LabReviewHighlights.jsx",
@@ -1364,8 +1563,8 @@
         "SEBU/03 기능/SEBU 화면과 API 공유.md",
         "SEBU/05 운영/SEBU 변경 검토 목록.md"
       ],
-      "blob": "82837f9954560105a47bbc72a44bd03c71ab89c7",
-      "sha256": "bdb9b4e9aa82d879b84dd2c99388e318fd1cb5e5067bd3735245f94424b386a1"
+      "blob": "f7529b98ec6c3d186f11e43f7d2fd7464dd88b66",
+      "sha256": "f7d6026c8fbeb38ff1a1bc45b317a8d80560714bdebd4e93ba61326fef1df857"
     },
     {
       "id": "F:src/features/main/hooks/useColleges.js",
@@ -1510,13 +1709,17 @@
       "notes": [
         "SEBU/01 프로젝트/SEBU 구현 현황.md",
         "SEBU/02 구조/SEBU API 지도.md",
+        "SEBU/02 구조/SEBU 프론트엔드 구조.md",
+        "SEBU/03 기능/SEBU 마이페이지와 북마크.md",
+        "SEBU/03 기능/SEBU 메인과 모바일 화면.md",
         "SEBU/03 기능/SEBU 연구 분야 분류.md",
         "SEBU/03 기능/SEBU 연구실 탐색.md",
         "SEBU/03 기능/SEBU 화면과 API 공유.md",
-        "SEBU/05 운영/SEBU 변경 검토 목록.md"
+        "SEBU/05 운영/SEBU 변경 검토 목록.md",
+        "SEBU/07 기록/SEBU 갱신 기록 - 2026-10-09.md"
       ],
-      "blob": "ba59080ce468de3f109593ef5641566d2a8572cb",
-      "sha256": "185b76adac13de47991c5109ec6927e87ce21f6e1128622b36f9570cb54a72af"
+      "blob": "37edc29f46ba36ac2a551d3db496c99e168f4f20",
+      "sha256": "d168fa7f6a963130ce23b49c66c2e14fdf41238eb7ae9b0ee8f9fbfec8244e6a"
     },
     {
       "id": "F:src/features/search/utils/labFilterUtils.js",
@@ -1597,8 +1800,8 @@
       "notes": [
         "SEBU/03 기능/SEBU 커뮤니티와 후기.md"
       ],
-      "blob": "a8d338a8c5440bceccdc7644d1f2dd6e9d6a8dfe",
-      "sha256": "081be0083dcb283098174bb494dcf4c0da594a90a28f0f15fb5e4b94310258d5"
+      "blob": "2e12978e3af0a4ead9c306c6edb4f0e7d605da46",
+      "sha256": "19235264781da7bd18bf268d300232b30a8d03272d6b78210386217e8819c5f1"
     },
     {
       "id": "F:src/pages/LabReviewWrite/index.jsx",
@@ -1620,8 +1823,8 @@
       "notes": [
         "SEBU/03 기능/SEBU 메인과 모바일 화면.md"
       ],
-      "blob": "713fedb792092ed9fba84211f25864f5a267ba23",
-      "sha256": "66cdc982d9ec0031129fbe127c58cbdc4286297c49175afde0c8c0a1e820d99a"
+      "blob": "08829fe3daa7afe0c4497d610c58f5343c6d4b6d",
+      "sha256": "8519f71240a723205eaf05d80ffdae4d9016480cd3a4ec0881f5dbe3430661c4"
     },
     {
       "id": "F:src/pages/Main/index.jsx",
@@ -1657,8 +1860,8 @@
         "SEBU/03 기능/SEBU 메인과 모바일 화면.md",
         "SEBU/05 운영/SEBU 변경 검토 목록.md"
       ],
-      "blob": "cd467e248579a653ad92904a9c64aa82c69033a0",
-      "sha256": "3629780984d7958816c99b4ad29177a78fa41da312b060b2b70cc7f8e74c88a8"
+      "blob": "cb4f2b4d667c037ab4588af77a5a5a0edfccf73f",
+      "sha256": "778283bf5c2197891078cfe5f44cccc060331ae3669cf4674fbed854810ac7da"
     },
     {
       "id": "F:src/pages/Search/index.jsx",
@@ -1670,6 +1873,17 @@
       ],
       "blob": "9ded9af19c079863ac9bd5a284d4469ee329ef11",
       "sha256": "9387bb0ddca73b1e8a7af9da2e27f42ecb2ae4c8d3fa8781c93bd0fde1ef6c47"
+    },
+    {
+      "id": "F:src/pages/Terms/index.jsx",
+      "repository": "F",
+      "path": "src/pages/Terms/index.jsx",
+      "notes": [
+        "SEBU/03 기능/SEBU 메인과 모바일 화면.md",
+        "SEBU/05 운영/SEBU 변경 검토 목록.md"
+      ],
+      "blob": "db090180972823a5d2f702b52f21c3d937a1c806",
+      "sha256": "c89a2e867cff44b6791791bf1211dd469370d6b48ee7ac05d0c8585d6d551331"
     },
     {
       "id": "F:src/store/authStore.js",
@@ -1688,12 +1902,21 @@
       "repository": "F",
       "path": "vercel.json",
       "notes": [
+        "SEBU/01 프로젝트/SEBU 구현 현황.md",
         "SEBU/02 구조/SEBU 시스템 구조.md",
         "SEBU/02 구조/SEBU 프론트엔드 구조.md",
-        "SEBU/03 기능/SEBU 인증과 CSRF.md"
+        "SEBU/03 기능/SEBU 공개 API와 CORS.md",
+        "SEBU/03 기능/SEBU 인증과 CSRF.md",
+        "SEBU/04 결정/SEBU 결정 기록.md",
+        "SEBU/05 운영/SEBU 배포와 모니터링.md",
+        "SEBU/05 운영/SEBU 변경 검토 목록.md",
+        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
+        "SEBU/05 운영/SEBU 테스트 지도.md",
+        "SEBU/07 기록/SEBU 갱신 기록 - 2026-10-09.md",
+        "SEBU/07 기록/SEBU 운영 배포 완료 기록 - 2026-10-09.md"
       ],
-      "blob": "cded079648a9712146a0512ec1179bb615875d4d",
-      "sha256": "ff51f1ae34f69decd343e160d992d3ae6bab51f26d0d09c05437df8f38ac0703"
+      "blob": "66ae4409b2f5cc9e1bba1d6e484870d77e74d994",
+      "sha256": "1a2f05f491a3f9aeb49c846509b20c1493062e5ae2598505a4a8c8b601ce070f"
     },
     {
       "id": "F:vite.config.js",

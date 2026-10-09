@@ -1,9 +1,9 @@
 ---
 project: SEBU
 type: "architecture"
-status: "2026-10-08 코드·이관 검증 확인"
+status: "2026-10-09 코드·이관 기록 확인"
 created: 2026-09-26
-verified: 2026-10-08
+verified: 2026-10-09
 tags:
   - sebu
   - sebu/architecture
@@ -26,10 +26,12 @@ source_ids:
   - "B:src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMigrationContract.java"
   - "B:src/main/java/com/sebu/backend/laboratory/repository/LaboratoryRepository.java"
   - "B:src/main/java/com/sebu/backend/laboratory/service/LaboratoryQueryService.java"
+  - "B:src/main/resources/db/migration/V50__add_missing_physics_astronomy_laboratory_links.sql"
+  - "B:src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationContract.java"
 ---
 # SEBU 데이터 모델
 
-SEBU의 데이터는 연구실 탐색, 복수 소속과 출처, 커뮤니티, 계정 생명주기를 함께 모델링한다. `develop` 기준 확인한 마이그레이션 최고 버전은 **V49**이며, 운영 DB 적용 버전을 뜻하지는 않는다.
+SEBU의 데이터는 연구실 탐색, 복수 소속과 출처, 커뮤니티, 계정 생명주기를 함께 모델링한다. `develop` 기준 확인한 마이그레이션 최고 버전은 **V50**이며, 운영 DB 적용 버전을 뜻하지는 않는다.
 
 ```mermaid
 erDiagram
@@ -65,11 +67,15 @@ erDiagram
 
 ## 변경을 반영하는 방법
 
-대표 변화는 V16 복수 소속 → V28 커뮤니티 → V29 후기 → V37~V39 인증·복구 → V40 졸업생 → V46 홈페이지 출처 → V47 분류 계층 → V48~V49 예체능 데이터다. 초기 ERD보다 실제 Flyway SQL·엔티티·DTO를 우선 대조한다.
+대표 변화는 V16 복수 소속 → V28 커뮤니티 → V29 후기 → V37~V39 인증·복구 → V40 졸업생 → V46 홈페이지 출처 → V47 분류 계층 → V48~V49 예체능 데이터 → V50 물리천문학과 링크 보완이다. 초기 ERD보다 실제 Flyway SQL·엔티티·DTO를 우선 대조한다.
 
 V48은 예체능대학 6개 출처와 교수·연구실 각 18개, 소속 연결을 누락된 경우에만 추가한다. V49는 기존 분야·카테고리·연결을 재사용하면서 분야 54개, 연구실–분야 61개, 카테고리 2개, 분야–카테고리 68개를 추가하는 기본 데이터 변경이다. 기존 프로필과 후보 검수 이력은 그대로 유지한다. 검수된 대상 중 연구소개가 없는 3명의 분야는 생성하지 않는다.
 
 빈 DB 전체 마이그레이션 계약 테스트의 기대값은 교수·연구실 각 321개, 분야 1,035개, 연구실–분야 연결 1,133개, 카테고리 54개다. 사용자 입력이나 기존 운영 데이터가 있는 DB의 현재 건수로 사용하지 않는다. 당시 수집·검증 결과는 [[SEBU 예체능대학 크롤링 검수 - 2026-10-06]]에 기록한다.
+
+V50은 물리천문학과의 활성 연구실 14개를 대상으로 빠진 홈페이지 URL만 보완한다. 교수 이름·이메일, 단과대·학과, 연구실 이름을 함께 대조하며 숫자 ID를 고정하지 않는다. 기존 URL과 삭제 연구실은 건드리지 않고 새 교수·연구실도 만들지 않는다. 공식 교수 홈페이지 13개와 검수 대상으로 전달된 RnDCircle 프로필 1개를 `MANUAL` 출처로 기록한다. 모든 링크가 독립 연구실 홈페이지라는 뜻은 아니다.
+
+V50 계약 테스트는 대상 행의 URL·출처·수정시각 외에 신원·소속·연구 분야·후기·북마크를 보존하는지, 기존 URL과 이름·소속 불일치 대상을 건너뛰는지, 재실행이 데이터를 바꾸지 않는지를 다룬다. 빈 DB에는 대상 교수가 없어 V49의 데이터 건수를 바꾸지 않는 계약도 있다. 이번 문서 갱신에서는 SQL·테스트 코드를 확인했으며 테스트 재실행·운영 적용·외부 링크 재접속은 하지 않았다.
 
 운영 초기화에는 이 기본 데이터 외에 개발 DB의 전체 연구 정보가 필요하다. 10월 8일 격리 복원에서는 교수·연구실 각 **622개**, 연구 분야 1,899개와 연결·출처를 보존했고 테스트 후기는 0개로 유지했다. 11개 연구 정보 테이블만 이관하며 사용자·활동·후보 12개와 Flyway 이력은 복사하지 않는다. [[SEBU 운영 전환과 연구 정보 이관]] · [[SEBU 운영 준비 검증 기록 - 2026-10-08]]
 
@@ -83,24 +89,26 @@ V48은 예체능대학 6개 출처와 교수·연구실 각 18개, 소속 연결
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · ops/deploy/catalog_transfer.py](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/ops/deploy/catalog_transfer.py)
-- [백엔드 · ops/deploy/verify-production-seed.sql](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/ops/deploy/verify-production-seed.sql)
-- [백엔드 · src/main/resources/db/migration/V6__add_active_laboratory_name_unique_constraint.sql](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/db/migration/V6__add_active_laboratory_name_unique_constraint.sql)
-- [백엔드 · src/main/resources/db/migration/V7__add_unknown_recruitment_status.sql](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/db/migration/V7__add_unknown_recruitment_status.sql)
-- [백엔드 · src/main/resources/db/migration/V16__add_multi_department_affiliations.sql](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/db/migration/V16__add_multi_department_affiliations.sql)
-- [백엔드 · src/main/resources/db/migration/V28__create_community_posting_tables.sql](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/db/migration/V28__create_community_posting_tables.sql)
-- [백엔드 · src/main/resources/db/migration/V29__create_laboratory_reviews.sql](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/db/migration/V29__create_laboratory_reviews.sql)
-- [백엔드 · src/main/resources/db/migration/V38__add_account_recovery_and_anonymization.sql](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/db/migration/V38__add_account_recovery_and_anonymization.sql)
-- [백엔드 · src/main/resources/db/migration/V39__add_app_user_auth_version.sql](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/db/migration/V39__add_app_user_auth_version.sql)
-- [백엔드 · src/main/resources/db/migration/V40__allow_graduate_grade.sql](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/db/migration/V40__allow_graduate_grade.sql)
-- [백엔드 · src/main/resources/db/migration/V46__add_laboratory_website_url_source.sql](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/db/migration/V46__add_laboratory_website_url_source.sql)
-- [백엔드 · src/main/resources/db/migration/V47__add_robot_autonomous_subcategories.sql](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/db/migration/V47__add_robot_autonomous_subcategories.sql)
-- [백엔드 · src/main/resources/db/migration/V48__import_reviewed_arts_sports_professors.sql](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/db/migration/V48__import_reviewed_arts_sports_professors.sql)
-- [백엔드 · src/main/resources/db/migration/V49__import_reviewed_arts_sports_research_fields.sql](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/db/migration/V49__import_reviewed_arts_sports_research_fields.sql)
-- [백엔드 · src/main/java/com/sebu/backend/researchfield/category/domain/ResearchFieldCategory.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/researchfield/category/domain/ResearchFieldCategory.java)
-- [백엔드 · src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMigrationContract.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMigrationContract.java)
-- [백엔드 · src/main/java/com/sebu/backend/laboratory/repository/LaboratoryRepository.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/laboratory/repository/LaboratoryRepository.java)
-- [백엔드 · src/main/java/com/sebu/backend/laboratory/service/LaboratoryQueryService.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/laboratory/service/LaboratoryQueryService.java)
+- [백엔드 · ops/deploy/catalog_transfer.py](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/catalog_transfer.py)
+- [백엔드 · ops/deploy/verify-production-seed.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/verify-production-seed.sql)
+- [백엔드 · src/main/resources/db/migration/V6__add_active_laboratory_name_unique_constraint.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/db/migration/V6__add_active_laboratory_name_unique_constraint.sql)
+- [백엔드 · src/main/resources/db/migration/V7__add_unknown_recruitment_status.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/db/migration/V7__add_unknown_recruitment_status.sql)
+- [백엔드 · src/main/resources/db/migration/V16__add_multi_department_affiliations.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/db/migration/V16__add_multi_department_affiliations.sql)
+- [백엔드 · src/main/resources/db/migration/V28__create_community_posting_tables.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/db/migration/V28__create_community_posting_tables.sql)
+- [백엔드 · src/main/resources/db/migration/V29__create_laboratory_reviews.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/db/migration/V29__create_laboratory_reviews.sql)
+- [백엔드 · src/main/resources/db/migration/V38__add_account_recovery_and_anonymization.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/db/migration/V38__add_account_recovery_and_anonymization.sql)
+- [백엔드 · src/main/resources/db/migration/V39__add_app_user_auth_version.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/db/migration/V39__add_app_user_auth_version.sql)
+- [백엔드 · src/main/resources/db/migration/V40__allow_graduate_grade.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/db/migration/V40__allow_graduate_grade.sql)
+- [백엔드 · src/main/resources/db/migration/V46__add_laboratory_website_url_source.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/db/migration/V46__add_laboratory_website_url_source.sql)
+- [백엔드 · src/main/resources/db/migration/V47__add_robot_autonomous_subcategories.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/db/migration/V47__add_robot_autonomous_subcategories.sql)
+- [백엔드 · src/main/resources/db/migration/V48__import_reviewed_arts_sports_professors.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/db/migration/V48__import_reviewed_arts_sports_professors.sql)
+- [백엔드 · src/main/resources/db/migration/V49__import_reviewed_arts_sports_research_fields.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/db/migration/V49__import_reviewed_arts_sports_research_fields.sql)
+- [백엔드 · src/main/java/com/sebu/backend/researchfield/category/domain/ResearchFieldCategory.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/researchfield/category/domain/ResearchFieldCategory.java)
+- [백엔드 · src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMigrationContract.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMigrationContract.java)
+- [백엔드 · src/main/java/com/sebu/backend/laboratory/repository/LaboratoryRepository.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/laboratory/repository/LaboratoryRepository.java)
+- [백엔드 · src/main/java/com/sebu/backend/laboratory/service/LaboratoryQueryService.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/laboratory/service/LaboratoryQueryService.java)
+- [백엔드 · src/main/resources/db/migration/V50__add_missing_physics_astronomy_laboratory_links.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/db/migration/V50__add_missing_physics_astronomy_laboratory_links.sql)
+- [백엔드 · src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationContract.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationContract.java)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->

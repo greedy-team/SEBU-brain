@@ -1,9 +1,9 @@
 ---
 project: SEBU
 type: "runbook"
-status: "개발·운영 배포 분리 코드와 CI 확인, 운영 적용 전"
+status: "운영 배포·연구 정보 이관·백업 복원 확인, 인증 기능 검증 남음"
 created: 2026-09-26
-verified: 2026-10-08
+verified: 2026-10-09
 tags:
   - sebu
   - sebu/runbook
@@ -20,10 +20,15 @@ source_ids:
   - "B:src/main/java/com/sebu/backend/global/monitoring/MonitoringSecurityConfiguration.java"
   - "B:src/main/java/com/sebu/backend/global/monitoring/MonitoringMetricsConfiguration.java"
   - "B:ops/deploy/deploy.py"
+  - "B:ops/deploy/sebu-pull-deploy.timer"
+  - "F:vercel.json"
+  - "B:src/main/resources/db/migration/V50__add_missing_physics_astronomy_laboratory_links.sql"
 ---
 # SEBU 배포와 모니터링
 
-배포 코드는 GitHub Actions에서 검증한 비공개 GHCR 이미지를 EC2가 Pull하여 교체하는 흐름이다. **develop은 개발 이미지, main은 운영 이미지로 구분하며 환경 설정과 DB를 분리한다.** 최초 운영 설정·연구 정보 이관 절차는 [[SEBU 운영 전환과 연구 정보 이관]], 실행 결과는 [[SEBU 운영 준비 검증 기록 - 2026-10-08]]에 정리했다. 운영 서버 생성·실제 배포는 아직 진행하지 않았다.
+**운영 API 배포, 전체 연구 정보 이관, Pull 자동 배포와 S3 백업·복원 검증을 완료했다.** GitHub Actions에서 검증한 비공개 GHCR 이미지를 EC2가 Pull하여 단일 백엔드 컨테이너를 교체한다. BE는 `develop` 개발·`main` 운영으로 환경 설정과 DB를 분리하며, FE는 `dev`가 운영 배포 브랜치다. FE 브랜치 이름을 BE의 개발 환경과 혼동하지 않는다.
+
+운영 화면은 `https://www.sebu.kr`, API는 `https://api.sebu.kr`다. FE의 상대 `/api` 요청은 Vercel rewrite를 통해 운영 API로 전달한다. 실제 학교 로그인과 인증 후 쓰기 기능은 FE 담당자의 별도 검증 항목이다. 설정 절차는 [[SEBU 운영 전환과 연구 정보 이관]], 준비 검증은 [[SEBU 운영 준비 검증 기록 - 2026-10-08]], 실제 적용 결과는 [[SEBU 운영 배포 완료 기록 - 2026-10-09]]를 따른다.
 
 ```mermaid
 flowchart LR
@@ -39,8 +44,8 @@ flowchart LR
 
 - `ci.yml`은 배포 스크립트 단위 테스트·셸 문법 검사, Java 테스트, 컨테이너 빌드, 일회용 MySQL 8.0에서 prod 이미지 스모크 검사를 정의한다.
 - develop·main의 push 또는 수동 실행 publish 작업은 채널·커밋·마이그레이션 지문을 이미지에 기록한다. 게시 중 해당 브랜치 HEAD가 달라지면 브랜치별 SHA 이미지만 남기고 포인터는 옮기지 않는다. EC2는 자신의 채널과 다른 이미지의 적용을 거부한다.
-- EC2 배포 도구의 설치·최초 실행·타이머 활성화는 별도 운영 단계다. 소스에 타이머가 있다고 활성화 상태를 단정하지 않는다.
-- 단일 백엔드 컨테이너 교체이므로 짧은 중단이 생길 수 있다.
+- 운영 EC2의 배포 도구 설치와 최초 실행을 마쳤고, 10월 8일 연구 정보 이관 후 `main` 채널 타이머의 활성화와 첫 성공 실행을 확인했다. 약 2분마다 새 digest를 확인한다. 이는 해당 시점 실행 기록이며 타이머 코드의 존재만으로 판단한 결과가 아니다.
+- 단일 백엔드 컨테이너 교체이므로 짧은 중단이 생길 수 있다. 블루그린 배포는 구성하지 않았다.
 
 실패 시 기존·신규 Flyway SQL 지문이 같으면 보존한 이전 컨테이너 시작을 시도한다. SQL이 바뀐 경우 DB 적용 상태를 수동 확인하며 코드·DB를 자동 원복하지 않는다. 이 배포 지문은 SQL 기준이므로 Java 마이그레이션 변경 시 자동 복구 안전성의 충분한 근거로 삼지 않는다. 실제 절차는 현재 runbook과 `deploy.py`를 따른다.
 
@@ -50,11 +55,13 @@ flowchart LR
 
 압축 협상과 서버 조건을 만족하는 JSON 전달 크기를 줄이는 설정이다. 기본 연구실 목록을 페이지 목록으로 바꾸거나 응답 필드를 줄인 것은 아니다. 배포 후 실제 `Content-Encoding`과 전달 크기는 별도 확인한다.
 
-## 운영 전환 후 확인
+## 운영 반영과 백업
 
-코드에는 `sebu.kr`·`www.sebu.kr` 허용과 V47 로봇 분류, V48 예체능 교수·연구실, V49 예체능 연구분야 마이그레이션이 포함됐다. 머지 확인만으로 운영 반영을 완료 처리하지 않는다. 실제 이미지 커밋·Flyway 이력·API 응답·출처 설정의 환경 변수 덮어쓰기를 확인해야 한다.
+10월 8일 PR #95로 `main`을 출시했고, CI가 게시한 정확한 digest의 첫 배포와 V1~V49의 실제 적용을 확인했다. 이어 교수·연구실 각 622개를 포함한 11개 연구 정보 테이블을 이관해 전체 해시 일치와 제외 테이블 0건을 검증했다. 10월 9일에는 V50 링크 보완 핫픽스의 운영 자동 배포와 14개 URL의 공개 API 반영을 확인했다. 최초 배포 시점의 321개 기본 자료와 전체 이관 이후 622개를 구분한다.
 
-[[SEBU 예체능대학 크롤링 검수 - 2026-10-06]]의 격리 DB 검증 기록 역시 운영 DB 반영의 증거가 아니다.
+초기 전체 DB 백업은 S3에 별도 보관하고, 지정한 객체 버전을 AWS 내부의 임시 DB로 실제 복원해 24개 테이블·35개 외래 키와 원본 보존을 확인했다. 정기 백업은 매일 03:00 KST 타이머를 활성화했고 같은 서비스의 수동 실행을 성공시켰다. 이후 예약 시각의 자동 실행 성공은 보관된 기록에서 확인하지 못했으므로 별도 점검이 필요하다.
+
+로컬 일일 백업은 검증된 최신 7개, S3 일일 백업은 7일 만료와 비현재 버전 1일 만료를 설정했다. 초기 기준 백업에는 자동 만료가 없다. S3 버킷은 비공개·버전 관리·SSE-S3·HTTPS 전용이며, EC2 역할에는 지정 백업 경로의 업로드·읽기 권한만 부여했다. 원본 백업과 비밀값은 지식 저장소에 보관하지 않는다.
 
 ## 상태 확인·지표·로그
 
@@ -72,7 +79,7 @@ flowchart LR
 
 `X-Request-ID`, 응답 오류의 `traceId`, 서버 로그를 연결해 추적한다. 원문 비밀번호·토큰·본문·개인정보는 로그에 넣지 않는 계약이다. 출력 큐가 넘치면 보안·ERROR 로그도 유실될 수 있고 `logging.events.dropped`에 기록된다.
 
-현재 운영 서버의 배포 digest, 타이머 실행, 프록시의 쿠키 보존, 실제 메트릭 수집·알림은 아직 검증하지 않았다. CI와 개발 자료의 격리 복원 성공은 운영 배포 완료와 구분한다. [[SEBU 테스트 지도]] · [[SEBU 데이터 모델]] · [[SEBU 인증과 CSRF]]
+운영 배포 digest·컨테이너 상태·Pull 타이머의 실행과 비로그인 공개 API 경로는 확인했다. 프록시를 거치는 실제 로그인 쿠키·CSRF·세션 전환과 사용자 기능은 아직 완료 처리하지 않는다. Prometheus의 실제 수집 연결과 외부 실패 알림은 확인되지 않았고, 백업 실패의 이메일·채팅 알림도 설정하지 않았다. systemd 결과와 서버의 비공개 상태 기록이 현재 진단 수단이다. [[SEBU 테스트 지도]] · [[SEBU 데이터 모델]] · [[SEBU 인증과 CSRF]]
 
 ## 이전된 상세 문서
 
@@ -82,18 +89,21 @@ flowchart LR
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · ops/deploy/config.main.example.json](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/ops/deploy/config.main.example.json)
-- [백엔드 · ops/deploy/backend.main.env.example](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/ops/deploy/backend.main.env.example)
-- [백엔드 · ops/deploy/catalog_transfer.py](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/ops/deploy/catalog_transfer.py)
-- [백엔드 · .github/workflows/ci.yml](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/.github/workflows/ci.yml)
-- [백엔드 · Dockerfile](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/Dockerfile)
-- [백엔드 · src/main/resources/application.yml](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/application.yml)
-- [백엔드 · src/main/resources/application-prod.yml](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/application-prod.yml)
-- [백엔드 · src/main/resources/application-monitoring.yml](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/application-monitoring.yml)
-- [백엔드 · src/main/java/com/sebu/backend/global/monitoring/HealthCheckSecurityConfiguration.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/global/monitoring/HealthCheckSecurityConfiguration.java)
-- [백엔드 · src/main/java/com/sebu/backend/global/monitoring/MonitoringSecurityConfiguration.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/global/monitoring/MonitoringSecurityConfiguration.java)
-- [백엔드 · src/main/java/com/sebu/backend/global/monitoring/MonitoringMetricsConfiguration.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/java/com/sebu/backend/global/monitoring/MonitoringMetricsConfiguration.java)
-- [백엔드 · ops/deploy/deploy.py](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/ops/deploy/deploy.py)
+- [백엔드 · ops/deploy/config.main.example.json](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/config.main.example.json)
+- [백엔드 · ops/deploy/backend.main.env.example](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/backend.main.env.example)
+- [백엔드 · ops/deploy/catalog_transfer.py](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/catalog_transfer.py)
+- [백엔드 · .github/workflows/ci.yml](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/.github/workflows/ci.yml)
+- [백엔드 · Dockerfile](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/Dockerfile)
+- [백엔드 · src/main/resources/application.yml](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/application.yml)
+- [백엔드 · src/main/resources/application-prod.yml](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/application-prod.yml)
+- [백엔드 · src/main/resources/application-monitoring.yml](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/application-monitoring.yml)
+- [백엔드 · src/main/java/com/sebu/backend/global/monitoring/HealthCheckSecurityConfiguration.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/global/monitoring/HealthCheckSecurityConfiguration.java)
+- [백엔드 · src/main/java/com/sebu/backend/global/monitoring/MonitoringSecurityConfiguration.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/global/monitoring/MonitoringSecurityConfiguration.java)
+- [백엔드 · src/main/java/com/sebu/backend/global/monitoring/MonitoringMetricsConfiguration.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/global/monitoring/MonitoringMetricsConfiguration.java)
+- [백엔드 · ops/deploy/deploy.py](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/deploy.py)
+- [백엔드 · ops/deploy/sebu-pull-deploy.timer](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/sebu-pull-deploy.timer)
+- [프론트 · vercel.json](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/vercel.json)
+- [백엔드 · src/main/resources/db/migration/V50__add_missing_physics_astronomy_laboratory_links.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/db/migration/V50__add_missing_physics_astronomy_laboratory_links.sql)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->

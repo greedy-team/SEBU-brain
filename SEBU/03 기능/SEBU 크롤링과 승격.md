@@ -1,9 +1,9 @@
 ---
 project: SEBU
 type: "feature"
-status: "2026-10-07 코드·문서 확인"
+status: "2026-10-09 코드·보존 원칙 확인"
 created: 2026-09-26
-verified: 2026-10-07
+verified: 2026-10-09
 tags:
   - sebu
   - sebu/feature
@@ -12,6 +12,10 @@ source_ids:
   - "B:src/main/resources/db/migration/V49__import_reviewed_arts_sports_research_fields.sql"
   - "B:src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMigrationContract.java"
   - "B:src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMigrationContract.java"
+  - "B:src/main/java/com/sebu/backend/researchfield/candidate/domain/LaboratoryResearchFieldCandidate.java"
+  - "B:src/main/java/com/sebu/backend/researchfield/promotion/service/ResearchFieldNameNormalizer.java"
+  - "B:src/main/resources/db/migration/V50__add_missing_physics_astronomy_laboratory_links.sql"
+  - "B:src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationContract.java"
 ---
 # SEBU 크롤링과 승격
 
@@ -47,6 +51,7 @@ crawler와 promotion은 각각 전용 프로필과 enabled 설정이 필요한 �
 - 새 연구실의 모집 상태는 UNKNOWN이다.
 - 재승격 시 사람이 관리하는 모집 상태와 MANUAL 홈페이지를 보존한다.
 - 원본에서 사라졌다고 기존 서비스 연구실을 자동 삭제하지 않는다.
+- 연구소개·분야 원문을 화면용 분류명으로 덮어쓰지 않는다. 분야 후보의 원문·검수 이름·출처 해시·검수 이력을 구분하고, 개발자 매핑으로 카테고리 연결을 관리한다. 빈 원문에는 추정 분야를 생성하지 않는다.
 
 [[SEBU 결정 - 검수 후 승격]] · [[SEBU 결정 - 복수 학과와 출처 보존]] · [[SEBU 연구 분야 분류]]
 
@@ -60,6 +65,12 @@ crawler와 promotion은 각각 전용 프로필과 enabled 설정이 필요한 �
 
 2026-10-06 수집·원문 검수·승격과 당시 테스트 결과는 [[SEBU 예체능대학 크롤링 검수 - 2026-10-06]]에 보존한다. 같은 절차를 다시 수행할 때는 [[SEBU 크롤링 스킬]]을 참고한다.
 
+## 홈페이지 보완과 적용 이력 보존
+
+V50은 물리천문학과 14개 대상의 비어 있는 홈페이지를 검수된 링크로 보완하는 후속 마이그레이션이다. 교수 신원·소속·연구실 이름을 대조하며 기존 URL과 삭제 연구실은 보존한다. 공식 교수 홈페이지 13개와 전달받은 RnDCircle 프로필 1개를 `MANUAL`로 기록해 후속 크롤링에서 보호한다. 후보를 새로 수집·승인하거나 교수·연구실·분야를 추가하는 작업은 아니다. [[SEBU 데이터 모델]]
+
+이미 적용한 Flyway SQL·Java 마이그레이션은 고치지 않고 새 버전으로 전진 수정한다. 검수 출처와 연결 근거를 문서에 남기며, 코드 병합·테스트 코드 존재·테스트 실행·실제 DB 적용을 각각 구분한다. 이번 갱신은 로컬 Git 객체의 코드·기록 대조만 수행했다.
+
 ## 이전된 상세 문서
 
 - [[SEBU 백엔드 교수 크롤링 실행 안내]]
@@ -69,10 +80,14 @@ crawler와 promotion은 각각 전용 프로필과 enabled 설정이 필요한 �
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · src/main/resources/db/migration/V48__import_reviewed_arts_sports_professors.sql](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/db/migration/V48__import_reviewed_arts_sports_professors.sql)
-- [백엔드 · src/main/resources/db/migration/V49__import_reviewed_arts_sports_research_fields.sql](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/main/resources/db/migration/V49__import_reviewed_arts_sports_research_fields.sql)
-- [백엔드 · src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMigrationContract.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMigrationContract.java)
-- [백엔드 · src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMigrationContract.java](https://github.com/greedy-team/SEBU-backend/blob/d1010d405abfcb5f9b01b155c48032da01ee1d2d/src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMigrationContract.java)
+- [백엔드 · src/main/resources/db/migration/V48__import_reviewed_arts_sports_professors.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/db/migration/V48__import_reviewed_arts_sports_professors.sql)
+- [백엔드 · src/main/resources/db/migration/V49__import_reviewed_arts_sports_research_fields.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/db/migration/V49__import_reviewed_arts_sports_research_fields.sql)
+- [백엔드 · src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMigrationContract.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMigrationContract.java)
+- [백엔드 · src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMigrationContract.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMigrationContract.java)
+- [백엔드 · src/main/java/com/sebu/backend/researchfield/candidate/domain/LaboratoryResearchFieldCandidate.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/researchfield/candidate/domain/LaboratoryResearchFieldCandidate.java)
+- [백엔드 · src/main/java/com/sebu/backend/researchfield/promotion/service/ResearchFieldNameNormalizer.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/researchfield/promotion/service/ResearchFieldNameNormalizer.java)
+- [백엔드 · src/main/resources/db/migration/V50__add_missing_physics_astronomy_laboratory_links.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/db/migration/V50__add_missing_physics_astronomy_laboratory_links.sql)
+- [백엔드 · src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationContract.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationContract.java)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->

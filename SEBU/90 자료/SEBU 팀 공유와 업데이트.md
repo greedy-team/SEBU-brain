@@ -1,9 +1,9 @@
 ---
 project: SEBU
 type: "workflow"
-status: "팀 운영 제안"
+status: "팀 공유 방식과 갱신 절차 확인"
 created: 2026-09-26
-verified: 2026-09-26
+verified: 2026-10-09
 tags:
   - sebu
   - sebu/workflow
@@ -20,6 +20,8 @@ tags:
 4. 이후 같은 Git 폴더에서 git pull --ff-only로 갱신한다.
 
 SEBU 하위 폴더만 보관함으로 열면 Canvas의 SEBU/ 경로 기준이 달라지므로 레포 루트를 연다. 별도 복사본을 만들어 읽지 않는다. 개인 .obsidian 설정은 Git에서 제외한다.
+
+IntelliJ 터미널에서도 실행할 수 있지만 현재 폴더가 **SEBU-brain 저장소**여야 한다. 백엔드 폴더에서 Pull하면 백엔드 코드만 바뀐다. Obsidian이 같은 clone 폴더를 열고 있으면 Pull한 Markdown 변경을 다시 읽어 보여준다. Git 명령을 Obsidian 채팅창이나 이 대화에 텍스트로 입력하는 것만으로 실행되는 것은 아니다.
 
 ## 작업을 끝낸 뒤
 
@@ -38,7 +40,9 @@ SEBU 하위 폴더만 보관함으로 열면 Canvas의 SEBU/ 경로 기준이 �
 | 리뷰어 | 코드와 설명의 일치, 링크, 개인 정보 포함 여부 확인 |
 | 읽는 팀원 | Pull 후 최신 노트 확인, 질문은 수집함 또는 이슈에 기록 |
 
-자동으로 코드·문서가 동기화되는 구조는 아니다. 파일 변경 도구는 검토 대상을 찾는 보조 수단이다. [[SEBU 지식 갱신 방법]]
+자동으로 코드·문서가 동기화되는 구조는 아니다. GitHub의 BE 자동 배포와 브레인 문서 자동 생성은 별개다. 파일 변경 도구는 검토 대상을 찾는 보조 수단이다. [[SEBU 지식 갱신 방법]]
+
+운영 상태 질문은 BE main 배포와 FE dev를 기준으로 확인한다. 개발 기능 설명은 BE develop을 확인한다. AI·Aside·AWS 도구와 FE 담당자의 경계는 [[SEBU 협업과 AI 작업 원칙]]을 따른다.
 
 ---
 [[SEBU 홈]] · [[SEBU 지식 지도]]

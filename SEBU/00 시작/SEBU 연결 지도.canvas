@@ -3,7 +3,7 @@
     {
       "id": "intro",
       "type": "text",
-      "text": "# SEBU · 팀 지식 지도\n\n기능 → 구조 → 결정 → 다음 행동\n\n2026-10-07 · BE b6cf2e5 / FE 88eee80 기준\nSEBU-brain 레포 루트를 보관함으로 연다.",
+      "text": "# SEBU · 팀 지식 지도\n\n기능 → 구조 → 결정 → 운영 결과\n\n2026-10-09 · BE develop bb73725 / 운영 main 977ca6c · FE dev e7e54de\nSEBU-brain 레포 루트를 보관함으로 연다.",
       "x": -520,
       "y": -260,
       "width": 1040,
@@ -207,6 +207,66 @@
       "y": 1950,
       "width": 400,
       "height": 180
+    },
+    {
+      "id": "release-oct9",
+      "type": "file",
+      "file": "SEBU/07 기록/SEBU 운영 배포 완료 기록 - 2026-10-09.md",
+      "x": -780,
+      "y": 2350,
+      "width": 440,
+      "height": 270,
+      "color": "4"
+    },
+    {
+      "id": "hotfix-runbook",
+      "type": "file",
+      "file": "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md",
+      "x": -220,
+      "y": 2350,
+      "width": 440,
+      "height": 270,
+      "color": "4"
+    },
+    {
+      "id": "physics-links",
+      "type": "file",
+      "file": "SEBU/07 기록/SEBU 물리천문학과 링크 보완 기록 - 2026-10-09.md",
+      "x": 340,
+      "y": 2350,
+      "width": 440,
+      "height": 270,
+      "color": "4"
+    },
+    {
+      "id": "refresh-oct9",
+      "type": "file",
+      "file": "SEBU/07 기록/SEBU 갱신 기록 - 2026-10-09.md",
+      "x": -780,
+      "y": 2750,
+      "width": 440,
+      "height": 270,
+      "color": "4"
+    },
+    {
+      "id": "ai-workflow",
+      "type": "file",
+      "file": "SEBU/90 자료/SEBU 협업과 AI 작업 원칙.md",
+      "x": -220,
+      "y": 2750,
+      "width": 440,
+      "height": 270,
+      "color": "4"
+    },
+    {
+      "id": "reports-admin",
+      "type": "file",
+      "file": "SEBU/03 기능/SEBU 신고와 관리자 검토.md",
+      "x": 340,
+      "y": 2750,
+      "width": 440,
+      "height": 270,
+      "color": "4"
     }
   ],
   "edges": [
@@ -393,6 +453,48 @@
       "fromNode": "home",
       "fromSide": "bottom",
       "toNode": "docs-migration",
+      "toSide": "top"
+    },
+    {
+      "id": "link-release-oct9",
+      "fromNode": "ops",
+      "fromSide": "bottom",
+      "toNode": "release-oct9",
+      "toSide": "top"
+    },
+    {
+      "id": "link-hotfix-runbook",
+      "fromNode": "ops",
+      "fromSide": "bottom",
+      "toNode": "hotfix-runbook",
+      "toSide": "top"
+    },
+    {
+      "id": "link-physics-links",
+      "fromNode": "hotfix-runbook",
+      "fromSide": "bottom",
+      "toNode": "physics-links",
+      "toSide": "top"
+    },
+    {
+      "id": "link-refresh-oct9",
+      "fromNode": "home",
+      "fromSide": "bottom",
+      "toNode": "refresh-oct9",
+      "toSide": "top"
+    },
+    {
+      "id": "link-ai-workflow",
+      "fromNode": "team-workflow",
+      "fromSide": "bottom",
+      "toNode": "ai-workflow",
+      "toSide": "top"
+    },
+    {
+      "id": "link-reports-admin",
+      "fromNode": "backlog",
+      "fromSide": "bottom",
+      "toNode": "reports-admin",
       "toSide": "top"
     }
   ]
