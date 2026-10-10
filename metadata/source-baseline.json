@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "verifiedDate": "2026-10-09",
+  "verifiedDate": "2026-10-10",
   "scope": "Committed Git source snapshots; not a statement of deployed state or passed application tests.",
   "repositories": {
     "B": {
       "repository": "greedy-team/SEBU-backend",
       "branch": "develop",
-      "commit": "bb7372518cb2d69f0e83cad2ec760a8920c7f964"
+      "commit": "7d4839b46ca8cdc6c608ec9934ee02e018e54893"
     },
     "F": {
       "repository": "greedy-team/SEBU-frontend",
@@ -25,10 +25,7 @@
         "SEBU/05 운영/SEBU 배포와 모니터링.md",
         "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
         "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md",
-        "SEBU/05 운영/SEBU 테스트 지도.md",
-        "SEBU/07 기록/SEBU 갱신 기록 - 2026-10-09.md",
-        "SEBU/07 기록/SEBU 물리천문학과 링크 보완 기록 - 2026-10-09.md",
-        "SEBU/07 기록/SEBU 운영 배포 완료 기록 - 2026-10-09.md"
+        "SEBU/05 운영/SEBU 테스트 지도.md"
       ],
       "blob": "4cb44f0c450cfb5cd1ff26a46e57d26ba88f6cac",
       "sha256": "112600780bc69cfab38b0055c375696548e46716d26e5ce0215e45222ee14cb5"
@@ -86,8 +83,7 @@
         "SEBU/02 구조/SEBU 데이터 모델.md",
         "SEBU/05 운영/SEBU 배포와 모니터링.md",
         "SEBU/05 운영/SEBU 변경 검토 목록.md",
-        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
-        "SEBU/07 기록/SEBU 운영 배포 완료 기록 - 2026-10-09.md"
+        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md"
       ],
       "blob": "a36116fa014c9d93522c97bb8714f431700334e9",
       "sha256": "3850053502d00d5b2bba5debe09cfe81d28283a29b313438898160cfc8d6db76"
@@ -108,8 +104,7 @@
       "path": "ops/deploy/config.main.example.json",
       "notes": [
         "SEBU/05 운영/SEBU 배포와 모니터링.md",
-        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
-        "SEBU/07 기록/SEBU 운영 배포 완료 기록 - 2026-10-09.md"
+        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md"
       ],
       "blob": "a911cf03b28149ec90b43533f773693b5a53aebf",
       "sha256": "054ff4c1e68b1c3c8db61fb0726fc3a99b3da26d3b08193f9bb6ee23d2a69529"
@@ -123,9 +118,9 @@
         "SEBU/04 결정/SEBU 결정 기록.md",
         "SEBU/05 운영/SEBU 배포와 모니터링.md",
         "SEBU/05 운영/SEBU 변경 검토 목록.md",
+        "SEBU/05 운영/SEBU 운영 모니터링과 대시보드 해석.md",
         "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
-        "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md",
-        "SEBU/07 기록/SEBU 운영 배포 완료 기록 - 2026-10-09.md"
+        "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md"
       ],
       "blob": "a4d95ee3fb376f7d2380c2ed08ed0674199aa3ba",
       "sha256": "01da450210f45efb40abaed061528393785f2ec4e4d2e5d36a32df4c2b5e0a84"
@@ -146,8 +141,7 @@
       "path": "ops/deploy/sebu-pull-deploy.timer",
       "notes": [
         "SEBU/05 운영/SEBU 배포와 모니터링.md",
-        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
-        "SEBU/07 기록/SEBU 운영 배포 완료 기록 - 2026-10-09.md"
+        "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md"
       ],
       "blob": "0bd9f6fef49c0854cb89a9f58fb4a3723f414b1a",
       "sha256": "ded96b73561fb112ee13621b4de6457de9a2dca3c472cb27ba600685cdffda4f"
@@ -427,7 +421,8 @@
       "repository": "B",
       "path": "src/main/java/com/sebu/backend/global/monitoring/HealthCheckSecurityConfiguration.java",
       "notes": [
-        "SEBU/05 운영/SEBU 배포와 모니터링.md"
+        "SEBU/05 운영/SEBU 배포와 모니터링.md",
+        "SEBU/05 운영/SEBU 운영 모니터링과 대시보드 해석.md"
       ],
       "blob": "63bc9888a870bb4e662c38aec16694c37a5973be",
       "sha256": "1aff6a2d7baaf2326330b4d253750e99def6d1ebf10432afbc80fa1182d5087d"
@@ -437,7 +432,8 @@
       "repository": "B",
       "path": "src/main/java/com/sebu/backend/global/monitoring/MonitoringMetricsConfiguration.java",
       "notes": [
-        "SEBU/05 운영/SEBU 배포와 모니터링.md"
+        "SEBU/05 운영/SEBU 배포와 모니터링.md",
+        "SEBU/05 운영/SEBU 운영 모니터링과 대시보드 해석.md"
       ],
       "blob": "e39ebffc26b0441f8856500dc4901d68993a9b22",
       "sha256": "2939b1b1289c9c0fdbcf732dd8dfa4f06251fe615a0112ec96255f06d3afe1b6"
@@ -447,7 +443,8 @@
       "repository": "B",
       "path": "src/main/java/com/sebu/backend/global/monitoring/MonitoringSecurityConfiguration.java",
       "notes": [
-        "SEBU/05 운영/SEBU 배포와 모니터링.md"
+        "SEBU/05 운영/SEBU 배포와 모니터링.md",
+        "SEBU/05 운영/SEBU 운영 모니터링과 대시보드 해석.md"
       ],
       "blob": "279ed525d9cd6b813a95b0b823850e3d2c8ca589",
       "sha256": "36205154d505b8384e7894b1f08522563067bb4a10c66dac2885356392f62dd6"
@@ -501,8 +498,7 @@
       "repository": "B",
       "path": "src/main/java/com/sebu/backend/laboratory/domain/Laboratory.java",
       "notes": [
-        "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md",
-        "SEBU/07 기록/SEBU 물리천문학과 링크 보완 기록 - 2026-10-09.md"
+        "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md"
       ],
       "blob": "ac7e0c7deb7de49d53f5b196bfd594b2ea1990a1",
       "sha256": "9988740f35002e91e22667f019c2bd1cbe70b16c9a3bd46233b8d118b5432b8d"
@@ -692,7 +688,8 @@
       "repository": "B",
       "path": "src/main/resources/application-monitoring.yml",
       "notes": [
-        "SEBU/05 운영/SEBU 배포와 모니터링.md"
+        "SEBU/05 운영/SEBU 배포와 모니터링.md",
+        "SEBU/05 운영/SEBU 운영 모니터링과 대시보드 해석.md"
       ],
       "blob": "b985d28d65206a62e042ef387e58b8dccbc1a1ac",
       "sha256": "bc1064f8e629ff51ab3b7dfc8e38bf8e69a6eb6b3bfa78f097445cee86947f56"
@@ -857,13 +854,22 @@
         "SEBU/04 결정/SEBU 결정 기록.md",
         "SEBU/05 운영/SEBU 배포와 모니터링.md",
         "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
-        "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md",
-        "SEBU/07 기록/SEBU 갱신 기록 - 2026-10-09.md",
-        "SEBU/07 기록/SEBU 물리천문학과 링크 보완 기록 - 2026-10-09.md",
-        "SEBU/07 기록/SEBU 운영 배포 완료 기록 - 2026-10-09.md"
+        "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md"
       ],
       "blob": "536bb6c443787b4f9bd66e324f996d79cf299761",
       "sha256": "4e3886c81c05555e36e0b5c59955041038efb1c88922baeb8b4d5fe9f548b4d6"
+    },
+    {
+      "id": "B:src/main/resources/db/migration/V51__add_missing_aerospace_laboratory_links.sql",
+      "repository": "B",
+      "path": "src/main/resources/db/migration/V51__add_missing_aerospace_laboratory_links.sql",
+      "notes": [
+        "SEBU/02 구조/SEBU 데이터 모델.md",
+        "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md",
+        "SEBU/05 운영/SEBU 테스트 지도.md"
+      ],
+      "blob": "a689c490008d616345df7dc83445324386890032",
+      "sha256": "083abc051a840de7b38c7be8cd19009440ab578867b0ddc1e56ab6e1fa107e5d"
     },
     {
       "id": "B:src/main/resources/db/migration/V6__add_active_laboratory_name_unique_constraint.sql",
@@ -979,6 +985,40 @@
       "sha256": "3aea48757bfe958b812325098f4e393dce4ef1b5ba945cefd9837381034ecd60"
     },
     {
+      "id": "B:src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMigrationContract.java",
+      "repository": "B",
+      "path": "src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMigrationContract.java",
+      "notes": [
+        "SEBU/02 구조/SEBU 데이터 모델.md",
+        "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md",
+        "SEBU/05 운영/SEBU 테스트 지도.md"
+      ],
+      "blob": "be070f3cbf1eae6a8b4021f7525da2b20f6c8a50",
+      "sha256": "deb9f8b1cd07f08f1471234e64a818ca64e6f0a366f4fbd6bb1b0a2f97163876"
+    },
+    {
+      "id": "B:src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMigrationTest.java",
+      "repository": "B",
+      "path": "src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMigrationTest.java",
+      "notes": [
+        "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md",
+        "SEBU/05 운영/SEBU 테스트 지도.md"
+      ],
+      "blob": "32d2ff67bb7f23e87c35486604b1c294d94a3eb0",
+      "sha256": "83a94046e6fc1bcc2501ed317633a8f93652c05665491a00d10ce76148b3dcb0"
+    },
+    {
+      "id": "B:src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMySqlMigrationTest.java",
+      "repository": "B",
+      "path": "src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMySqlMigrationTest.java",
+      "notes": [
+        "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md",
+        "SEBU/05 운영/SEBU 테스트 지도.md"
+      ],
+      "blob": "6b50434e453bbf37addb180c8577d456ac944812",
+      "sha256": "fc1c2d119f4d56f07d58626e5e8ee2afe3e149000d01bb083725cabbae92be32"
+    },
+    {
       "id": "B:src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationContract.java",
       "repository": "B",
       "path": "src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationContract.java",
@@ -986,8 +1026,7 @@
         "SEBU/02 구조/SEBU 데이터 모델.md",
         "SEBU/03 기능/SEBU 크롤링과 승격.md",
         "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md",
-        "SEBU/05 운영/SEBU 테스트 지도.md",
-        "SEBU/07 기록/SEBU 물리천문학과 링크 보완 기록 - 2026-10-09.md"
+        "SEBU/05 운영/SEBU 테스트 지도.md"
       ],
       "blob": "be4ee62f98f9d536d3047c8a19edb8aa4b3a87a7",
       "sha256": "8aa3f629712ea85bc33fca60510a8b2ace93197b3731800ebb47934b10993342"
@@ -998,8 +1037,7 @@
       "path": "src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationTest.java",
       "notes": [
         "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md",
-        "SEBU/05 운영/SEBU 테스트 지도.md",
-        "SEBU/07 기록/SEBU 물리천문학과 링크 보완 기록 - 2026-10-09.md"
+        "SEBU/05 운영/SEBU 테스트 지도.md"
       ],
       "blob": "45b3c579424366130d9251b326ee686dc72985d7",
       "sha256": "24aa3850b279b67792c262f5ef7727d70f2eb73dfbc514b4b931e2dbb52aa03f"
@@ -1010,9 +1048,7 @@
       "path": "src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMySqlMigrationTest.java",
       "notes": [
         "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md",
-        "SEBU/05 운영/SEBU 테스트 지도.md",
-        "SEBU/07 기록/SEBU 갱신 기록 - 2026-10-09.md",
-        "SEBU/07 기록/SEBU 물리천문학과 링크 보완 기록 - 2026-10-09.md"
+        "SEBU/05 운영/SEBU 테스트 지도.md"
       ],
       "blob": "46872f9639829558c038edd5f49e51dcb4458d92",
       "sha256": "b3c8eb257fda500bdc1e007c564507963aaa567e5a23ec08fa1ceea96f786ce6"
@@ -1070,6 +1106,18 @@
       ],
       "blob": "94ef7b96057953c568210734f3656034b575e854",
       "sha256": "da3419b81c3b1931899326602ffdcf6ffe513d6bc48c2692935db9ecfc0dcdf3"
+    },
+    {
+      "id": "B:src/test/resources/aerospace-laboratory-links.csv",
+      "repository": "B",
+      "path": "src/test/resources/aerospace-laboratory-links.csv",
+      "notes": [
+        "SEBU/02 구조/SEBU 데이터 모델.md",
+        "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md",
+        "SEBU/05 운영/SEBU 테스트 지도.md"
+      ],
+      "blob": "8de24b1f5d09336fd0d19c3953b034962e354836",
+      "sha256": "cd8ae576592cebe8fd6b42de511d2a19c4c180be4536633990e1b87100249076"
     },
     {
       "id": "F:package.json",
@@ -1264,8 +1312,7 @@
       "notes": [
         "SEBU/02 구조/SEBU 프론트엔드 구조.md",
         "SEBU/03 기능/SEBU 메인과 모바일 화면.md",
-        "SEBU/03 기능/SEBU 신고와 관리자 검토.md",
-        "SEBU/07 기록/SEBU 갱신 기록 - 2026-10-09.md"
+        "SEBU/03 기능/SEBU 신고와 관리자 검토.md"
       ],
       "blob": "de96f0a35c3b63b9b57e4da81617345463464c00",
       "sha256": "fdba75317e057da4f427b459e19fd754ce9b1a7a7a377274106003f8984da954"
@@ -1361,8 +1408,7 @@
         "SEBU/02 구조/SEBU 프론트엔드 구조.md",
         "SEBU/03 기능/SEBU 메인과 모바일 화면.md",
         "SEBU/03 기능/SEBU 인증과 CSRF.md",
-        "SEBU/05 운영/SEBU 변경 검토 목록.md",
-        "SEBU/07 기록/SEBU 갱신 기록 - 2026-10-09.md"
+        "SEBU/05 운영/SEBU 변경 검토 목록.md"
       ],
       "blob": "3eebf2556294bac4e86aad8aba5d37437c5c3a5a",
       "sha256": "d89da59e363984a503ab71b1975797fb8417468aaef029e43ff3bfc980286dfe"
@@ -1715,8 +1761,7 @@
         "SEBU/03 기능/SEBU 연구 분야 분류.md",
         "SEBU/03 기능/SEBU 연구실 탐색.md",
         "SEBU/03 기능/SEBU 화면과 API 공유.md",
-        "SEBU/05 운영/SEBU 변경 검토 목록.md",
-        "SEBU/07 기록/SEBU 갱신 기록 - 2026-10-09.md"
+        "SEBU/05 운영/SEBU 변경 검토 목록.md"
       ],
       "blob": "37edc29f46ba36ac2a551d3db496c99e168f4f20",
       "sha256": "d168fa7f6a963130ce23b49c66c2e14fdf41238eb7ae9b0ee8f9fbfec8244e6a"
@@ -1911,9 +1956,7 @@
         "SEBU/05 운영/SEBU 배포와 모니터링.md",
         "SEBU/05 운영/SEBU 변경 검토 목록.md",
         "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
-        "SEBU/05 운영/SEBU 테스트 지도.md",
-        "SEBU/07 기록/SEBU 갱신 기록 - 2026-10-09.md",
-        "SEBU/07 기록/SEBU 운영 배포 완료 기록 - 2026-10-09.md"
+        "SEBU/05 운영/SEBU 테스트 지도.md"
       ],
       "blob": "66ae4409b2f5cc9e1bba1d6e484870d77e74d994",
       "sha256": "1a2f05f491a3f9aeb49c846509b20c1493062e5ae2598505a4a8c8b601ce070f"

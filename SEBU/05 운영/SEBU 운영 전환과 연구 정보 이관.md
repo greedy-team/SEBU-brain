@@ -3,7 +3,7 @@ project: SEBU
 type: "runbook"
 status: "운영 이관·배포·백업 완료, FE 인증 기능 검증 남음"
 created: 2026-10-08
-verified: 2026-10-09
+verified: 2026-10-10
 tags:
   - sebu
   - sebu/runbook
@@ -55,14 +55,14 @@ FE는 `dev`를 운영 배포 브랜치로 사용한다. 현재 `vercel.json`은 
 - 같은 AWS 프로젝트, 선택 리전 `ap-southeast-2`에 개발·운영 EC2를 분리했다. 운영은 상시, 개발은 필요할 때만 켜는 방식으로 합의했다. 사용자가 예상한 주 1회 약 2시간은 이용 계획이며 자동 기동·중지 예약을 설정했다는 뜻이 아니다. 개발 서버의 현재 실행·중지 상태는 별도 확인한다.
 - 운영은 `t3.small`, 암호화한 30 GiB gp3와 별도 MySQL 컨테이너·볼륨을 사용한다. RDS를 새로 만드는 구성은 선택하지 않았다. 10월 8일 마지막 플랜 확인은 FREE·ACTIVE, 잔여 크레딧 USD 72.86, 만료 2027-03-06 14:19 KST였다. 유료 전환은 하지 않았다. 이 금액은 당시 기록이며 새 배포 결정 때 재확인한다.
 - 당시 운영 기본 추정은 월 USD 25.802였다. 730시간의 EC2·공인 IPv4와 30 GiB gp3 기준으로 백업·초과 트래픽·세금은 제외한 값이다. 무료 플랜·크레딧을 사용한다고 리소스 비용 자체가 0인 것은 아니다. S3 분리 백업은 사용자 승인 후 추가했다.
-- 환경 파일은 서버에서 작성한다. DB 계정·비밀번호와 JWT 비밀값은 환경별로 분리하고 Git에 넣지 않는다. 두 환경 모두 `prod` 프로필을 사용하는 것은 MySQL·HTTPS 설정을 의미하며 `main` 브랜치와 동의어가 아니다.
+- 환경 파일은 서버에서 작성한다. DB 계정·비밀번호와 JWT 비밀값은 환경별로 분리하고 Git에 넣지 않는다. `prod` 프로필은 MySQL·HTTPS 설정을 의미하며 `main` 브랜치와 동의어가 아니다. 10월 10일 운영은 기존 `prod`에 `monitoring`을 추가하고 전용 수집 인증을 설정했다. 서버 재구성 시에도 두 프로필과 비밀값을 복구한다. [[SEBU 운영 모니터링과 대시보드 해석]]
 - 운영 설정 예시의 `.invalid` API 주소는 의도적인 미확정 값이다. 실제 HTTPS 주소로 바꾸지 않으면 배포 도구가 거부한다.
 - `install.sh main` 전에 운영 `config.json`과 `backend.env`, MySQL과 정상 상태의 최초 백엔드를 준비한다. 설치는 타이머를 켜거나 컨테이너를 재시작하지 않는다. 기존 개발 호스트 설정을 `main`으로 바꾸어 운영으로 재사용하지 않는다.
 - FE의 운영 API 연결과 공개 API의 직접·프록시 응답 일치는 확인했다. 도메인·쿠키·CORS·CSRF의 전체 인증 흐름은 깨끗한 브라우저 세션과 기존 로그인 세션 각각에서 별도로 확인한다.
 
 ## 초기 데이터와 전체 연구 정보의 차이
 
-최초 운영 배포 당시 빈 DB에서 Flyway V1~V49를 실행하자 교수·연구실 각 **321개**가 생성됐다. 이것은 코드에 포함된 기본 데이터이며 개발 DB 전체가 아니다. 2026-10-08 개발 DB의 교수·연구실 각 **622개**를 실제 운영에 이관해 자연과학대·생명과학대·인공지능융합대 정보를 포함한 전체 카탈로그를 맞췄다. 현재 기준의 V50은 누락된 URL 보완이며 이 초기 이관을 대신하지 않는다.
+최초 운영 배포 당시 빈 DB에서 Flyway V1~V49를 실행하자 교수·연구실 각 **321개**가 생성됐다. 이것은 코드에 포함된 기본 데이터이며 개발 DB 전체가 아니다. 2026-10-08 개발 DB의 교수·연구실 각 **622개**를 실제 운영에 이관해 자연과학대·생명과학대·인공지능융합대 정보를 포함한 전체 카탈로그를 맞췄다. V50·V51은 누락된 URL 보완이며 이 초기 이관을 대신하지 않는다. [[SEBU 항공우주공학과 링크 보완 기록 - 2026-10-10]]
 
 같은 코드로 운영 스키마를 만든 뒤 `catalog_transfer.py`로 개발 DB의 전체 연구 정보를 교체 복원했다. 기존 V1~V49를 고쳐 넣거나 개발 DB 전체 덤프를 그대로 복원한 것은 아니다.
 
@@ -120,7 +120,7 @@ python3 ops/deploy/catalog_transfer.py verify \
 | 3. 운영 EC2·DB·도메인·HTTPS | 완료. 재부팅 후 DB 영속성·고정 IP와 실제 DNS/TLS 확인 |
 | 4. `main` 출시·운영 배포 | 완료. PR #95, main CI·digest, Flyway 49개·readiness·공개 API 확인 |
 | 5. 전체 연구 정보 이관·FE 내부 검사 | 백엔드 완료. 11개 테이블 해시 일치·제외 12개 테이블 0건·공개 검사 17개 통과. Pull 자동 배포 활성화. 실제 로그인·쓰기는 남음 |
-| 6. 초기 백업·복원·정기 백업 | 완료. S3 버전 지정 복원·24개 테이블·35개 외래 키 검증, 매일 03:00 KST 타이머 활성화와 동일 서비스 수동 실행 성공. 예약 실행의 이후 결과는 미확인 |
+| 6. 초기 백업·복원·정기 백업 | 완료. S3 버전 지정 복원·24개 테이블·35개 외래 키 검증, 매일 03:00 KST 타이머 활성화와 동일 서비스 수동 실행 성공. 10월 10일 예약 실행 성공·S3 검증을 추가 확인. 이후 지속 성공은 정기 점검 |
 | 7. 사용자 공개·운영 확인 | FE `/api` 운영 연결·공개 HTTP 확인 완료. 실제 인증 브라우저 수용 검증은 FE 담당자에게 인계 |
 
 운영 작업은 한 단계를 마칠 때마다 결과를 보고하고 다음 진행 지시를 기다리는 원칙을 유지한다. 표의 완료는 과거 실행 기록을 정리한 것이며 새 작업 승인으로 해석하지 않는다. [[SEBU 배포와 모니터링]] · [[SEBU 테스트 지도]] · [[SEBU 변경 검토 목록]]
@@ -131,20 +131,20 @@ python3 ops/deploy/catalog_transfer.py verify \
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · .github/workflows/ci.yml](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/.github/workflows/ci.yml)
-- [백엔드 · ops/deploy/deploy.py](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/deploy.py)
-- [백엔드 · ops/deploy/install.sh](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/install.sh)
-- [백엔드 · ops/deploy/config.example.json](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/config.example.json)
-- [백엔드 · ops/deploy/config.main.example.json](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/config.main.example.json)
-- [백엔드 · ops/deploy/backend.develop.env.example](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/backend.develop.env.example)
-- [백엔드 · ops/deploy/backend.main.env.example](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/backend.main.env.example)
-- [백엔드 · ops/deploy/sebu-pull-deploy.timer](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/sebu-pull-deploy.timer)
-- [백엔드 · ops/deploy/catalog_transfer.py](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/catalog_transfer.py)
-- [백엔드 · ops/deploy/smoke-prod.sh](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/smoke-prod.sh)
-- [백엔드 · ops/deploy/smoke-catalog-transfer.sh](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/smoke-catalog-transfer.sh)
-- [백엔드 · ops/deploy/verify-production-seed.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/verify-production-seed.sql)
+- [백엔드 · .github/workflows/ci.yml](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/.github/workflows/ci.yml)
+- [백엔드 · ops/deploy/deploy.py](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/ops/deploy/deploy.py)
+- [백엔드 · ops/deploy/install.sh](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/ops/deploy/install.sh)
+- [백엔드 · ops/deploy/config.example.json](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/ops/deploy/config.example.json)
+- [백엔드 · ops/deploy/config.main.example.json](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/ops/deploy/config.main.example.json)
+- [백엔드 · ops/deploy/backend.develop.env.example](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/ops/deploy/backend.develop.env.example)
+- [백엔드 · ops/deploy/backend.main.env.example](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/ops/deploy/backend.main.env.example)
+- [백엔드 · ops/deploy/sebu-pull-deploy.timer](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/ops/deploy/sebu-pull-deploy.timer)
+- [백엔드 · ops/deploy/catalog_transfer.py](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/ops/deploy/catalog_transfer.py)
+- [백엔드 · ops/deploy/smoke-prod.sh](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/ops/deploy/smoke-prod.sh)
+- [백엔드 · ops/deploy/smoke-catalog-transfer.sh](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/ops/deploy/smoke-catalog-transfer.sh)
+- [백엔드 · ops/deploy/verify-production-seed.sql](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/ops/deploy/verify-production-seed.sql)
 - [프론트 · vercel.json](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/vercel.json)
-- [백엔드 · src/main/resources/db/migration/V50__add_missing_physics_astronomy_laboratory_links.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/db/migration/V50__add_missing_physics_astronomy_laboratory_links.sql)
+- [백엔드 · src/main/resources/db/migration/V50__add_missing_physics_astronomy_laboratory_links.sql](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/main/resources/db/migration/V50__add_missing_physics_astronomy_laboratory_links.sql)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->

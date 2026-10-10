@@ -65,8 +65,8 @@ VITE_API_PROXY_TARGET은 프록시 전달 대상이며 브라우저의 출처·�
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · README.md](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/README.md)
-- [백엔드 · build.gradle](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/build.gradle)
+- [백엔드 · README.md](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/README.md)
+- [백엔드 · build.gradle](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/build.gradle)
 - [프론트 · package.json](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/package.json)
 - [프론트 · src/main.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/main.jsx)
 - [프론트 · vite.config.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/vite.config.js)

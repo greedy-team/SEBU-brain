@@ -1,9 +1,9 @@
 ---
 project: SEBU
 type: "reference"
-status: "2026-10-09 CI·운영 이관·백업 복원·공개 API 검증 범위 확인"
+status: "2026-10-10 V51·운영 모니터링 검증 범위 확인"
 created: 2026-09-26
-verified: 2026-10-09
+verified: 2026-10-10
 tags:
   - sebu
   - sebu/reference
@@ -33,13 +33,18 @@ source_ids:
   - "B:src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationContract.java"
   - "B:src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationTest.java"
   - "B:src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMySqlMigrationTest.java"
+  - "B:src/main/resources/db/migration/V51__add_missing_aerospace_laboratory_links.sql"
+  - "B:src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMigrationContract.java"
+  - "B:src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMigrationTest.java"
+  - "B:src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMySqlMigrationTest.java"
+  - "B:src/test/resources/aerospace-laboratory-links.csv"
   - "F:vercel.json"
 ---
 # SEBU 테스트 지도
 
 **운영 서버·전체 연구 정보 이관·S3 백업 복원과 공개 API 검증은 완료했고, 실제 학교 로그인과 인증 후 쓰기의 브라우저 검증은 남아 있다.** 기능 변경의 경계에 맞는 테스트를 고르며 코드의 존재, 실행 통과, 운영 확인을 분리해서 기록한다. [[SEBU 운영 준비 검증 기록 - 2026-10-08]] · [[SEBU 운영 배포 완료 기록 - 2026-10-09]]
 
-기준 백엔드 `src/test`에는 이름이 `*Test.java`인 파일 150개가 있다. 파일 수이며 통과한 테스트 케이스 수가 아니다.
+기준 백엔드 `src/test`에는 이름이 `*Test.java`인 파일 152개가 있다. 파일 수이며 통과한 테스트 케이스 수가 아니다.
 
 | 변경 영역 | 관련 테스트 |
 |---|---|
@@ -54,6 +59,7 @@ source_ids:
 | 예체능 교수·연구실 V48 | ArtsSportsCatalogMigrationTest, ArtsSportsCatalogMySqlMigrationTest |
 | 예체능 연구분야·카테고리 V49 | ArtsSportsResearchFieldMigrationTest, ArtsSportsResearchFieldMySqlMigrationTest |
 | 물리천문학과 링크 V50·기존 자료 보존 | PhysicsAstronomyLaboratoryLinksMigrationTest, PhysicsAstronomyLaboratoryLinksMySqlMigrationTest |
+| 항공우주 링크 V51·공통 소속·기존 자료 보존 | AerospaceLaboratoryLinksMigrationTest, AerospaceLaboratoryLinksMySqlMigrationTest |
 | 컨테이너 readiness | ProdContainerHealthcheckIntegrationTest |
 | 배포 성공·복구·중복 실행·개발/운영 채널 | ops/deploy/tests/test_deploy.py |
 | 전체 연구 정보 이관·활동 제외·해시·롤백 | ops/deploy/tests/test_catalog_transfer.py, smoke-catalog-transfer.sh |
@@ -72,6 +78,22 @@ source_ids:
 V50 전용 테스트는 H2 22개·MySQL 8.0.45 22개, 총 44개가 실패·오류·건너뜀 없이 통과했다. 빈 DB 전체 마이그레이션, V49→V50 업그레이드, 14개 대상 링크, 기존 값·후기·북마크 보존, 잘못된 신원 제외, 재실행 무변경, Hibernate 검증을 포함한다.
 
 [운영 PR CI](https://github.com/greedy-team/SEBU-backend/actions/runs/37886436466)·[개발 PR CI](https://github.com/greedy-team/SEBU-backend/actions/runs/37886474663), 이어 [main CI·이미지 게시](https://github.com/greedy-team/SEBU-backend/actions/runs/37887826434)·[develop CI·이미지 게시](https://github.com/greedy-team/SEBU-backend/actions/runs/37887953157)가 성공했다. 운영 API와 FE `/api`에서 새 링크 14개·전체 622개·물리천문학과 29개·기존 후기 보존을 확인했고, Aside AI에서 김경호 교수 연구실 링크 표시를 확인했다. 실제 로그인·쓰기 E2E나 개발 DB V50 적용까지 검증했다는 뜻은 아니다.
+
+## 10월 10일 항공우주 링크 보완 검증
+
+V51 전용 테스트는 H2 15개·MySQL 8.0.45 15개, 총 30개가 실패·오류·건너뜀 없이 통과했다. 공통 계약과 검수 링크 CSV를 재사용해 빈 DB 전체 마이그레이션·Hibernate 검증, V50→V51 업그레이드, 12개 URL 반영, 기존 URL·신원·소속·연구 분야·후기·북마크 보존, 재실행 무변경을 검사했다.
+
+복수 소속 검사는 교수와 연구실이 **동일한 허용 학과를 공유하는지**를 구분한다. 대표 학과만으로 만족하거나 양쪽 복수 소속으로 만족하는 경우는 허용하며, 한쪽에만 있는 소속·서로 다른 허용 학과·다른 단과대의 동명 학과는 제외한다.
+
+[운영 PR CI](https://github.com/greedy-team/SEBU-backend/actions/runs/37944781116)·[개발 PR CI](https://github.com/greedy-team/SEBU-backend/actions/runs/37944815668)와 병합 후 [main CI·이미지 게시](https://github.com/greedy-team/SEBU-backend/actions/runs/37947280212)·[develop CI·이미지 게시](https://github.com/greedy-team/SEBU-backend/actions/runs/37947319923)가 성공했다. 00:18 KST 운영 API·FE 프록시 각각에서 전체 622개 유지, 대상 12개 URL 일치, 나머지 610개 URL 보존을 확인했다. 표본 화면 검증은 홍성경 교수의 표시와 실제 링크 주소 일치이며 모든 교수 화면·인증 E2E 검증은 아니다. [[SEBU 운영 핫픽스와 데이터 보정]]
+
+## 10월 10일 운영 모니터링 검증
+
+기존 운영 이미지에 `monitoring` 프로필을 활성화하는 도구의 모의 테스트 24개가 통과했다. 운영에서는 인증된 `/actuator/prometheus` 요청 `200`, 인증 없는 요청 `401`, 컨테이너 정상 상태와 공개 조회 API `200`을 확인했다. 애플리케이션 코드나 DB 마이그레이션을 추가한 작업은 아니다.
+
+운영 대시보드 14개 패널의 쿼리 16개가 정상 실행됐고 개발·운영 수집 대상을 분리했다. 실제 운영 수집 `UP`, 장애 알림 `Normal`, 기존 연락처 `sebu-email` 연결 설정을 확인했다. **실제 장애를 발생시키거나 테스트 메일의 도착을 검증하지는 않았다.** 이 대시보드는 서버 지표를 확인하며 접속 사용자 수나 모든 사용자 기능의 성공을 증명하지 않는다. 상세 설정과 검증 범위는 [[SEBU 운영 모니터링 구축 기록 - 2026-10-10]]에 기록한다.
+
+이번 문서 갱신은 위 작업 당시의 실행 기록과 현재 기준 코드를 대조한 것이며, 실제 서버 변경이나 전체 앱 테스트를 다시 수행한 결과가 아니다. V51의 고정 근거는 [[SEBU 항공우주공학과 링크 보완 기록 - 2026-10-10]]에 남긴다.
 
 ## 백엔드 로컬 명령
 
@@ -110,31 +132,36 @@ FE 담당자의 별도 브라우저 확인에서는 새 세션·기존 로그인
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · ops/deploy/tests/test_catalog_transfer.py](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/tests/test_catalog_transfer.py)
-- [백엔드 · ops/deploy/smoke-catalog-transfer.sh](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/smoke-catalog-transfer.sh)
-- [백엔드 · ops/deploy/smoke-prod.sh](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/smoke-prod.sh)
-- [백엔드 · ops/deploy/verify-production-seed.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/verify-production-seed.sql)
-- [백엔드 · build.gradle](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/build.gradle)
-- [백엔드 · .github/workflows/ci.yml](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/.github/workflows/ci.yml)
-- [백엔드 · src/test/java/com/sebu/backend/global/auth/CorsIntegrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/global/auth/CorsIntegrationTest.java)
-- [백엔드 · src/test/java/com/sebu/backend/global/auth/SecurityPublicApiIntegrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/global/auth/SecurityPublicApiIntegrationTest.java)
-- [백엔드 · src/test/java/com/sebu/backend/auth/controller/CookieCsrfIntegrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/auth/controller/CookieCsrfIntegrationTest.java)
-- [백엔드 · src/test/java/com/sebu/backend/global/auth/ProdContainerHealthcheckIntegrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/global/auth/ProdContainerHealthcheckIntegrationTest.java)
-- [백엔드 · src/test/java/com/sebu/backend/laboratory/LaboratoryReviewCountControllerIntegrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/laboratory/LaboratoryReviewCountControllerIntegrationTest.java)
-- [백엔드 · ops/deploy/tests/test_deploy.py](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/tests/test_deploy.py)
+- [백엔드 · ops/deploy/tests/test_catalog_transfer.py](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/ops/deploy/tests/test_catalog_transfer.py)
+- [백엔드 · ops/deploy/smoke-catalog-transfer.sh](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/ops/deploy/smoke-catalog-transfer.sh)
+- [백엔드 · ops/deploy/smoke-prod.sh](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/ops/deploy/smoke-prod.sh)
+- [백엔드 · ops/deploy/verify-production-seed.sql](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/ops/deploy/verify-production-seed.sql)
+- [백엔드 · build.gradle](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/build.gradle)
+- [백엔드 · .github/workflows/ci.yml](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/.github/workflows/ci.yml)
+- [백엔드 · src/test/java/com/sebu/backend/global/auth/CorsIntegrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/global/auth/CorsIntegrationTest.java)
+- [백엔드 · src/test/java/com/sebu/backend/global/auth/SecurityPublicApiIntegrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/global/auth/SecurityPublicApiIntegrationTest.java)
+- [백엔드 · src/test/java/com/sebu/backend/auth/controller/CookieCsrfIntegrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/auth/controller/CookieCsrfIntegrationTest.java)
+- [백엔드 · src/test/java/com/sebu/backend/global/auth/ProdContainerHealthcheckIntegrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/global/auth/ProdContainerHealthcheckIntegrationTest.java)
+- [백엔드 · src/test/java/com/sebu/backend/laboratory/LaboratoryReviewCountControllerIntegrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/laboratory/LaboratoryReviewCountControllerIntegrationTest.java)
+- [백엔드 · ops/deploy/tests/test_deploy.py](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/ops/deploy/tests/test_deploy.py)
 - [프론트 · package.json](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/package.json)
-- [백엔드 · src/test/java/com/sebu/backend/researchfield/category/controller/ResearchFieldCategoryApiIntegrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/researchfield/category/controller/ResearchFieldCategoryApiIntegrationTest.java)
-- [백엔드 · src/test/java/com/sebu/backend/laboratory/controller/LaboratoryResearchFieldDetailsIntegrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/laboratory/controller/LaboratoryResearchFieldDetailsIntegrationTest.java)
-- [백엔드 · src/test/java/com/sebu/backend/researchfield/category/repository/ResearchFieldCategoryMySqlMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/researchfield/category/repository/ResearchFieldCategoryMySqlMigrationTest.java)
-- [백엔드 · src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMigrationContract.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMigrationContract.java)
-- [백엔드 · src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMigrationTest.java)
-- [백엔드 · src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMySqlMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMySqlMigrationTest.java)
-- [백엔드 · src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMigrationContract.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMigrationContract.java)
-- [백엔드 · src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMigrationTest.java)
-- [백엔드 · src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMySqlMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMySqlMigrationTest.java)
-- [백엔드 · src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationContract.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationContract.java)
-- [백엔드 · src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationTest.java)
-- [백엔드 · src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMySqlMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMySqlMigrationTest.java)
+- [백엔드 · src/test/java/com/sebu/backend/researchfield/category/controller/ResearchFieldCategoryApiIntegrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/researchfield/category/controller/ResearchFieldCategoryApiIntegrationTest.java)
+- [백엔드 · src/test/java/com/sebu/backend/laboratory/controller/LaboratoryResearchFieldDetailsIntegrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/laboratory/controller/LaboratoryResearchFieldDetailsIntegrationTest.java)
+- [백엔드 · src/test/java/com/sebu/backend/researchfield/category/repository/ResearchFieldCategoryMySqlMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/researchfield/category/repository/ResearchFieldCategoryMySqlMigrationTest.java)
+- [백엔드 · src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMigrationContract.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMigrationContract.java)
+- [백엔드 · src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMigrationTest.java)
+- [백엔드 · src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMySqlMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/crawling/repository/ArtsSportsCatalogMySqlMigrationTest.java)
+- [백엔드 · src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMigrationContract.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMigrationContract.java)
+- [백엔드 · src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMigrationTest.java)
+- [백엔드 · src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMySqlMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/researchfield/category/repository/ArtsSportsResearchFieldMySqlMigrationTest.java)
+- [백엔드 · src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationContract.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationContract.java)
+- [백엔드 · src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationTest.java)
+- [백엔드 · src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMySqlMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMySqlMigrationTest.java)
+- [백엔드 · src/main/resources/db/migration/V51__add_missing_aerospace_laboratory_links.sql](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/main/resources/db/migration/V51__add_missing_aerospace_laboratory_links.sql)
+- [백엔드 · src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMigrationContract.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMigrationContract.java)
+- [백엔드 · src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMigrationTest.java)
+- [백엔드 · src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMySqlMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMySqlMigrationTest.java)
+- [백엔드 · src/test/resources/aerospace-laboratory-links.csv](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/resources/aerospace-laboratory-links.csv)
 - [프론트 · vercel.json](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/vercel.json)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
