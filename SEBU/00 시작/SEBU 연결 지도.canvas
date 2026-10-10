@@ -3,7 +3,7 @@
     {
       "id": "intro",
       "type": "text",
-      "text": "# SEBU · 팀 지식 지도\n\n기능 → 구조 → 결정 → 운영 결과\n\n2026-10-09 · BE develop bb73725 / 운영 main 977ca6c · FE dev e7e54de\nSEBU-brain 레포 루트를 보관함으로 연다.",
+      "text": "# SEBU · 팀 지식 지도\n\n기능 → 구조 → 결정 → 운영 결과\n\n2026-10-10 · BE develop 7d4839b / 운영 main 3c7445e · FE dev e7e54de\nSEBU-brain 레포 루트를 보관함으로 연다.",
       "x": -520,
       "y": -260,
       "width": 1040,
@@ -267,6 +267,46 @@
       "width": 440,
       "height": 270,
       "color": "4"
+    },
+    {
+      "id": "monitoring-guide",
+      "type": "file",
+      "file": "SEBU/05 운영/SEBU 운영 모니터링과 대시보드 해석.md",
+      "x": -780,
+      "y": 3150,
+      "width": 440,
+      "height": 270,
+      "color": "4"
+    },
+    {
+      "id": "monitoring-oct10",
+      "type": "file",
+      "file": "SEBU/07 기록/SEBU 운영 모니터링 구축 기록 - 2026-10-10.md",
+      "x": -220,
+      "y": 3150,
+      "width": 440,
+      "height": 270,
+      "color": "4"
+    },
+    {
+      "id": "aerospace-oct10",
+      "type": "file",
+      "file": "SEBU/07 기록/SEBU 항공우주공학과 링크 보완 기록 - 2026-10-10.md",
+      "x": 340,
+      "y": 3150,
+      "width": 440,
+      "height": 270,
+      "color": "4"
+    },
+    {
+      "id": "refresh-oct10",
+      "type": "file",
+      "file": "SEBU/07 기록/SEBU 갱신 기록 - 2026-10-10.md",
+      "x": -220,
+      "y": 3550,
+      "width": 440,
+      "height": 270,
+      "color": "4"
     }
   ],
   "edges": [
@@ -495,6 +535,34 @@
       "fromNode": "backlog",
       "fromSide": "bottom",
       "toNode": "reports-admin",
+      "toSide": "top"
+    },
+    {
+      "id": "link-monitoring-guide",
+      "fromNode": "ops",
+      "fromSide": "bottom",
+      "toNode": "monitoring-guide",
+      "toSide": "top"
+    },
+    {
+      "id": "link-monitoring-oct10",
+      "fromNode": "monitoring-guide",
+      "fromSide": "bottom",
+      "toNode": "monitoring-oct10",
+      "toSide": "top"
+    },
+    {
+      "id": "link-aerospace-oct10",
+      "fromNode": "hotfix-runbook",
+      "fromSide": "bottom",
+      "toNode": "aerospace-oct10",
+      "toSide": "top"
+    },
+    {
+      "id": "link-refresh-oct10",
+      "fromNode": "home",
+      "fromSide": "bottom",
+      "toNode": "refresh-oct10",
       "toSide": "top"
     }
   ]

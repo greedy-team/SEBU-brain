@@ -2,9 +2,9 @@
 
 SEBU의 기능, 구조, 설계 이유와 운영 지식을 연결하는 팀용 Obsidian 보관함입니다.
 
-**기준:** 2026-10-09 확인 · [백엔드 develop `bb73725`](https://github.com/greedy-team/SEBU-backend/commit/bb7372518cb2d69f0e83cad2ec760a8920c7f964) · [백엔드 운영 main `977ca6c`](https://github.com/greedy-team/SEBU-backend/commit/977ca6cc8cf60fcb31c7e1445978b4a23dfb486e) · [프론트 운영 dev `e7e54de`](https://github.com/greedy-team/SEBU-frontend/commit/e7e54deff631adfef08b9b9e0dac9af5c398c317)
+**기준:** 2026-10-10 확인 · [백엔드 develop `7d4839b`](https://github.com/greedy-team/SEBU-backend/commit/7d4839b46ca8cdc6c608ec9934ee02e018e54893) · [백엔드 운영 main `3c7445e`](https://github.com/greedy-team/SEBU-backend/commit/3c7445e173528b22c40c9abb47b0fb35ad81ff6e) · [프론트 운영 dev `e7e54de`](https://github.com/greedy-team/SEBU-frontend/commit/e7e54deff631adfef08b9b9e0dac9af5c398c317)
 
-서비스는 [www.sebu.kr](https://www.sebu.kr/), 운영 API는 [api.sebu.kr](https://api.sebu.kr/api/v1/laboratories)입니다. 운영 배포·연구 정보 이관·백업과 물리천문학과 링크 보완 기록을 반영했습니다. 코드 확인, 실제 실행 결과, 아직 구현하지 않은 제안을 구분합니다.
+서비스는 [www.sebu.kr](https://www.sebu.kr/), 운영 API는 [api.sebu.kr](https://api.sebu.kr/api/v1/laboratories)입니다. 운영 Grafana 대시보드·장애 알림, 지표 해석과 항공우주공학과 홈페이지 12건 보완까지 반영했습니다. 코드 확인, 실제 실행 결과, 아직 구현하지 않은 제안을 구분합니다.
 
 ## 처음 읽는 팀원
 
@@ -30,8 +30,10 @@ git pull --ff-only
 | 무엇을 만드는 서비스인가? | [프로젝트 개요](<SEBU/01 프로젝트/SEBU 프로젝트 개요.md>) |
 | 백엔드 docs와 실행 안내는 어디에 있는가? | [백엔드 문서 모음](<SEBU/90 자료/SEBU 백엔드 문서 모음.md>) · [이전 기록](<SEBU/07 기록/SEBU 문서 이전 기록 - 2026-10-08.md>) |
 | 운영 전환과 전체 연구 정보 이관은 어떻게 하는가? | [SEBU 운영 전환과 연구 정보 이관](<SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md>) · [검증 기록](<SEBU/07 기록/SEBU 운영 준비 검증 기록 - 2026-10-08.md>) |
-| 지금까지 무엇을 반영했고 무엇이 남았는가? | [10월 9일 갱신 기록](<SEBU/07 기록/SEBU 갱신 기록 - 2026-10-09.md>) · [운영 배포 기록](<SEBU/07 기록/SEBU 운영 배포 완료 기록 - 2026-10-09.md>) |
+| 지금까지 무엇을 반영했고 무엇이 남았는가? | [10월 10일 갱신 기록](<SEBU/07 기록/SEBU 갱신 기록 - 2026-10-10.md>) · [운영 배포 기록](<SEBU/07 기록/SEBU 운영 배포 완료 기록 - 2026-10-09.md>) |
 | 운영 중 급한 코드·데이터 수정은 어떻게 하는가? | [운영 핫픽스와 데이터 보정](<SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md>) · [물리천문학과 링크 보완](<SEBU/07 기록/SEBU 물리천문학과 링크 보완 기록 - 2026-10-09.md>) |
+| 운영 상태·알림과 요청 그래프는 어떻게 읽는가? | [운영 모니터링과 대시보드 해석](<SEBU/05 운영/SEBU 운영 모니터링과 대시보드 해석.md>) · [구축 기록](<SEBU/07 기록/SEBU 운영 모니터링 구축 기록 - 2026-10-10.md>) |
+| 최근 항공우주공학과 링크 보완 결과는? | [V51 보완 기록](<SEBU/07 기록/SEBU 항공우주공학과 링크 보완 기록 - 2026-10-10.md>) |
 | 지금 구현된 것은 무엇인가? | [구현 현황](<SEBU/01 프로젝트/SEBU 구현 현황.md>) |
 | 검색·단과대·랩실평가가 같은 API를 쓰는가? | [화면과 API 공유](<SEBU/03 기능/SEBU 화면과 API 공유.md>) |
 | 공개 API를 외부 주소창에서 열 수 있는 이유는? | [공개 API와 CORS](<SEBU/03 기능/SEBU 공개 API와 CORS.md>) |

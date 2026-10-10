@@ -1,28 +1,28 @@
 ---
 project: SEBU
 type: "reference"
-status: "운영 배포·핫픽스와 최신 FE 코드 대조"
+status: "V51 코드·운영 모니터링 실행 기록 대조"
 created: 2026-09-26
-verified: 2026-10-09
+verified: 2026-10-10
 tags:
   - sebu
   - sebu/reference
 ---
 # SEBU 저장소와 기준 버전
 
-2026-10-09 기준으로 BE는 main이 운영, develop이 개발이며 FE는 dev가 운영 브랜치다. 아래 커밋은 문서가 확인한 시점의 기준이다. 이후 브랜치 이동이나 배포 성공을 자동으로 반영하지 않는다.
+2026-10-10 기준으로 BE는 main이 운영, develop이 개발이며 FE는 dev가 운영 브랜치다. 아래 커밋은 문서가 확인한 시점의 기준이다. 이후 브랜치 이동이나 배포 성공을 자동으로 반영하지 않는다.
 
 | 저장소 | 기준 브랜치 | 반영한 커밋 | 반영 범위 |
 |---|---|---|---|
-| [SEBU-backend 운영](https://github.com/greedy-team/SEBU-backend) | main | [977ca6c](https://github.com/greedy-team/SEBU-backend/commit/977ca6cc8cf60fcb31c7e1445978b4a23dfb486e) | PR #95 운영 출시 이후 PR #96 홈페이지 핫픽스. 운영 API 반영 확인 |
-| [SEBU-backend 개발·코드 근거](https://github.com/greedy-team/SEBU-backend) | develop | [bb73725](https://github.com/greedy-team/SEBU-backend/commit/bb7372518cb2d69f0e83cad2ec760a8920c7f964) | PR #97로 동일 V50 반영. 운영 main과 파일 내용이 같음 |
-| [SEBU-frontend 운영](https://github.com/greedy-team/SEBU-frontend) | dev | [e7e54de](https://github.com/greedy-team/SEBU-frontend/commit/e7e54deff631adfef08b9b9e0dac9af5c398c317) | 운영 API rewrite, 검색 상태, 로그인 전 동의·정책 문서·탐색 문구 검토 |
+| [SEBU-backend 운영](https://github.com/greedy-team/SEBU-backend) | main | [3c7445e](https://github.com/greedy-team/SEBU-backend/commit/3c7445e173528b22c40c9abb47b0fb35ad81ff6e) | PR #98 V51 항공우주공학과 링크 보완. 10월 10일 운영 이미지·API와 monitoring 프로필 활성화 확인 |
+| [SEBU-backend 개발·코드 근거](https://github.com/greedy-team/SEBU-backend) | develop | [7d4839b](https://github.com/greedy-team/SEBU-backend/commit/7d4839b46ca8cdc6c608ec9934ee02e018e54893) | PR #99로 동일 V51 반영. 확인한 운영 main과 파일 내용이 같음 |
+| [SEBU-frontend 운영](https://github.com/greedy-team/SEBU-frontend) | dev | [e7e54de](https://github.com/greedy-team/SEBU-frontend/commit/e7e54deff631adfef08b9b9e0dac9af5c398c317) | 지난 문서 기준과 같은 커밋. 이번 작업에서 FE 코드·배포 변경 없음 |
 | [SEBU-brain](https://github.com/greedy-team/SEBU-brain) | main 및 문서 작업 브랜치 | 이 저장소의 Git 기록 | 팀 지식과 이전된 상세 문서 |
 
 ## 이번에 비교한 구간
 
-- BE `d1010d4 → bb73725`: V50과 H2/MySQL 마이그레이션 테스트 3개 파일이 추가됐다. 운영 준비 코드는 이미 이전 기준에 포함돼 있었으며, 이번에는 실제 운영 배포·데이터 이관·백업 실행 결과도 문서에 반영했다.
-- FE `88eee80 → e7e54de`: 변경 파일 34개를 검토했다. 검색어를 history state로 관리하고 기존 keyword URL을 정리하는 처리, 로그인 전 약관·개인정보 동의, 정책 Markdown, 내비게이션·로고·검색 메타데이터, 운영 API 목적지가 포함된다. 패키지 변경은 Markdown 렌더링 의존성 추가와 연결해 확인했다.
+- BE `bb73725 → 7d4839b`: V51 SQL, 공통 계약과 H2/MySQL 테스트 Java 3개, 검수 URL CSV 등 총 5개 파일이 추가됐다. 운영 main과 develop 트리가 같음을 확인했다. API·서비스 로직 변경은 없다.
+- FE `e7e54de → e7e54de`: 원격 dev를 다시 조회했으며 변경 파일이 없다. 지난 검토 내용과 현재 코드 기준이 동일하다.
 - 애플리케이션 코드를 수정하거나 FE 배포를 수행한 문서 작업은 아니다. 원격 커밋의 내용을 읽어 기록했다.
 
 FE의 dev를 BE의 개발 환경과 같은 의미로 해석하지 않는다. FE 브랜치를 main으로 옮기는 것은 이번 팀 운영 방식이 아니다. FE 코드·배포는 FE 담당자가 관리한다.
@@ -33,6 +33,12 @@ FE 원격 dev 커밋 확인은 Vercel 콘솔에서 동일 배포 SHA를 확인�
 
 [[SEBU 운영 준비 검증 기록 - 2026-10-08]]의 “운영 배포 전”은 당시 상태다. 현재 상태를 설명하는 노트만 갱신하고 과거 기록을 배포 완료 기록으로 바꾸지 않는다. 백엔드 원문은 [[SEBU 백엔드 문서 모음]]에 보존하며, `21bd49e` 원본 출처·해시는 역사적 증거이므로 새 코드 기준으로 덮어쓰지 않는다.
 
+## 10월 10일 추가 운영 확인
+
+00:18:35 KST에 V51 12개 홈페이지 반영과 전체 연구실 622개·다른 610개 URL 보존을 확인했다. 이후 운영 모니터링 설정 시 같은 main 커밋과 이미지 digest를 유지한 채 `prod,monitoring` 프로필·전용 수집 토큰만 활성화했다. Grafana 운영 수집 UP·알림 Normal 및 14패널의 16개 쿼리를 검증했다. [[SEBU 항공우주공학과 링크 보완 기록 - 2026-10-10]] · [[SEBU 운영 모니터링 구축 기록 - 2026-10-10]]
+
+이 결과는 기록한 시점의 확인이다. 문서 갱신을 위해 운영 서버 재배포나 실제 로그인·쓰기 검사를 다시 수행하지 않았다.
+
 ## 기준의 의미
 
 - 코드의 파일·해시·연결 노트는 `metadata/source-baseline.json`에 B=develop, F=dev로 기록한다. BE 운영 main 커밋은 위 표와 배포 기록에 별도로 남긴다. 이번 BE 두 커밋은 이력이 다르지만 트리가 같으므로 B 근거의 구현이 확인한 운영 코드와 일치한다.
@@ -41,7 +47,7 @@ FE 원격 dev 커밋 확인은 Vercel 콘솔에서 동일 배포 SHA를 확인�
 - 로그인 1시간 만료·연장·모달은 여전히 미구현 제안이다. Refresh 12시간 변경과 혼동하지 않는다.
 - 이후 변경은 자동 반영되지 않는다. 관련 노트를 검토한 뒤 기준을 갱신한다.
 
-[[SEBU 갱신 기록 - 2026-10-09]] · [[SEBU 문서 이전 기록 - 2026-10-08]] · [[SEBU 팀 공유와 업데이트]] · [[SEBU 지식 갱신 방법]]
+[[SEBU 갱신 기록 - 2026-10-10]] · [[SEBU 갱신 기록 - 2026-10-09]] · [[SEBU 문서 이전 기록 - 2026-10-08]] · [[SEBU 팀 공유와 업데이트]] · [[SEBU 지식 갱신 방법]]
 
 ---
 [[SEBU 홈]] · [[SEBU 지식 지도]]

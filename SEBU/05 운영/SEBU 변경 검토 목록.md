@@ -3,7 +3,7 @@ project: SEBU
 type: "backlog"
 status: "최신 코드·운영 완료 범위 확인, 남은 제안·인증 기능 검증 구분"
 created: 2026-09-26
-verified: 2026-10-09
+verified: 2026-10-10
 tags:
   - sebu
   - sebu/backlog
@@ -41,7 +41,7 @@ source_ids:
 ---
 # SEBU 변경 검토 목록
 
-우선 남은 일은 **FE의 실제 인증·쓰기 기능 검증, 인증 오류·만료 정책, 카테고리 계층 연결과 후기 정책 정리**다. 운영 배포·전체 연구 정보 이관·S3 백업 복원은 완료됐다. 체크된 코드 변경, 과거 운영 실행 성공, 아직 제안인 항목을 아래에서 구분한다. FE 변경과 기능 검사는 FE 담당자가 진행한다.
+우선 남은 일은 **FE의 실제 인증·쓰기 기능 검증, 인증 오류·만료 정책, 카테고리 계층 연결과 후기 정책 정리**다. 운영 배포·전체 연구 정보 이관·S3 백업 복원·V51 링크 보완·운영 Grafana 모니터링은 완료됐다. 체크된 코드 변경, 과거 운영 실행 성공, 아직 제안인 항목을 아래에서 구분한다. FE 변경과 기능 검사는 FE 담당자가 진행한다.
 
 ## 최신 커밋에서 해결된 항목
 
@@ -106,9 +106,15 @@ source_ids:
 - [x] FE 운영 API 연결과 인증 없는 공개 API 3종의 직접·프록시 응답 일치를 확인했다.
 - [x] PR #96·#97의 V50 코드·CI와 운영 14개 링크 반영·기존 자료 보존을 확인했다.
 - [ ] 실제 학교 로그인·기존 쿠키 전환·프록시 쿠키·CSRF·로그아웃과 북마크·프로필·후기 쓰기를 FE 담당자가 확인한다.
-- [ ] 예약 시각의 백업 실행·S3 업로드 지속 성공, S3 접근 로그 도착을 확인한다. 타이머 활성화·수동 실행 성공과 구분한다.
-- [ ] 실제 Prometheus 수집과 외부 실패 알림 필요 여부를 결정한다. 백업 이메일·채팅 실패 알림은 현재 미설정이다.
-- [ ] 개발 서버를 다음에 사용할 때 최신 이미지와 V50 적용을 확인한다. 주 1회 약 2시간은 이용 예상이며 자동 기동·중지 예약은 확인되지 않았다.
+- [x] 10월 10일 정기 백업의 예약 실행 성공과 S3 검증 결과를 확인했다. 최초 수동 실행 성공과 별도로 기록한다.
+- [ ] 이후 예약 백업의 지속 성공과 S3 접근 로그 도착을 점검한다.
+- [x] 운영 monitoring 프로필·전용 토큰을 활성화하고 Grafana Hosted Metrics Endpoint의 실제 수집, 운영 14패널과 개발 쿼리 분리를 확인했다.
+- [x] 운영 수집 실패가 2분 지속되면 sebu-email로 알리도록 설정하고 현재 Normal 상태를 확인했다. [[SEBU 운영 모니터링 구축 기록 - 2026-10-10]]
+- [ ] 실제 장애·복구 상황에서 이메일 수신까지 검증할지는 별도로 결정한다. 현재 수행한 것은 규칙·연락처 설정과 정상 평가 확인이다.
+- [ ] 백업 실패 이메일·채팅 알림은 별도 설정 여부를 결정한다. 운영 수집 실패 알림으로 백업 성공을 감시할 수는 없다.
+- [ ] 사용자 수가 필요하면 가입자·최근 활동 회원·비로그인 방문자 중 집계 대상을 먼저 정한다. 현재 요청량 지표로 사람 수를 계산하지 않는다. [[SEBU 운영 모니터링과 대시보드 해석]]
+- [x] PR #98·#99로 V51 홈페이지 12개를 반영하고 운영 전체 622개·나머지 610개 URL 보존을 확인했다. [[SEBU 항공우주공학과 링크 보완 기록 - 2026-10-10]]
+- [ ] 개발 서버를 다음에 사용할 때 최신 이미지와 V51 적용을 확인한다. 주 1회 약 2시간은 이용 예상이며 자동 기동·중지 예약은 확인되지 않았다.
 
 준비·실행 구분과 현재 구조는 [[SEBU 운영 전환과 연구 정보 이관]], 1~2단계는 [[SEBU 운영 준비 검증 기록 - 2026-10-08]], 실제 3~7단계 결과는 [[SEBU 운영 배포 완료 기록 - 2026-10-09]]를 따른다. 이관 직후 후기 0건은 과거 검증 조건이며 이미 공개된 현재 DB를 다시 비워야 한다는 요구가 아니다.
 
@@ -124,8 +130,8 @@ source_ids:
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · ops/deploy/deploy.py](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/deploy.py)
-- [백엔드 · ops/deploy/catalog_transfer.py](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/catalog_transfer.py)
+- [백엔드 · ops/deploy/deploy.py](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/ops/deploy/deploy.py)
+- [백엔드 · ops/deploy/catalog_transfer.py](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/ops/deploy/catalog_transfer.py)
 - [프론트 · src/api/client.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/api/client.js)
 - [프론트 · src/features/auth/api/authApi.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/auth/api/authApi.js)
 - [프론트 · src/features/auth/hooks/useAuthRestore.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/auth/hooks/useAuthRestore.js)
@@ -139,8 +145,8 @@ source_ids:
 - [프론트 · src/features/community/components/ReviewTagSummary.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/community/components/ReviewTagSummary.jsx)
 - [프론트 · src/pages/LabReviewWrite/index.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/pages/LabReviewWrite/index.jsx)
 - [프론트 · src/App.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/App.jsx)
-- [백엔드 · src/main/java/com/sebu/backend/mypage/dto/ProfileUpdateRequest.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/mypage/dto/ProfileUpdateRequest.java)
-- [백엔드 · src/main/java/com/sebu/backend/laboratoryreview/controller/LaboratoryReviewController.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/laboratoryreview/controller/LaboratoryReviewController.java)
+- [백엔드 · src/main/java/com/sebu/backend/mypage/dto/ProfileUpdateRequest.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/main/java/com/sebu/backend/mypage/dto/ProfileUpdateRequest.java)
+- [백엔드 · src/main/java/com/sebu/backend/laboratoryreview/controller/LaboratoryReviewController.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/main/java/com/sebu/backend/laboratoryreview/controller/LaboratoryReviewController.java)
 - [프론트 · src/hooks/useLabBookmark.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/hooks/useLabBookmark.js)
 - [프론트 · src/features/search/hooks/useLabFilter.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/search/hooks/useLabFilter.js)
 - [프론트 · src/features/search/components/SearchBar.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/search/components/SearchBar.jsx)
@@ -148,8 +154,8 @@ source_ids:
 - [프론트 · src/features/main/components/LabReviewHighlights.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/main/components/LabReviewHighlights.jsx)
 - [프론트 · src/features/main/hooks/useColleges.js](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/main/hooks/useColleges.js)
 - [프론트 · src/pages/Privacy/index.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/pages/Privacy/index.jsx)
-- [백엔드 · src/main/resources/application.yml](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/application.yml)
-- [백엔드 · src/main/java/com/sebu/backend/auth/config/TokenProperties.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/auth/config/TokenProperties.java)
+- [백엔드 · src/main/resources/application.yml](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/main/resources/application.yml)
+- [백엔드 · src/main/java/com/sebu/backend/auth/config/TokenProperties.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/main/java/com/sebu/backend/auth/config/TokenProperties.java)
 - [프론트 · vercel.json](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/vercel.json)
 - [프론트 · src/features/auth/components/LoginForm.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/auth/components/LoginForm.jsx)
 - [프론트 · src/features/auth/components/PrivacyNoticeModal.jsx](https://github.com/greedy-team/SEBU-frontend/blob/e7e54deff631adfef08b9b9e0dac9af5c398c317/src/features/auth/components/PrivacyNoticeModal.jsx)

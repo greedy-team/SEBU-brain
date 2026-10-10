@@ -1,9 +1,9 @@
 ---
 project: SEBU
 type: "runbook"
-status: "V50 운영 반영 사례와 절차 확인"
+status: "V50·V51 운영 반영 사례와 절차 확인"
 created: 2026-10-09
-verified: 2026-10-09
+verified: 2026-10-10
 tags:
   - sebu
   - sebu/runbook
@@ -15,12 +15,17 @@ source_ids:
   - "B:src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationContract.java"
   - "B:src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationTest.java"
   - "B:src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMySqlMigrationTest.java"
+  - "B:src/main/resources/db/migration/V51__add_missing_aerospace_laboratory_links.sql"
+  - "B:src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMigrationContract.java"
+  - "B:src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMigrationTest.java"
+  - "B:src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMySqlMigrationTest.java"
+  - "B:src/test/resources/aerospace-laboratory-links.csv"
 ---
 # SEBU 운영 핫픽스와 데이터 보정
 
-**운영의 작은 오류는 현재 `main`에서 필요한 변경만 분리해 검증하고, 기존 배포 경로로 적용한 뒤 `develop`에도 같은 변경을 반영한다.** 연구실 링크처럼 DB 값의 보정이 필요할 때는 기존 행과 연결을 유지하는 새 Flyway 마이그레이션으로 변경 범위를 명시한다. 실제 사례는 [[SEBU 물리천문학과 링크 보완 기록 - 2026-10-09]]에 정리했다.
+**운영의 작은 오류는 현재 `main`에서 필요한 변경만 분리해 검증하고, 기존 배포 경로로 적용한 뒤 `develop`에도 같은 변경을 반영한다.** 연구실 링크처럼 DB 값의 보정이 필요할 때는 기존 행과 연결을 유지하는 새 Flyway 마이그레이션으로 변경 범위를 명시한다. 실제 사례는 [[SEBU 물리천문학과 링크 보완 기록 - 2026-10-09]]와 [[SEBU 항공우주공학과 링크 보완 기록 - 2026-10-10]]에 정리했다.
 
-이 문서는 V50 사례에서 재사용할 절차다. 각 환경의 실제 배포 상태는 별도 확인하며, 운영 단계가 끝나면 결과를 브리핑하고 사용자의 다음 진행 지시를 따른다.
+이 문서는 V50·V51 사례에서 재사용할 절차다. 각 환경의 실제 배포 상태는 별도 확인하며, 운영 단계가 끝나면 결과를 브리핑하고 사용자의 다음 진행 지시를 따른다.
 
 ## 먼저 변경 대상을 구분한다
 
@@ -66,6 +71,16 @@ V50의 조건과 변경 범위는 다음과 같다.
 
 적용이 끝난 마이그레이션에서 주소를 바꾸지 않는다. 이후 주소가 잘못됐거나 변경됐다면 새 마이그레이션으로 보정해 어떤 변경이 언제 적용됐는지 추적할 수 있게 한다.
 
+## V51 사례: 대표 학과와 복수 소속을 함께 확인한다
+
+항공우주 관련 3개 학과의 누락 링크를 보완할 때는 V50의 SQL을 수정하지 않고 새 V51을 추가했다. 공식 교수 페이지에서 확인한 링크 12개만 포함했으며, URL이 없던 다른 교수의 링크는 추정하지 않았다. 공식 페이지의 홈페이지가 개인 교수 페이지인 경우도 있어 모든 링크를 독립 연구실 사이트로 단정하지 않는다.
+
+V51에서 추가로 주의할 조건은 **교수와 연구실의 공통 소속**이다. 교수별 허용 학과 안에서 교수·연구실이 같은 학과 ID를 공유해야 하며, 각각 대표 학과 또는 복수 소속 테이블로 이를 만족할 수 있다. 공과대학이 아닌 동명 학과, 교수 쪽에만 있는 소속, 양쪽에 공통으로 존재하지 않는 소속은 보정 대상이 아니다. 숫자 ID는 고정하지 않는다.
+
+변경 컬럼·NULL 조건·`MANUAL` 출처·기존 URL과 사용자 활동 보존 원칙은 V50과 같다. 이번 변경은 SQL 1개와 공통 계약·H2·MySQL 테스트 3개, 검수 링크 CSV 1개를 추가했으며 서비스 로직과 API 계약은 수정하지 않았다.
+
+[운영 PR #98](https://github.com/greedy-team/SEBU-backend/pull/98)과 [개발 PR #99](https://github.com/greedy-team/SEBU-backend/pull/99)는 병합됐고 각각의 push CI·이미지 게시도 성공했다. 2026-10-10 00:18 KST 운영 API와 FE 프록시에서 전체 622개를 유지한 채 대상 URL 12개 반영, 나머지 610개 URL 보존을 확인했다. Aside에서는 홍성경 교수 상세 화면의 표시와 실제 링크 주소가 일치함을 확인했다. 이 기록은 전체 화면·로그인·쓰기 기능이나 개발 DB V51 적용 확인으로 확대하지 않는다. [[SEBU 테스트 지도]]
+
 ## 검증과 배포 완료를 구분한다
 
 | 확인 단계 | 알 수 있는 것 | 별도로 확인할 것 |
@@ -99,13 +114,18 @@ SQL 지문이 같다는 조건만으로 Java 마이그레이션 변경까지 안
 <!-- sources:start -->
 ## 근거 파일
 
-- [백엔드 · .github/workflows/ci.yml](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/.github/workflows/ci.yml)
-- [백엔드 · ops/deploy/deploy.py](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/ops/deploy/deploy.py)
-- [백엔드 · src/main/resources/db/migration/V50__add_missing_physics_astronomy_laboratory_links.sql](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/resources/db/migration/V50__add_missing_physics_astronomy_laboratory_links.sql)
-- [백엔드 · src/main/java/com/sebu/backend/laboratory/domain/Laboratory.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/main/java/com/sebu/backend/laboratory/domain/Laboratory.java)
-- [백엔드 · src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationContract.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationContract.java)
-- [백엔드 · src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationTest.java)
-- [백엔드 · src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMySqlMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/bb7372518cb2d69f0e83cad2ec760a8920c7f964/src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMySqlMigrationTest.java)
+- [백엔드 · .github/workflows/ci.yml](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/.github/workflows/ci.yml)
+- [백엔드 · ops/deploy/deploy.py](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/ops/deploy/deploy.py)
+- [백엔드 · src/main/resources/db/migration/V50__add_missing_physics_astronomy_laboratory_links.sql](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/main/resources/db/migration/V50__add_missing_physics_astronomy_laboratory_links.sql)
+- [백엔드 · src/main/java/com/sebu/backend/laboratory/domain/Laboratory.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/main/java/com/sebu/backend/laboratory/domain/Laboratory.java)
+- [백엔드 · src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationContract.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationContract.java)
+- [백엔드 · src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMigrationTest.java)
+- [백엔드 · src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMySqlMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/laboratory/repository/PhysicsAstronomyLaboratoryLinksMySqlMigrationTest.java)
+- [백엔드 · src/main/resources/db/migration/V51__add_missing_aerospace_laboratory_links.sql](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/main/resources/db/migration/V51__add_missing_aerospace_laboratory_links.sql)
+- [백엔드 · src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMigrationContract.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMigrationContract.java)
+- [백엔드 · src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMigrationTest.java)
+- [백엔드 · src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMySqlMigrationTest.java](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/java/com/sebu/backend/laboratory/repository/AerospaceLaboratoryLinksMySqlMigrationTest.java)
+- [백엔드 · src/test/resources/aerospace-laboratory-links.csv](https://github.com/greedy-team/SEBU-backend/blob/7d4839b46ca8cdc6c608ec9934ee02e018e54893/src/test/resources/aerospace-laboratory-links.csv)
 
 기준 커밋은 [[SEBU 저장소와 기준 버전]]에서 확인한다.
 <!-- sources:end -->
