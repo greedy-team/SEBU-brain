@@ -307,6 +307,16 @@
       "width": 440,
       "height": 270,
       "color": "4"
+    },
+    {
+      "id": "ai-adoption",
+      "type": "file",
+      "file": "SEBU/09 AI 도입/SEBU AI 도입.md",
+      "x": 340,
+      "y": 3950,
+      "width": 440,
+      "height": 270,
+      "color": "3"
     }
   ],
   "edges": [
@@ -564,6 +574,14 @@
       "fromSide": "bottom",
       "toNode": "refresh-oct10",
       "toSide": "top"
+    },
+    {
+      "id": "link-ai-adoption",
+      "fromNode": "home",
+      "fromSide": "bottom",
+      "toNode": "ai-adoption",
+      "toSide": "top",
+      "label": "AI 도입 계획"
     }
   ]
 }
