@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "verifiedDate": "2026-10-10",
+  "verifiedDate": "2026-10-26",
   "scope": "Committed Git source snapshots; not a statement of deployed state or passed application tests.",
   "repositories": {
     "B": {
@@ -25,7 +25,8 @@
         "SEBU/05 운영/SEBU 배포와 모니터링.md",
         "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
         "SEBU/05 운영/SEBU 운영 핫픽스와 데이터 보정.md",
-        "SEBU/05 운영/SEBU 테스트 지도.md"
+        "SEBU/05 운영/SEBU 테스트 지도.md",
+        "SEBU/07 기록/SEBU 갱신 기록 - 2026-10-26.md"
       ],
       "blob": "4cb44f0c450cfb5cd1ff26a46e57d26ba88f6cac",
       "sha256": "112600780bc69cfab38b0055c375696548e46716d26e5ce0215e45222ee14cb5"
@@ -230,7 +231,8 @@
       "path": "src/main/java/com/sebu/backend/auth/config/TokenProperties.java",
       "notes": [
         "SEBU/03 기능/SEBU 인증과 CSRF.md",
-        "SEBU/05 운영/SEBU 변경 검토 목록.md"
+        "SEBU/05 운영/SEBU 변경 검토 목록.md",
+        "SEBU/07 기록/SEBU 갱신 기록 - 2026-10-26.md"
       ],
       "blob": "84ff6f9a13f2488fb81357ae48434f912172dada",
       "sha256": "81e6e5251d28c9f6420f78f129c4950ed9b4bfd17ceff98c810c32c31017f710"
@@ -714,7 +716,8 @@
         "SEBU/03 기능/SEBU 공개 API와 CORS.md",
         "SEBU/03 기능/SEBU 인증과 CSRF.md",
         "SEBU/05 운영/SEBU 배포와 모니터링.md",
-        "SEBU/05 운영/SEBU 변경 검토 목록.md"
+        "SEBU/05 운영/SEBU 변경 검토 목록.md",
+        "SEBU/07 기록/SEBU 갱신 기록 - 2026-10-26.md"
       ],
       "blob": "26dd4b0b439e413823e25a0d19b70e8929343cab",
       "sha256": "d4c0de67e74a48907763293449f4dc3d5f63245ea816b8bbcfb55043afac1562"
@@ -1215,6 +1218,7 @@
         "SEBU/03 기능/SEBU 신고와 관리자 검토.md",
         "SEBU/03 기능/SEBU 커뮤니티와 후기.md",
         "SEBU/05 운영/SEBU 변경 검토 목록.md",
+        "SEBU/07 기록/SEBU 갱신 기록 - 2026-10-26.md",
         "SEBU/90 자료/SEBU 원본 자료.md"
       ],
       "blob": "4119a45c6faf77ca29a6ada550ee54f098ea11a2",
@@ -1721,7 +1725,8 @@
       "path": "src/features/search/components/ResearchFieldChips.jsx",
       "notes": [
         "SEBU/03 기능/SEBU 연구실 탐색.md",
-        "SEBU/05 운영/SEBU 변경 검토 목록.md"
+        "SEBU/05 운영/SEBU 변경 검토 목록.md",
+        "SEBU/07 기록/SEBU 갱신 기록 - 2026-10-26.md"
       ],
       "blob": "0ad0c147f4e6dc348ad9e91fd69258a94eaac51c",
       "sha256": "b9a12e9c2c2d03339402e70cc175cc738d5137a9105b7716e897438bccfe6463"
@@ -1956,7 +1961,8 @@
         "SEBU/05 운영/SEBU 배포와 모니터링.md",
         "SEBU/05 운영/SEBU 변경 검토 목록.md",
         "SEBU/05 운영/SEBU 운영 전환과 연구 정보 이관.md",
-        "SEBU/05 운영/SEBU 테스트 지도.md"
+        "SEBU/05 운영/SEBU 테스트 지도.md",
+        "SEBU/07 기록/SEBU 갱신 기록 - 2026-10-26.md"
       ],
       "blob": "66ae4409b2f5cc9e1bba1d6e484870d77e74d994",
       "sha256": "1a2f05f491a3f9aeb49c846509b20c1493062e5ae2598505a4a8c8b601ce070f"

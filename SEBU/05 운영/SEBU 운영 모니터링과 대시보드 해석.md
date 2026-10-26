@@ -18,6 +18,8 @@ source_ids:
 
 **운영 Grafana는 백엔드의 응답·부하·DB 연결 상태를 확인하는 도구이며, 현재 접속자 수를 세는 도구는 아니다.** 2026-10-10에 운영 지표 수집, 14개 패널과 장애 알림을 구성했다. 아래는 설정과 해석 방법이며, 특정 시점의 낮은 사용량을 현재 상태나 전체 기능 정상의 근거로 반복 사용하지 않는다.
 
+2026-10-26 추가 확인: 선택 동의 기반 GA4 페이지 조회를 추가하는 FE [PR #180](https://github.com/greedy-team/SEBU-frontend/pull/180)은 Draft·미병합 상태다. 운영 dev 커밋은 이전과 같으므로 방문 통계 수집 완료로 기록하지 않는다. 이 PR은 Grafana 요청률을 사용자 수로 바꾸는 작업도 아니다. [[SEBU 갱신 기록 - 2026-10-26]]
+
 | 바로가기 | 용도 |
 |---|---|
 | [운영 대시보드](https://niftyboxwood1620.grafana.net/d/sebu-prod-monitoring/sebu-production-monitoring) | `SEBU Production Monitoring`, 운영 지표 14개 패널 |

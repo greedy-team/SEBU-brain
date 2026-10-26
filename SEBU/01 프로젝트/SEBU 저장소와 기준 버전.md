@@ -3,27 +3,41 @@ project: SEBU
 type: "reference"
 status: "V51 코드·운영 모니터링 실행 기록 대조"
 created: 2026-09-26
-verified: 2026-10-10
+verified: 2026-10-26
 tags:
   - sebu
   - sebu/reference
 ---
 # SEBU 저장소와 기준 버전
 
-2026-10-10 기준으로 BE는 main이 운영, develop이 개발이며 FE는 dev가 운영 브랜치다. 아래 커밋은 문서가 확인한 시점의 기준이다. 이후 브랜치 이동이나 배포 성공을 자동으로 반영하지 않는다.
+2026-10-26에 원격을 갱신해 BE main·develop과 FE dev를 재확인했다. 세 브랜치 모두 10월 10일 문서 기준과 같은 커밋이다. BE는 main이 운영, develop이 개발이며 FE는 dev가 운영 브랜치다. 아래 코드 기준과 과거 운영 실행 확인을 구분한다.
 
 | 저장소 | 기준 브랜치 | 반영한 커밋 | 반영 범위 |
 |---|---|---|---|
 | [SEBU-backend 운영](https://github.com/greedy-team/SEBU-backend) | main | [3c7445e](https://github.com/greedy-team/SEBU-backend/commit/3c7445e173528b22c40c9abb47b0fb35ad81ff6e) | PR #98 V51 항공우주공학과 링크 보완. 10월 10일 운영 이미지·API와 monitoring 프로필 활성화 확인 |
 | [SEBU-backend 개발·코드 근거](https://github.com/greedy-team/SEBU-backend) | develop | [7d4839b](https://github.com/greedy-team/SEBU-backend/commit/7d4839b46ca8cdc6c608ec9934ee02e018e54893) | PR #99로 동일 V51 반영. 확인한 운영 main과 파일 내용이 같음 |
-| [SEBU-frontend 운영](https://github.com/greedy-team/SEBU-frontend) | dev | [e7e54de](https://github.com/greedy-team/SEBU-frontend/commit/e7e54deff631adfef08b9b9e0dac9af5c398c317) | 지난 문서 기준과 같은 커밋. 이번 작업에서 FE 코드·배포 변경 없음 |
+| [SEBU-frontend 운영](https://github.com/greedy-team/SEBU-frontend) | dev | [e7e54de](https://github.com/greedy-team/SEBU-frontend/commit/e7e54deff631adfef08b9b9e0dac9af5c398c317) | 10월 26일 원격 재확인. 이번 작업에서 FE 구현·배포 변경 없음 |
 | [SEBU-brain](https://github.com/greedy-team/SEBU-brain) | main 및 문서 작업 브랜치 | 이 저장소의 Git 기록 | 팀 지식과 이전된 상세 문서 |
 
 ## 이번에 비교한 구간
 
-- BE `bb73725 → 7d4839b`: V51 SQL, 공통 계약과 H2/MySQL 테스트 Java 3개, 검수 URL CSV 등 총 5개 파일이 추가됐다. 운영 main과 develop 트리가 같음을 확인했다. API·서비스 로직 변경은 없다.
-- FE `e7e54de → e7e54de`: 원격 dev를 다시 조회했으며 변경 파일이 없다. 지난 검토 내용과 현재 코드 기준이 동일하다.
-- 애플리케이션 코드를 수정하거나 FE 배포를 수행한 문서 작업은 아니다. 원격 커밋의 내용을 읽어 기록했다.
+- BE develop `7d4839b → 7d4839b`, main `3c7445e → 3c7445e`: 두 브랜치 모두 새 커밋이 없다. main과 develop의 파일 트리도 같다.
+- FE dev `e7e54de → e7e54de`: 새 커밋이나 변경 파일이 없다.
+- Brain 원격 main은 `7ada8ec`이며 기존 문서 브랜치 HEAD와 같다. 원격 main 자체의 새 문서 커밋은 없었다.
+- 깨끗한 비교용 코드 저장소만 최신 원격 커밋으로 fast-forward했다. 별도 작업 폴더의 미커밋 변경·분기 이력과 기존 문서 초안은 보존했다.
+- 10월 10일에 비교했던 BE `bb73725 → 7d4839b`의 V51 보완 결과는 [[SEBU 갱신 기록 - 2026-10-10]]에 남긴다.
+
+## 아직 병합되지 않은 작업
+
+2026-10-26 GitHub 조회에서 BE와 Brain의 열린 PR은 없고, FE에는 아래 3개가 있다. PR 설명·메타데이터와 실제 운영 dev를 구분한다.
+
+| PR | 확인한 상태 | 현황에 반영하는 범위 |
+|---|---|---|
+| [FE #180 — feat: add consent-gated production GA4 pageviews](https://github.com/greedy-team/SEBU-frontend/pull/180) | Draft, open, 미병합 | `feat/ga4-consent-analytics`의 `cdf2b6b` 초안. 선택 동의 기반 GA4 페이지 조회 수집을 App.jsx에 추가하는 변경이며 운영 적용 완료가 아님 |
+| [FE #78 — 48 feat e2e 테스트 구현](https://github.com/greedy-team/SEBU-frontend/pull/78) | open, 미병합 | Playwright·MSW 기반 테스트 제안. 현재 dev의 테스트 체계로 간주하지 않음 |
+| [FE #21 — chore: 실제 백엔드(로컬) 연동 및 MSW 비활성화 (#20)](https://github.com/greedy-team/SEBU-frontend/pull/21) | open, 미병합 | 과거 로컬 연동 PR. 비슷한 기능의 현재 구현 여부는 dev 코드로 판단하며 PR을 자동 병합하지 않음 |
+
+PR #180의 본문에 남은 실제 프로젝트 빌드·동의/철회·SPA 네트워크·GA4 수신과 보관 설정 검증은 이번 문서 갱신에서 실행하지 않았다. FE 담당자의 검증·병합·배포가 필요한 대기 작업이다. [[SEBU 갱신 기록 - 2026-10-26]]
 
 FE의 dev를 BE의 개발 환경과 같은 의미로 해석하지 않는다. FE 브랜치를 main으로 옮기는 것은 이번 팀 운영 방식이 아니다. FE 코드·배포는 FE 담당자가 관리한다.
 
